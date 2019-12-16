@@ -1,9 +1,9 @@
 package ua.com.foxminded.university.logic;
 
-public class Finder {
+public class ObjectFinder {
     University university;
 
-    public Finder(University university) {
+    public ObjectFinder(University university) {
         this.university = university;
     }
 
