@@ -26,8 +26,6 @@ public class ProgramMenu extends Menu {
 						selectedOption = reader.readLine();
 						universityMenu.start(selectedOption, reader);
 					}
-				} else {
-					System.out.println(WRONG_INPUT);
 				}
 			} catch (NumberFormatException | IOException e) {
 				System.out.println(WRONG_INPUT);

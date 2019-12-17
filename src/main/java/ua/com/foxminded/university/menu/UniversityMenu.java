@@ -30,7 +30,7 @@ class UniversityMenu extends Menu {
 		try {
 			String selectedOption = reader.readLine();
 			if (!checkIfBackMenu(selectedOption)) {
-				if (selectedOption.equals("a") || selectedOption.equals("b")) {
+				if (selectedOption.equals("a") || selectedOption.equals("b") || selectedOption.equals("c")) {
 					if (selectedOption.equals("a")) {
 						do {
 							String subjectName = reader.readLine();
@@ -38,13 +38,15 @@ class UniversityMenu extends Menu {
 							System.out.println(CONTINUE_ADDING);
 							selectedOption = reader.readLine();
 						} while (!selectedOption.equals(""));
-					} else {
+					} else if (selectedOption.equals("b")) {
 						do {
 							String subjectName = reader.readLine();
 							university.removeSubject(subjectName);
 							System.out.println(CONTINUE_REMOVING);
 							selectedOption = reader.readLine();
-						} while (!selectedOption.equals(!selectedOption.equals("")));
+						} while (!selectedOption.equals(""));
+					} else {
+						university.viewAllSubjects();
 					}
 				}
 			}
@@ -59,7 +61,7 @@ class UniversityMenu extends Menu {
 		try {
 			String selectedOption = reader.readLine();
 			if (!checkIfBackMenu(selectedOption)) {
-				if (selectedOption.equals("a") || selectedOption.equals("b")) {
+				if (selectedOption.equals("a") || selectedOption.equals("b") || selectedOption.equals("c")) {
 					if (selectedOption.equals("a")) {
 						do {
 							int roomNumber = Integer.parseInt(reader.readLine());
@@ -67,13 +69,15 @@ class UniversityMenu extends Menu {
 							System.out.println(CONTINUE_ADDING);
 							selectedOption = reader.readLine();
 						} while (!selectedOption.equals(""));
-					} else {
+					} else if (selectedOption.equals("b")) {
 						do {
 							int roomNumber = Integer.parseInt(reader.readLine());
 							university.removeRoom(roomNumber);
 							System.out.println(CONTINUE_REMOVING);
 							selectedOption = reader.readLine();
 						} while (!selectedOption.equals(""));
+					} else {
+						university.viewAllRooms();
 					}
 				}
 			}
@@ -87,7 +91,8 @@ class UniversityMenu extends Menu {
 		try {
 			String selectedOption = reader.readLine();
 			if (!checkIfBackMenu(selectedOption)) {
-				if (selectedOption.equals("a") || selectedOption.equals("b")) {
+				if (selectedOption.equals("a") || selectedOption.equals("b") || selectedOption.equals("c")
+						|| selectedOption.equals("d") || selectedOption.equals("e")) {
 					if (selectedOption.equals("a")) {
 						do {
 							System.out.println("Enter group name: ");
@@ -113,6 +118,15 @@ class UniversityMenu extends Menu {
 							university.changeStudentGroup(studentId, groupName);
 							System.out.println(CONTINUE_CHANGING);
 						} while (!selectedOption.equals(""));
+					} else if (selectedOption.equals("d")) {
+						university.viewAllGroups();
+					} else if (selectedOption.equals("e")) {
+						do {
+							System.out.println("Enter group name: ");
+							String groupName = reader.readLine();
+							finder.findGroupByName(groupName).showAllStudents();
+							System.out.println(CONTINUE_CHANGING);
+						} while (!selectedOption.equals(""));
 					}
 				}
 			}
@@ -126,7 +140,7 @@ class UniversityMenu extends Menu {
 		try {
 			String selectedOption = reader.readLine();
 			if (!checkIfBackMenu(selectedOption)) {
-				if (selectedOption.equals("a") || selectedOption.equals("b")) {
+				if (selectedOption.equals("a") || selectedOption.equals("b") || selectedOption.equals("c")) {
 					if (selectedOption.equals("a")) {
 						do {
 							System.out.println("Enter first name: ");
@@ -147,6 +161,8 @@ class UniversityMenu extends Menu {
 							System.out.println(CONTINUE_REMOVING);
 							selectedOption = reader.readLine();
 						} while (!selectedOption.equals(""));
+					} else {
+						university.viewAllStudents();
 					}
 				} else {
 					System.out.println(WRONG_INPUT);
@@ -163,7 +179,7 @@ class UniversityMenu extends Menu {
 		try {
 			String selectedOption = reader.readLine();
 			if (!checkIfBackMenu(selectedOption)) {
-				if (selectedOption.equals("a") || selectedOption.equals("b")) {
+				if (selectedOption.equals("a") || selectedOption.equals("b") || selectedOption.equals("c")) {
 					if (selectedOption.equals("a")) {
 						do {
 							System.out.println("Enter first name: ");
@@ -185,9 +201,8 @@ class UniversityMenu extends Menu {
 							selectedOption = reader.readLine();
 						} while (!selectedOption.equals(""));
 					} else {
-						System.out.println(WRONG_INPUT);
+						university.viewAllTeachers();
 					}
-
 				} else {
 					System.out.println(WRONG_INPUT);
 				}
