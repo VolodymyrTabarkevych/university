@@ -3,9 +3,11 @@ package ua.com.foxminded.university.logic;
 import java.util.HashSet;
 import java.util.Set;
 
+import lombok.Getter;
 import lombok.Setter;
 
 @Setter
+@Getter
 public class Timetable {
     private Set<Lecture> lectures = new HashSet<>();
 
@@ -17,8 +19,14 @@ public class Timetable {
         }
     }
 
-    public void removeLecture(Lecture lecture) {
-        lectures.remove(lecture);
+    public void removeLecture(int lectureId) {
+        for (Lecture lecture : lectures) {
+            if (lecture.getLectureId() == lectureId) {
+                lectures.remove(lecture);
+                return;
+            }
+        }
+        System.out.println("No lecture with such id!");
     }
 
     public LectureFilter filter() {
@@ -40,5 +48,11 @@ public class Timetable {
             }
         }
         return result;
+    }
+
+    public void viewAllLectures() {
+        for (Lecture lecture : lectures) {
+            System.out.println(lecture.getLectureId());
+        }
     }
 }

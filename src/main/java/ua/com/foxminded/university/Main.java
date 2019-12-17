@@ -2,11 +2,11 @@ package ua.com.foxminded.university;
 
 import java.io.IOException;
 
-import ua.com.foxminded.university.text.ProgramMenu;
+import ua.com.foxminded.university.menu.ProgramMenu;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        ProgramMenu universityMenu = new ProgramMenu();
-        universityMenu.start();
+        ProgramMenu programMenu = new ProgramMenu();
+        programMenu.start();
     }
 }

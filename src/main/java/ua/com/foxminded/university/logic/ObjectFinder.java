@@ -8,12 +8,13 @@ public class ObjectFinder {
     }
 
     public Teacher findTeacherById(int id) {
-        Teacher result = null;
+        Teacher result = new Teacher(0, "", "");
         for (Teacher teacher : university.getTeachers()) {
             if (teacher.getId() == id) {
-                result = teacher;
+                return teacher;
             }
         }
+        System.out.println("No teacher with such id! You can set teacher later in lecture menu.");
         return result;
     }
 
@@ -21,9 +22,10 @@ public class ObjectFinder {
         Student result = null;
         for (Student student : university.getStudents()) {
             if (student.getId() == id) {
-                result = student;
+                return student;
             }
         }
+        System.out.println("No student with such id! You can set student later in lecture menu.");
         return result;
     }
 
@@ -31,9 +33,10 @@ public class ObjectFinder {
         Subject result = null;
         for (Subject subject : university.getSubjects()) {
             if (subject.getName().equals(name)) {
-                result = subject;
+                return subject;
             }
         }
+        System.out.println("No subject with such name! You can set subject later in lecture menu.");
         return result;
     }
 
@@ -41,9 +44,10 @@ public class ObjectFinder {
         Room result = null;
         for (Room room : university.getRooms()) {
             if (room.getNumber() == number) {
-                result = room;
+                return room;
             }
         }
+        System.out.println("No room with such number! You can set room later in lecture menu.");
         return result;
     }
 
@@ -51,9 +55,21 @@ public class ObjectFinder {
         Group result = null;
         for (Group group : university.getGroups()) {
             if (group.getName().equals(name)) {
-                result = group;
+                return group;
             }
         }
+        System.out.println("No group with such name! You can set group later in lecture menu.");
+        return result;
+    }
+
+    public Lecture findLectureById(int id) {
+        Lecture result = null;
+        for (Lecture lecture : university.getTimetable().getLectures()) {
+            if (lecture.getLectureId() == id) {
+                return lecture;
+            }
+        }
+        System.out.println("No lecture with such id!");
         return result;
     }
 }

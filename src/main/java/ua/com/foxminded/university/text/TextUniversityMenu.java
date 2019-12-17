@@ -48,5 +48,17 @@ public class TextUniversityMenu {
         System.out.println("b. Show student timetable for month");
         System.out.println("c. Show teacher timetable for day");
         System.out.println("d. Show teacher timetable for month");
+        System.out.println("e. Work with lectures");
+    }
+
+    public void showLecturesMenuOptions() {
+        System.out.println("a. Add lecture");
+        System.out.println("b. Remove lecture");
+        System.out.println("c. Change subject");
+        System.out.println("d. Change teacher");
+        System.out.println("e. Change group");
+        System.out.println("f. Change date");
+        System.out.println("g. Change time");
+        System.out.println("h. Change room");
     }
 }

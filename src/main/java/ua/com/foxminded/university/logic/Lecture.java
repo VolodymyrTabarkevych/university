@@ -3,25 +3,33 @@ package ua.com.foxminded.university.logic;
 import lombok.Getter;
 
 @Getter
-public class Lecture{
-    private Subject subject = null;
-    private Teacher teacher = null;
-    private Group group = null;
-    private LectureDate date = null;
-    private LectureTime time = null;
-    private Room room = null;
+public class Lecture {
+    private int lectureId = 0;
+    private Subject subject = new Subject("");
+    private Teacher teacher = new Teacher(0, "", "");
+    private Group group = new Group("");
+    private LectureDate date = new LectureDate(0, 0, 0);
+    private LectureTime time = new LectureTime(0, 0);
+    private Room room = new Room(0);
 
     public Lecture() {
 
     }
 
-    private Lecture(Subject subject, Teacher teacher, Group group, LectureDate date, LectureTime time, Room room) {
+    private Lecture(int lectureId, Subject subject, Teacher teacher, Group group, LectureDate date, LectureTime time,
+            Room room) {
+        this.lectureId = lectureId;
         this.subject = subject;
         this.teacher = teacher;
         this.group = group;
         this.date = date;
         this.time = time;
         this.room = room;
+    }
+
+    public Lecture setLectureId(int lectureId) {
+        this.lectureId = lectureId;
+        return this;
     }
 
     public Lecture setSubject(Subject subject) {
@@ -56,7 +64,7 @@ public class Lecture{
     }
 
     public Lecture build() {
-        return new Lecture(this.subject, this.teacher, this.group, this.date, this.time, this.room);
+        return new Lecture(this.lectureId, this.subject, this.teacher, this.group, this.date, this.time, this.room);
     }
 
 }

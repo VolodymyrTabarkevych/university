@@ -89,26 +89,26 @@ public class TestDataForUniversity {
         university.getTimetable().addLecture(
                 new Lecture().setDate(new LectureDate(2019, 6, 10)).setSubject(finder.findSubjectByName("Math"))
                         .setGroup(finder.findGroupByName("MB - 1")).setTeacher(finder.findTeacherById(1))
-                        .setRoom(finder.findRoomByNumber(101)).setTime(new LectureTime(10, 50, 11, 50)));
+                        .setRoom(finder.findRoomByNumber(101)).setTime(new LectureTime(10, 50)));
         university.getTimetable()
                 .addLecture(new Lecture().setDate(new LectureDate(2019, 6, 11))
                         .setSubject(finder.findSubjectByName("Biology")).setGroup(finder.findGroupByName("MB - 1"))
                         .setTeacher(finder.findTeacherById(1)).setRoom(finder.findRoomByNumber(102))
-                        .setTime(new LectureTime(12, 50, 13, 50)));
+                        .setTime(new LectureTime(12, 50)));
         university.getTimetable()
                 .addLecture(new Lecture().setDate(new LectureDate(2019, 6, 12))
                         .setSubject(finder.findSubjectByName("English")).setGroup(finder.findGroupByName("MB - 1"))
                         .setTeacher(finder.findTeacherById(3)).setRoom(finder.findRoomByNumber(103))
-                        .setTime(new LectureTime(14, 50, 15, 50)));
+                        .setTime(new LectureTime(14, 50)));
         university.getTimetable()
                 .addLecture(new Lecture().setDate(new LectureDate(2019, 7, 10))
                         .setSubject(finder.findSubjectByName("History")).setGroup(finder.findGroupByName("MB - 1"))
                         .setTeacher(finder.findTeacherById(4)).setRoom(finder.findRoomByNumber(104))
-                        .setTime(new LectureTime(10, 50, 11, 50)));
+                        .setTime(new LectureTime(10, 50)));
         university.getTimetable()
                 .addLecture(new Lecture().setDate(new LectureDate(2019, 7, 10))
                         .setSubject(finder.findSubjectByName("Chemistry")).setGroup(finder.findGroupByName("MB - 1"))
                         .setTeacher(finder.findTeacherById(5)).setRoom(finder.findRoomByNumber(105))
-                        .setTime(new LectureTime(10, 50, 11, 50)));
+                        .setTime(new LectureTime(12, 50)));
     }
 }
