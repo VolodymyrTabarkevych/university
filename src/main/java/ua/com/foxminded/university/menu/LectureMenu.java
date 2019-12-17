@@ -24,28 +24,30 @@ class LectureMenu extends Menu {
 		textMenu.showLecturesMenuOptions();
 		try {
 			selectedOption = reader.readLine();
-			if (selectedOption.equals("a") || selectedOption.equals("b") || selectedOption.equals("c")
-					|| selectedOption.equals("d") || selectedOption.equals("e") || selectedOption.equals("f")
-					|| selectedOption.equals("g") || selectedOption.equals("h")) {
-				if (selectedOption.equals("a")) {
-					addLecture(reader);
-				} else if (selectedOption.equals("b")) {
-					removeLecture(reader);
-				} else if (selectedOption.equals("c")) {
-					changeSubject(reader);
-				} else if (selectedOption.equals("d")) {
-					changeTeacher(reader);
-				} else if (selectedOption.equals("e")) {
-					changeGroup(reader);
-				} else if (selectedOption.equals("f")) {
-					changeDate(reader);
-				} else if (selectedOption.equals("g")) {
-					changeTime(reader);
-				} else if (selectedOption.equals("h")) {
-					changeRoom(reader);
+			if (!checkIfBackMenu(selectedOption)) {
+				if (selectedOption.equals("a") || selectedOption.equals("b") || selectedOption.equals("c")
+						|| selectedOption.equals("d") || selectedOption.equals("e") || selectedOption.equals("f")
+						|| selectedOption.equals("g") || selectedOption.equals("h")) {
+					if (selectedOption.equals("a")) {
+						addLecture(reader);
+					} else if (selectedOption.equals("b")) {
+						removeLecture(reader);
+					} else if (selectedOption.equals("c")) {
+						changeSubject(reader);
+					} else if (selectedOption.equals("d")) {
+						changeTeacher(reader);
+					} else if (selectedOption.equals("e")) {
+						changeGroup(reader);
+					} else if (selectedOption.equals("f")) {
+						changeDate(reader);
+					} else if (selectedOption.equals("g")) {
+						changeTime(reader);
+					} else if (selectedOption.equals("h")) {
+						changeRoom(reader);
+					}
+				} else {
+					System.out.println(WRONG_INPUT);
 				}
-			} else {
-				System.out.println(WRONG_INPUT);
 			}
 		} catch (
 
