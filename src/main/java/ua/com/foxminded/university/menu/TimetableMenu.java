@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Set;
 
-import ua.com.foxminded.university.logic.Lecture;
+import ua.com.foxminded.university.domain.Lecture;
 
 class TimetableMenu extends Menu {
 	private LectureMenu lectureMenu = new LectureMenu();

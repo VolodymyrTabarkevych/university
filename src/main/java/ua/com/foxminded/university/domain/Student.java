@@ -1,4 +1,4 @@
-package ua.com.foxminded.university.logic;
+package ua.com.foxminded.university.domain;
 
 import lombok.Getter;
 import lombok.Setter;

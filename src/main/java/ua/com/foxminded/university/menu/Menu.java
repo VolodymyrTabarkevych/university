@@ -1,8 +1,8 @@
 package ua.com.foxminded.university.menu;
 
-import ua.com.foxminded.university.logic.ObjectFinder;
-import ua.com.foxminded.university.logic.TestDataForUniversity;
-import ua.com.foxminded.university.logic.University;
+import ua.com.foxminded.university.domain.ObjectFinder;
+import ua.com.foxminded.university.domain.TestDataForUniversity;
+import ua.com.foxminded.university.domain.University;
 import ua.com.foxminded.university.text.TextUniversityMenu;
 
 public class Menu {

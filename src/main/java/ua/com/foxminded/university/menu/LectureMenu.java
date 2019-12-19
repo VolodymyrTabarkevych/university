@@ -3,9 +3,9 @@ package ua.com.foxminded.university.menu;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import ua.com.foxminded.university.logic.Lecture;
-import ua.com.foxminded.university.logic.LectureDate;
-import ua.com.foxminded.university.logic.LectureTime;
+import ua.com.foxminded.university.domain.Lecture;
+import ua.com.foxminded.university.domain.LectureDate;
+import ua.com.foxminded.university.domain.LectureTime;
 
 class LectureMenu extends Menu {
 	private int lectureId = 0;

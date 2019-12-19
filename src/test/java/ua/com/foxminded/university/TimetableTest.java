@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import ua.com.foxminded.university.logic.Lecture;
-import ua.com.foxminded.university.logic.Timetable;
+import ua.com.foxminded.university.domain.Lecture;
+import ua.com.foxminded.university.domain.Timetable;
 
 class TimetableTest {
 
