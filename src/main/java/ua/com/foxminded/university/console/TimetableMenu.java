@@ -12,8 +12,8 @@ class TimetableMenu extends Menu {
 	private int personId = 0;
 	private int month = 0;
 
-	public void start(String selectedOption, BufferedReader reader) throws IOException {
-		if (!checkIfBackMenu(selectedOption)) {
+	void start(String selectedOption, BufferedReader reader) {
+		if (Boolean.FALSE.equals(checkIfBackMenu(selectedOption))) {
 			if (selectedOption.equals("a") || selectedOption.equals("b") || selectedOption.equals("c")
 					|| selectedOption.equals("d") || selectedOption.equals("e") || selectedOption.equals("f")) {
 				if (selectedOption.equals("a")) {

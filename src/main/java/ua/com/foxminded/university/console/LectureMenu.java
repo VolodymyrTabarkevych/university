@@ -8,6 +8,7 @@ import ua.com.foxminded.university.domain.LectureDate;
 import ua.com.foxminded.university.domain.LectureTime;
 
 class LectureMenu extends Menu {
+	private static final String ENTER_LECTURE_ID = "Enter lecture id: ";
 	private int lectureId = 0;
 	private String subjectName = "";
 	private String groupName = "";
@@ -20,38 +21,35 @@ class LectureMenu extends Menu {
 	private int month = 0;
 	private String selectedOption = "";
 
-	public void start(BufferedReader reader) {
+	void start(BufferedReader reader) {
 		textMenu.showLecturesMenuOptions();
 		try {
 			selectedOption = reader.readLine();
-			if (!checkIfBackMenu(selectedOption)) {
-				if (selectedOption.equals("a") || selectedOption.equals("b") || selectedOption.equals("c")
-						|| selectedOption.equals("d") || selectedOption.equals("e") || selectedOption.equals("f")
-						|| selectedOption.equals("g") || selectedOption.equals("h")) {
-					if (selectedOption.equals("a")) {
-						addLecture(reader);
-					} else if (selectedOption.equals("b")) {
-						removeLecture(reader);
-					} else if (selectedOption.equals("c")) {
-						changeSubject(reader);
-					} else if (selectedOption.equals("d")) {
-						changeTeacher(reader);
-					} else if (selectedOption.equals("e")) {
-						changeGroup(reader);
-					} else if (selectedOption.equals("f")) {
-						changeDate(reader);
-					} else if (selectedOption.equals("g")) {
-						changeTime(reader);
-					} else if (selectedOption.equals("h")) {
-						changeRoom(reader);
-					}
-				} else {
-					System.out.println(WRONG_INPUT);
+			if (Boolean.FALSE.equals(checkIfBackMenu(selectedOption)) && selectedOption.equals("a")
+					|| selectedOption.equals("b") || selectedOption.equals("c") || selectedOption.equals("d")
+					|| selectedOption.equals("e") || selectedOption.equals("f") || selectedOption.equals("g")
+					|| selectedOption.equals("h")) {
+				if (selectedOption.equals("a")) {
+					addLecture(reader);
+				} else if (selectedOption.equals("b")) {
+					removeLecture(reader);
+				} else if (selectedOption.equals("c")) {
+					changeSubject(reader);
+				} else if (selectedOption.equals("d")) {
+					changeTeacher(reader);
+				} else if (selectedOption.equals("e")) {
+					changeGroup(reader);
+				} else if (selectedOption.equals("f")) {
+					changeDate(reader);
+				} else if (selectedOption.equals("g")) {
+					changeTime(reader);
+				} else if (selectedOption.equals("h")) {
+					changeRoom(reader);
 				}
+			} else {
+				System.out.println(WRONG_INPUT);
 			}
-		} catch (
-
-		IOException e) {
+		} catch (IOException e) {
 			System.out.println(WRONG_INPUT);
 		}
 	}
@@ -59,7 +57,7 @@ class LectureMenu extends Menu {
 	private void changeRoom(BufferedReader reader) {
 		try {
 			do {
-				System.out.println("Enter lecture id to change: ");
+				System.out.println(ENTER_LECTURE_ID);
 				lectureId = Integer.parseInt(reader.readLine());
 				System.out.println("Enter room number: ");
 				roomNumber = Integer.parseInt(reader.readLine());
@@ -77,7 +75,7 @@ class LectureMenu extends Menu {
 	private void changeDate(BufferedReader reader) {
 		try {
 			do {
-				System.out.println("Enter lecture id to change: ");
+				System.out.println(ENTER_LECTURE_ID);
 				lectureId = Integer.parseInt(reader.readLine());
 				System.out.println("Enter year: ");
 				year = Integer.parseInt(reader.readLine());
@@ -99,7 +97,7 @@ class LectureMenu extends Menu {
 	private void changeTime(BufferedReader reader) {
 		try {
 			do {
-				System.out.println("Enter lecture id to change: ");
+				System.out.println(ENTER_LECTURE_ID);
 				lectureId = Integer.parseInt(reader.readLine());
 				System.out.println("Enter start hour: ");
 				startHour = Integer.parseInt(reader.readLine());
@@ -119,7 +117,7 @@ class LectureMenu extends Menu {
 	private void changeGroup(BufferedReader reader) {
 		try {
 			do {
-				System.out.println("Enter lecture id to change: ");
+				System.out.println(ENTER_LECTURE_ID);
 				lectureId = Integer.parseInt(reader.readLine());
 				System.out.println("Enter group name: ");
 				groupName = reader.readLine();
@@ -136,7 +134,7 @@ class LectureMenu extends Menu {
 	private void changeTeacher(BufferedReader reader) {
 		try {
 			do {
-				System.out.println("Enter lecture id to change: ");
+				System.out.println(ENTER_LECTURE_ID);
 				lectureId = Integer.parseInt(reader.readLine());
 				System.out.println("Enter teacher id: ");
 				personId = Integer.parseInt(reader.readLine());
@@ -153,7 +151,7 @@ class LectureMenu extends Menu {
 	private void changeSubject(BufferedReader reader) {
 		try {
 			do {
-				System.out.println("Enter lecture id to change: ");
+				System.out.println(ENTER_LECTURE_ID);
 				lectureId = Integer.parseInt(reader.readLine());
 				System.out.println("Enter subject name: ");
 				subjectName = reader.readLine();
@@ -170,7 +168,7 @@ class LectureMenu extends Menu {
 	private void removeLecture(BufferedReader reader) {
 		try {
 			do {
-				System.out.println("Enter lecture id: ");
+				System.out.println(ENTER_LECTURE_ID);
 				lectureId = Integer.parseInt(reader.readLine());
 				university.getTimetable().removeLecture(lectureId);
 				System.out.println("Lecture was removed!");
@@ -185,7 +183,7 @@ class LectureMenu extends Menu {
 	private void addLecture(BufferedReader reader) {
 		try {
 			do {
-				System.out.println("Enter lecture id: ");
+				System.out.println(ENTER_LECTURE_ID);
 				lectureId = Integer.parseInt(reader.readLine());
 				System.out.println("Enter subject name: ");
 				subjectName = reader.readLine();
