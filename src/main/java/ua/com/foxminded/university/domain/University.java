@@ -147,13 +147,13 @@ public class University {
 
 	public void viewAllTeachers() {
 		for (Teacher teacher : teachers) {
-			System.out.println(teacher.getFirstName() + " " + teacher.getLastName());
+			System.out.println(teacher.getId() + ". " + teacher.getFirstName() + " " + teacher.getLastName());
 		}
 	}
 
 	public void viewAllStudents() {
 		for (Student student : students) {
-			System.out.println(student.getFirstName() + " " + student.getLastName());
+			System.out.println(student.getId() + ". " + student.getFirstName() + " " + student.getLastName());
 		}
 	}
 

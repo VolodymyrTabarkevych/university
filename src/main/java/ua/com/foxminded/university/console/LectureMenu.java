@@ -46,8 +46,6 @@ class LectureMenu extends Menu {
 				} else if (selectedOption.equals("h")) {
 					changeRoom(reader);
 				}
-			} else {
-				System.out.println(WRONG_INPUT);
 			}
 		} catch (IOException e) {
 			System.out.println(WRONG_INPUT);
