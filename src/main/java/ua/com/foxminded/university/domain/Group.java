@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 public class Group {
-    private String name = "";
+    private String name = "This group has no name!";
     private Set<Student> students = new HashSet<>();
 
     public Group(String name) {

@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public class Person {
-    private String firstName = "";
-    private String lastName = "";
+    private String firstName = "This person has no first name";
+    private String lastName = "This person has no last name";
     private int id;
 
     public Person(int id, String firstName, String lastName) {
