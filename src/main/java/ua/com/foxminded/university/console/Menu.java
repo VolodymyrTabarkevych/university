@@ -1,9 +1,8 @@
-package ua.com.foxminded.university.menu;
+package ua.com.foxminded.university.console;
 
 import ua.com.foxminded.university.domain.ObjectFinder;
 import ua.com.foxminded.university.domain.TestDataForUniversity;
 import ua.com.foxminded.university.domain.University;
-import ua.com.foxminded.university.text.TextUniversityMenu;
 
 public class Menu {
 	public static final String WRONG_INPUT = "------------------------------" + System.lineSeparator() + "Wrong input!"

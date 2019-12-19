@@ -1,4 +1,4 @@
-package ua.com.foxminded.university.menu;
+package ua.com.foxminded.university.console;
 
 import java.io.BufferedReader;
 import java.io.IOException;

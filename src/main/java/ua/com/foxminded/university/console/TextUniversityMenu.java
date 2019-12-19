@@ -1,4 +1,4 @@
-package ua.com.foxminded.university.text;
+package ua.com.foxminded.university.console;
 
 public class TextUniversityMenu {
 	private static final String BACK_BUTTON = "p. Go to the main menu";

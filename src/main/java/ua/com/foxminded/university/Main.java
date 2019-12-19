@@ -1,6 +1,6 @@
 package ua.com.foxminded.university;
 
-import ua.com.foxminded.university.menu.ProgramMenu;
+import ua.com.foxminded.university.console.ProgramMenu;
 
 public class Main {
     public static void main(String[] args) {
