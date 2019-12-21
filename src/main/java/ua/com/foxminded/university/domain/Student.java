@@ -3,7 +3,8 @@ package ua.com.foxminded.university.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter@Setter
+@Getter
+@Setter
 public class Student extends Person {
     private Group group;
 
