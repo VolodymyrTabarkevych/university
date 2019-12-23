@@ -36,15 +36,13 @@ public class Timetable {
     private boolean checkIfLectureToAddHasCorrectDateAndTime(Lecture lecture) {
         Boolean result = true;
         for (Lecture lectureFromList : lectures) {
-            if (lectureFromList.getDate().getMonth() == lecture.getDate().getMonth()) {
-                if (lectureFromList.getDate().getDay() == lecture.getDate().getDay()) {
-                    if (lectureFromList.getTime().getStartHour() <= lecture.getTime().getStartHour()
-                            && lectureFromList.getTime().getEndHour() >= lecture.getTime().getStartHour()
-                            || lectureFromList.getTime().getStartHour() <= lecture.getTime().getEndHour()
-                                    && lectureFromList.getTime().getEndHour() >= lecture.getTime().getEndHour()) {
-                        return false;
-                    }
-                }
+            if (lectureFromList.getDate().getMonth() == lecture.getDate().getMonth()
+                    && lectureFromList.getDate().getDay() == lecture.getDate().getDay()
+                    && lectureFromList.getTime().getStartHour() <= lecture.getTime().getStartHour()
+                    && lectureFromList.getTime().getEndHour() >= lecture.getTime().getStartHour()
+                    || lectureFromList.getTime().getStartHour() <= lecture.getTime().getEndHour()
+                            && lectureFromList.getTime().getEndHour() >= lecture.getTime().getEndHour()) {
+                return false;
             }
         }
         return result;
