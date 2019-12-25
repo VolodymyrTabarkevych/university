@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.util.Set;
 
 import ua.com.foxminded.university.domain.Lecture;
+import ua.com.foxminded.university.domain.LectureDate;
 
 class TimetableMenu extends Menu {
     private LectureMenu lectureMenu = new LectureMenu();
     private int day = 0;
+    private int year = 0;
     private int personId = 0;
     private int month = 0;
 
@@ -65,10 +67,14 @@ class TimetableMenu extends Menu {
         try {
             System.out.println("Enter student id: ");
             personId = Integer.parseInt(reader.readLine());
-            System.out.println("Enter day of this month: ");
+            System.out.println("Enter year:");
+            year = Integer.parseInt(reader.readLine());
+            System.out.println("Enter month:");
+            month = Integer.parseInt(reader.readLine());
+            System.out.println("Enter day: ");
             day = Integer.parseInt(reader.readLine());
-            showFilteredLectures(
-                    university.getTimetable().filter().forStudent(personId).forDay(day).getFilteredLectures());
+            showFilteredLectures(university.getTimetable().filter().forStudent(personId)
+                    .forDay(new LectureDate(year, month, day)).getFilteredLectures());
         } catch (NumberFormatException | IOException e) {
             System.out.println(WRONG_INPUT);
         }
@@ -91,10 +97,14 @@ class TimetableMenu extends Menu {
         try {
             System.out.println("Enter teacher id: ");
             personId = Integer.parseInt(reader.readLine());
-            System.out.println("Enter day of this month: ");
+            System.out.println("Enter year:");
+            year = Integer.parseInt(reader.readLine());
+            System.out.println("Enter month:");
+            month = Integer.parseInt(reader.readLine());
+            System.out.println("Enter day: ");
             day = Integer.parseInt(reader.readLine());
-            showFilteredLectures(
-                    university.getTimetable().filter().forTeacher(personId).forDay(day).getFilteredLectures());
+            showFilteredLectures(university.getTimetable().filter().forTeacher(personId)
+                    .forDay(new LectureDate(year, month, day)).getFilteredLectures());
         } catch (NumberFormatException | IOException e) {
             System.out.println(WRONG_INPUT);
         }

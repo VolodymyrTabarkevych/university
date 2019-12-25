@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 class UniversityMenu extends Menu {
+    UniversityViewer viewer = new UniversityViewer(university);
+
     void start(String selectedOption, BufferedReader reader) {
         if (Boolean.FALSE.equals(checkIfBackMenu(selectedOption)) && selectedOption.equals("a")
                 || selectedOption.equals("b") || selectedOption.equals("c") || selectedOption.equals("d")
@@ -33,7 +35,7 @@ class UniversityMenu extends Menu {
                 if (selectedOption.equals("a")) {
                     do {
                         String subjectName = reader.readLine();
-                        university.addSubject(subjectName);
+                        university.addNewSubject(subjectName);
                         System.out.println(CONTINUE_ADDING);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
@@ -45,7 +47,7 @@ class UniversityMenu extends Menu {
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
                 } else {
-                    university.viewAllSubjects();
+                    viewer.viewAllSubjects();
                 }
             }
         } catch (IOException e) {
@@ -63,7 +65,7 @@ class UniversityMenu extends Menu {
                 if (selectedOption.equals("a")) {
                     do {
                         int roomNumber = Integer.parseInt(reader.readLine());
-                        university.addRoom(roomNumber);
+                        university.addNewRoom(roomNumber);
                         System.out.println(CONTINUE_ADDING);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
@@ -75,7 +77,7 @@ class UniversityMenu extends Menu {
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
                 } else {
-                    university.viewAllRooms();
+                    viewer.viewAllRooms();
                 }
             }
         } catch (IOException e) {
@@ -94,7 +96,7 @@ class UniversityMenu extends Menu {
                     do {
                         System.out.println("Enter group name: ");
                         String groupName = reader.readLine();
-                        university.addGroup(groupName);
+                        university.addNewGroup(groupName);
                         System.out.println(CONTINUE_ADDING);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
@@ -116,12 +118,12 @@ class UniversityMenu extends Menu {
                         System.out.println(CONTINUE_CHANGING);
                     } while (!selectedOption.equals(""));
                 } else if (selectedOption.equals("d")) {
-                    university.viewAllGroups();
+                    viewer.viewAllGroups();
                 } else if (selectedOption.equals("e")) {
                     do {
                         System.out.println("Enter group name: ");
                         String groupName = reader.readLine();
-                        finder.findGroupByName(groupName).showAllStudents();
+                        viewer.showAllStudents(finder.findGroupByName(groupName));
                         System.out.println(CONTINUE_CHANGING);
                     } while (!selectedOption.equals(""));
                 }
@@ -145,7 +147,7 @@ class UniversityMenu extends Menu {
                         String lastName = reader.readLine();
                         System.out.println("Enter student id: ");
                         int studentId = Integer.parseInt(reader.readLine());
-                        university.addStudentToUniversity(studentId, firstName, lastName);
+                        university.addNewStudentToUniversity(studentId, firstName, lastName);
                         System.out.println(CONTINUE_ADDING);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
@@ -158,7 +160,7 @@ class UniversityMenu extends Menu {
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
                 } else {
-                    university.viewAllStudents();
+                    viewer.viewAllStudents();
                 }
             } else {
                 System.out.println(WRONG_INPUT);
@@ -183,7 +185,7 @@ class UniversityMenu extends Menu {
                         String lastName = reader.readLine();
                         System.out.println("Enter teacher id: ");
                         int teacherId = Integer.parseInt(reader.readLine());
-                        university.addTeacher(teacherId, firstName, lastName);
+                        university.addNewTeacher(teacherId, firstName, lastName);
                         System.out.println(CONTINUE_ADDING);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
@@ -196,7 +198,7 @@ class UniversityMenu extends Menu {
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
                 } else {
-                    university.viewAllTeachers();
+                    viewer.viewAllTeachers();
                 }
             } else {
                 System.out.println(WRONG_INPUT);

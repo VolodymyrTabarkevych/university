@@ -49,10 +49,4 @@ public class Timetable {
         }
         return result;
     }
-
-    public void viewAllLectures() {
-        for (Lecture lecture : lectures) {
-            System.out.println(lecture.getLectureId());
-        }
-    }
 }

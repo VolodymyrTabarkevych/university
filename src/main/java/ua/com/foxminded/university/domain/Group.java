@@ -23,20 +23,4 @@ public class Group {
         students.remove(student);
         student.setGroup(null);
     }
-
-    public void showAllStudents() {
-        for (Student student : students) {
-            System.out.println(student.getFirstName() + " " + student.getLastName());
-        }
-    }
-
-    public Student findStudentById(int id) {
-        Student result = null;
-        for (Student student : students) {
-            if (student.getId() == id) {
-                result = student;
-            }
-        }
-        return result;
-    }
 }

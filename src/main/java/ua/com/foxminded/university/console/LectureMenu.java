@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import ua.com.foxminded.university.domain.Lecture;
-import ua.com.foxminded.university.domain.LectureDate;
-import ua.com.foxminded.university.domain.LectureTime;
 
 class LectureMenu extends Menu {
     private static final String ENTER_LECTURE_ID = "Enter lecture id: ";
@@ -81,7 +79,7 @@ class LectureMenu extends Menu {
                 month = Integer.parseInt(reader.readLine());
                 System.out.println("Enter day of month");
                 day = Integer.parseInt(reader.readLine());
-                finder.findLectureById(lectureId).setDate(new LectureDate(year, month, day));
+                finder.findLectureById(lectureId).setDate(year, month, day);
                 System.out.println("Date was changed!");
                 System.out.println(CONTINUE_CHANGING);
                 selectedOption = reader.readLine();
@@ -101,7 +99,7 @@ class LectureMenu extends Menu {
                 startHour = Integer.parseInt(reader.readLine());
                 System.out.println("Enter start minute: ");
                 startMinute = Integer.parseInt(reader.readLine());
-                finder.findLectureById(lectureId).setTime(new LectureTime(startHour, startMinute));
+                finder.findLectureById(lectureId).setTime(startHour, startMinute);
                 System.out.println("Time was changed!");
                 System.out.println(CONTINUE_CHANGING);
                 selectedOption = reader.readLine();
@@ -203,7 +201,7 @@ class LectureMenu extends Menu {
                 roomNumber = Integer.parseInt(reader.readLine());
                 university.getTimetable().addLecture(new Lecture().setSubject(finder.findSubjectByName(subjectName))
                         .setTeacher(finder.findTeacherById(personId)).setGroup(finder.findGroupByName(groupName))
-                        .setDate(new LectureDate(year, month, day)).setTime(new LectureTime(startHour, startMinute))
+                        .setDate(year, month, day).setTime(startHour, startMinute)
                         .setRoom(finder.findRoomByNumber(roomNumber)).setLectureId(lectureId).build());
                 System.out.println("Lecture was added!");
                 System.out.println(CONTINUE_ADDING);

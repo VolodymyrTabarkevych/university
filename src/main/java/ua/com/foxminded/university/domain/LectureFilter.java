@@ -51,32 +51,37 @@ public class LectureFilter {
         return this;
     }
 
-    public LectureFilter forDay(int dayOfMonth) {
+    public LectureFilter forDay(LectureDate date) {
         if (filteredLectures.isEmpty()) {
             for (Lecture lecture : lectures) {
-                if (lecture.getDate().getDay() == dayOfMonth) {
+                if (lecture.getDate().getYear() == date.getYear() && lecture.getDate().getMonth() == date.getMonth()
+                        && lecture.getDate().getDay() == date.getDay()) {
                     filteredLectures.add(lecture);
                 }
             }
         } else {
-            forDayIfFilteredLecturesNotEmpty(dayOfMonth);
+            forDayIfFilteredLecturesNotEmpty(date);
         }
         return this;
     }
 
-    private LectureFilter forDayIfFilteredLecturesNotEmpty(int dayOfMonth) {
+    private LectureFilter forDayIfFilteredLecturesNotEmpty(LectureDate date) {
         filteredLectures.clear();
         if (Boolean.TRUE.equals(isForStudentUsed)) {
             for (Lecture lecture : lectures) {
                 for (Student student : lecture.getGroup().getStudents()) {
-                    if (student.getId() == personId && lecture.getDate().getDay() == dayOfMonth) {
+                    if (student.getId() == personId && lecture.getDate().getYear() == date.getYear()
+                            && lecture.getDate().getMonth() == date.getMonth()
+                            && lecture.getDate().getDay() == date.getDay()) {
                         filteredLectures.add(lecture);
                     }
                 }
             }
         } else if (Boolean.TRUE.equals(isForTeacherUsed)) {
             for (Lecture lecture : lectures) {
-                if (lecture.getTeacher().getId() == personId && lecture.getDate().getDay() == dayOfMonth) {
+                if (lecture.getTeacher().getId() == personId && lecture.getDate().getYear() == date.getYear()
+                        && lecture.getDate().getMonth() == date.getMonth()
+                        && lecture.getDate().getDay() == date.getDay()) {
                     filteredLectures.add(lecture);
                 }
             }

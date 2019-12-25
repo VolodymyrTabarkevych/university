@@ -17,7 +17,7 @@ public class University {
     private Set<Room> rooms = new HashSet<>();
     private Timetable timetable = new Timetable();
 
-    public void addTeacher(int id, String firstName, String lastName) {
+    public void addNewTeacher(int id, String firstName, String lastName) {
         for (Teacher teacher : teachers) {
             if (teacher.getId() == id) {
                 System.out.println("Teacher with such id is already exists!");
@@ -39,7 +39,7 @@ public class University {
         System.out.println("No teacher with such id!");
     }
 
-    public void addStudentToUniversity(int id, String firstName, String lastName) {
+    public void addNewStudentToUniversity(int id, String firstName, String lastName) {
         for (Student student : students) {
             if (student.getId() == id) {
                 System.out.println("Teacher with such id is already exists!");
@@ -71,12 +71,13 @@ public class University {
                         return;
                     }
                 }
+                System.out.println("No group with such name!");
             }
         }
         System.out.println("Student wasnt added to the group!");
     }
 
-    public void addGroup(String groupName) {
+    public void addNewGroup(String groupName) {
         for (Group group : groups) {
             if (group.getName().equals(groupName)) {
                 System.out.println("Group with such name is already exists!");
@@ -97,7 +98,7 @@ public class University {
         System.out.println("No group with such id!");
     }
 
-    public void addSubject(String name) {
+    public void addNewSubject(String name) {
         for (Subject subject : subjects) {
             if (subject.getName().equals(name)) {
                 System.out.println("Such subject is already exists!");
@@ -119,7 +120,7 @@ public class University {
         System.out.println("No subject with such name!");
     }
 
-    public void addRoom(int roomNumber) {
+    public void addNewRoom(int roomNumber) {
         for (Room room : rooms) {
             if (room.getNumber() == roomNumber) {
                 System.out.println("Room with such number is already exists!");
@@ -143,35 +144,5 @@ public class University {
 
     public Timetable getTimetable() {
         return timetable;
-    }
-
-    public void viewAllTeachers() {
-        for (Teacher teacher : teachers) {
-            System.out.println(teacher.getId() + ". " + teacher.getFirstName() + " " + teacher.getLastName());
-        }
-    }
-
-    public void viewAllStudents() {
-        for (Student student : students) {
-            System.out.println(student.getId() + ". " + student.getFirstName() + " " + student.getLastName());
-        }
-    }
-
-    public void viewAllGroups() {
-        for (Group group : groups) {
-            System.out.println(group.getName());
-        }
-    }
-
-    public void viewAllSubjects() {
-        for (Subject subject : subjects) {
-            System.out.println(subject.getName());
-        }
-    }
-
-    public void viewAllRooms() {
-        for (Room room : rooms) {
-            System.out.println(room.getNumber());
-        }
     }
 }
