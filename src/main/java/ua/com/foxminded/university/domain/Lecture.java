@@ -48,13 +48,13 @@ public class Lecture {
         return this;
     }
 
-    public Lecture setDate(LectureDate date) {
-        this.date = date;
+    public Lecture setDate(int year, int month, int day) {
+        this.date = new LectureDate(year, month, day);
         return this;
     }
 
-    public Lecture setTime(LectureTime time) {
-        this.time = time;
+    public Lecture setTime(int startHour, int startMinute) {
+        this.time = new LectureTime(startHour, startMinute);
         return this;
     }
 
