@@ -3,8 +3,10 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import ua.com.foxminded.university.domain.University;
+
 class UniversityMenu extends Menu {
-    UniversityViewer viewer = new UniversityViewer(university);
+    UniversityViewer viewer = new UniversityViewer(new University());
 
     void start(String selectedOption, BufferedReader reader) {
         if (Boolean.FALSE.equals(checkIfBackMenu(selectedOption)) && selectedOption.equals("a")
@@ -197,7 +199,7 @@ class UniversityMenu extends Menu {
                         System.out.println(CONTINUE_REMOVING);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
-                } else {
+                } else if (selectedOption.equals("c")) {
                     viewer.viewAllTeachers();
                 }
             } else {

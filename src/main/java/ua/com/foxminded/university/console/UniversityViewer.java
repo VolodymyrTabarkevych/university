@@ -12,12 +12,23 @@ class UniversityViewer {
 
     public UniversityViewer(University university) {
         this.university = university;
+        System.out.println("Vse ok!");
     }
 
     public void viewAllTeachers() {
-        for (Teacher teacher : university.getTeachers()) {
+        System.out.println("Zajshow");
+        int i = 0;
+        /*DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setUsername("postgres");
+        dataSource.setPassword("1");
+        dataSource.setUrl("jdbc:postgresql://localhost:5433/");
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        TeacherDaoJdbcTemplateImpl teacherDaoJdbcTemplateImpl = new TeacherDaoJdbcTemplateImpl(dataSource);
+        
+        for (Teacher teacher : teacherDaoJdbcTemplateImpl.findAll()) {
             System.out.println(teacher.getId() + ". " + teacher.getFirstName() + " " + teacher.getLastName());
         }
+        */
     }
 
     public void viewAllStudents() {
