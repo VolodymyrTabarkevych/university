@@ -8,34 +8,34 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import ua.com.foxminded.university.domain.Teacher;
+import ua.com.foxminded.university.domain.Group;
 
-public class TeacherDaoJdbcTemplateImpl implements TeacherDao {
+public class GroupDaoJdbcTemplateImpl implements GroupDao {
     private JdbcTemplate template;
-    private final String SQL_SELECT_ALL = "SELECT * FROM teachers";
+    private final String SQL_SELECT_ALL = "SELECT * FROM groups";
 
-    public TeacherDaoJdbcTemplateImpl(DataSource dataSource) {
+    public GroupDaoJdbcTemplateImpl(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
     }
 
-    private RowMapper<Teacher> teacherRowMapper = (ResultSet resultSet, int i) -> {
-        return new Teacher(resultSet.getInt("id"), resultSet.getString("first_name"), resultSet.getString("last_name"));
+    private RowMapper<Group> groupRowMapper = (ResultSet resultSet, int i) -> {
+        return new Group(resultSet.getString("name"));
     };
 
     @Override
-    public Teacher find(Integer id) {
+    public Group find(Integer id) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void save(Teacher model) {
+    public void save(Group model) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void update(Teacher model) {
+    public void update(Group model) {
         // TODO Auto-generated method stub
 
     }
@@ -47,14 +47,14 @@ public class TeacherDaoJdbcTemplateImpl implements TeacherDao {
     }
 
     @Override
-    public List<Teacher> findAll() {
-        return template.query(SQL_SELECT_ALL, teacherRowMapper);
+    public List<Group> findAll() {
+        return template.query(SQL_SELECT_ALL, groupRowMapper);
     }
 
     @Override
-    public void getSubjects() {
+    public void getStudents() {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

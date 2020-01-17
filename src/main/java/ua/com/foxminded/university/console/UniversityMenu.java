@@ -6,7 +6,7 @@ import java.io.IOException;
 import ua.com.foxminded.university.domain.University;
 
 class UniversityMenu extends Menu {
-    UniversityViewer viewer = new UniversityViewer(new University());
+    UniversityViewer viewer = new UniversityViewer(dbConnection.init());
 
     void start(String selectedOption, BufferedReader reader) {
         if (Boolean.FALSE.equals(checkIfBackMenu(selectedOption)) && selectedOption.equals("a")

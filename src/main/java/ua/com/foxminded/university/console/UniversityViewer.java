@@ -1,5 +1,14 @@
 package ua.com.foxminded.university.console;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+import ua.com.foxminded.university.dao.GroupDaoJdbcTemplateImpl;
+import ua.com.foxminded.university.dao.StudentDaoJdbcTemplateImpl;
+import ua.com.foxminded.university.dao.SubjectDaoJdbcTemplateImpl;
+import ua.com.foxminded.university.dao.TeacherDaoJdbcTemplateImpl;
 import ua.com.foxminded.university.domain.Group;
 import ua.com.foxminded.university.domain.Room;
 import ua.com.foxminded.university.domain.Student;
@@ -8,43 +17,38 @@ import ua.com.foxminded.university.domain.Teacher;
 import ua.com.foxminded.university.domain.University;
 
 class UniversityViewer {
-    University university;
+    private TeacherDaoJdbcTemplateImpl teacherDaoJdbcTemplateImpl;
+    private StudentDaoJdbcTemplateImpl studentDaoJdbcTemplateImpl;
+    private GroupDaoJdbcTemplateImpl groupDaoJdbcTemplateImpl;
+    private SubjectDaoJdbcTemplateImpl subjectDaoJdbcTemplateImpl;
 
-    public UniversityViewer(University university) {
-        this.university = university;
-        System.out.println("Vse ok!");
+    public UniversityViewer(DriverManagerDataSource dataSource) {
+        this.teacherDaoJdbcTemplateImpl = new TeacherDaoJdbcTemplateImpl(dataSource);
+        this.studentDaoJdbcTemplateImpl = new StudentDaoJdbcTemplateImpl(dataSource);
+        this.groupDaoJdbcTemplateImpl = new GroupDaoJdbcTemplateImpl(dataSource);
     }
 
     public void viewAllTeachers() {
-        System.out.println("Zajshow");
-        int i = 0;
-        /*DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("1");
-        dataSource.setUrl("jdbc:postgresql://localhost:5433/");
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        TeacherDaoJdbcTemplateImpl teacherDaoJdbcTemplateImpl = new TeacherDaoJdbcTemplateImpl(dataSource);
-        
         for (Teacher teacher : teacherDaoJdbcTemplateImpl.findAll()) {
             System.out.println(teacher.getId() + ". " + teacher.getFirstName() + " " + teacher.getLastName());
         }
-        */
+
     }
 
     public void viewAllStudents() {
-        for (Student student : university.getStudents()) {
+        for (Student student : studentDaoJdbcTemplateImpl.findAll()) {
             System.out.println(student.getId() + ". " + student.getFirstName() + " " + student.getLastName());
         }
     }
 
     public void viewAllGroups() {
-        for (Group group : university.getGroups()) {
+        for (Group group : groupDaoJdbcTemplateImpl.findAll()) {
             System.out.println(group.getName());
         }
     }
 
     public void viewAllSubjects() {
-        for (Subject subject : university.getSubjects()) {
+        for (Subject subject : subjectDaoJdbcTemplateImpl.findAll()) {
             System.out.println(subject.getName());
         }
     }
