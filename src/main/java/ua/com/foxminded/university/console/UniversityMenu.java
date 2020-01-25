@@ -3,10 +3,11 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import ua.com.foxminded.university.domain.Teacher;
 import ua.com.foxminded.university.domain.University;
 
 class UniversityMenu extends Menu {
-    UniversityViewer viewer = new UniversityViewer(dbConnection.init());
+    UniversityViewer viewer = new UniversityViewer();
 
     void start(String selectedOption, BufferedReader reader) {
         if (Boolean.FALSE.equals(checkIfBackMenu(selectedOption)) && selectedOption.equals("a")
@@ -37,14 +38,14 @@ class UniversityMenu extends Menu {
                 if (selectedOption.equals("a")) {
                     do {
                         String subjectName = reader.readLine();
-                        university.addNewSubject(subjectName);
+                        // university.addNewSubject(subjectName);
                         System.out.println(CONTINUE_ADDING);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
                 } else if (selectedOption.equals("b")) {
                     do {
                         String subjectName = reader.readLine();
-                        university.removeSubject(subjectName);
+                        // university.removeSubject(subjectName);
                         System.out.println(CONTINUE_REMOVING);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
@@ -67,14 +68,14 @@ class UniversityMenu extends Menu {
                 if (selectedOption.equals("a")) {
                     do {
                         int roomNumber = Integer.parseInt(reader.readLine());
-                        university.addNewRoom(roomNumber);
+                        // university.addNewRoom(roomNumber);
                         System.out.println(CONTINUE_ADDING);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
                 } else if (selectedOption.equals("b")) {
                     do {
                         int roomNumber = Integer.parseInt(reader.readLine());
-                        university.removeRoom(roomNumber);
+                        // university.removeRoom(roomNumber);
                         System.out.println(CONTINUE_REMOVING);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
@@ -98,7 +99,7 @@ class UniversityMenu extends Menu {
                     do {
                         System.out.println("Enter group name: ");
                         String groupName = reader.readLine();
-                        university.addNewGroup(groupName);
+                        // university.addNewGroup(groupName);
                         System.out.println(CONTINUE_ADDING);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
@@ -106,7 +107,7 @@ class UniversityMenu extends Menu {
                     do {
                         System.out.println("Enter group name: ");
                         String groupName = reader.readLine();
-                        university.removeGroup(groupName);
+                        // university.removeGroup(groupName);
                         System.out.println(CONTINUE_REMOVING);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
@@ -116,7 +117,7 @@ class UniversityMenu extends Menu {
                         int studentId = Integer.parseInt(reader.readLine());
                         System.out.println("Enter group name: ");
                         String groupName = reader.readLine();
-                        university.changeStudentGroup(studentId, groupName);
+                        // university.changeStudentGroup(studentId, groupName);
                         System.out.println(CONTINUE_CHANGING);
                     } while (!selectedOption.equals(""));
                 } else if (selectedOption.equals("d")) {
@@ -149,7 +150,7 @@ class UniversityMenu extends Menu {
                         String lastName = reader.readLine();
                         System.out.println("Enter student id: ");
                         int studentId = Integer.parseInt(reader.readLine());
-                        university.addNewStudentToUniversity(studentId, firstName, lastName);
+                        // university.addNewStudentToUniversity(studentId, firstName, lastName);
                         System.out.println(CONTINUE_ADDING);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
@@ -157,7 +158,7 @@ class UniversityMenu extends Menu {
                     do {
                         System.out.println("Enter student id: ");
                         int studentId = Integer.parseInt(reader.readLine());
-                        university.removeStudentFromUniversity(studentId);
+                        // university.removeStudentFromUniversity(studentId);
                         System.out.println(CONTINUE_REMOVING);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
@@ -185,9 +186,7 @@ class UniversityMenu extends Menu {
                         String firstName = reader.readLine();
                         System.out.println("Enter last name: ");
                         String lastName = reader.readLine();
-                        System.out.println("Enter teacher id: ");
-                        int teacherId = Integer.parseInt(reader.readLine());
-                        university.addNewTeacher(teacherId, firstName, lastName);
+                        dbCooperator.getTeacherDaoJdbcTemplateImpl().save(new Teacher(firstName, lastName));
                         System.out.println(CONTINUE_ADDING);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
@@ -195,7 +194,7 @@ class UniversityMenu extends Menu {
                     do {
                         System.out.println("Enter teacher id: ");
                         int teacherId = Integer.parseInt(reader.readLine());
-                        university.removeTeacher(teacherId);
+                        dbCooperator.getTeacherDaoJdbcTemplateImpl().delete(teacherId);
                         System.out.println(CONTINUE_REMOVING);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));

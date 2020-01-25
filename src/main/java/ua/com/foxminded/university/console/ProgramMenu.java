@@ -20,7 +20,7 @@ public class ProgramMenu extends Menu {
                     if (selectedOption.equals("a")) {
                         textMenu.showTimetableMenuOptions();
                         selectedOption = reader.readLine();
-                        timetableMenu.start(selectedOption, reader);
+                        //timetableMenu.start(selectedOption, reader);
                     } else {
                         textMenu.showUniversityMenuOptions();
                         selectedOption = reader.readLine();

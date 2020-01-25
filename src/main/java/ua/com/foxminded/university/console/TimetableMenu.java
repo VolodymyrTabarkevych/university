@@ -13,7 +13,7 @@ class TimetableMenu extends Menu {
     private int year = 0;
     private int personId = 0;
     private int month = 0;
-
+/*
     void start(String selectedOption, BufferedReader reader) {
         if (Boolean.FALSE.equals(checkIfBackMenu(selectedOption))) {
             if (selectedOption.equals("a") || selectedOption.equals("b") || selectedOption.equals("c")
@@ -108,5 +108,5 @@ class TimetableMenu extends Menu {
         } catch (NumberFormatException | IOException e) {
             System.out.println(WRONG_INPUT);
         }
-    }
+    }*/
 }

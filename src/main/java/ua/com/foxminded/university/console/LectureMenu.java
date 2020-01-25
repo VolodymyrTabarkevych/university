@@ -166,7 +166,7 @@ class LectureMenu extends Menu {
             do {
                 System.out.println(ENTER_LECTURE_ID);
                 lectureId = Integer.parseInt(reader.readLine());
-                university.getTimetable().removeLecture(lectureId);
+                //university.getTimetable().removeLecture(lectureId);
                 System.out.println("Lecture was removed!");
                 System.out.println(CONTINUE_REMOVING);
                 selectedOption = reader.readLine();
@@ -199,10 +199,10 @@ class LectureMenu extends Menu {
                 startMinute = Integer.parseInt(reader.readLine());
                 System.out.println("Enter room number");
                 roomNumber = Integer.parseInt(reader.readLine());
-                university.getTimetable().addLecture(new Lecture().setSubject(finder.findSubjectByName(subjectName))
+                /*university.getTimetable().addLecture(new Lecture().setSubject(finder.findSubjectByName(subjectName))
                         .setTeacher(finder.findTeacherById(personId)).setGroup(finder.findGroupByName(groupName))
                         .setDate(year, month, day).setTime(startHour, startMinute)
-                        .setRoom(finder.findRoomByNumber(roomNumber)).setLectureId(lectureId).build());
+                        .setRoom(finder.findRoomByNumber(roomNumber)).setLectureId(lectureId).build());*/
                 System.out.println("Lecture was added!");
                 System.out.println(CONTINUE_ADDING);
                 selectedOption = reader.readLine();

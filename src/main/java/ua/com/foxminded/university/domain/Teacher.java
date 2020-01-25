@@ -13,6 +13,14 @@ public class Teacher extends Person {
         super(id, firstName, lastName);
     }
 
+    public Teacher(String firstName, String lastName) {
+        super(firstName, lastName);
+    }
+
+    public Teacher() {
+
+    }
+
     public void addSubject(Subject subject) {
         subjects.add(subject);
     }
