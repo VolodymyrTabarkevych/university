@@ -18,11 +18,13 @@ public class TeacherDaoJdbcTemplateImpl implements TeacherDao {
     private Teacher teacher = new Teacher();
     private JdbcTemplate template;
     private final String SQL_SELECT_ALL = "SELECT * FROM teachers";
-    private final String SQL_FIND_BY_ID = "SELECT * FROM teachers WHERE id = ?";
-    private final String SQL_SAVE_TEACHER = "INSERT INTO teachers VALUES (?,?,?)";
+    // private final String SQL_FIND_BY_ID = "SELECT * FROM teachers WHERE id = ?";
+    private final String SQL_SAVE_TEACHER = "INSERT INTO teachers(first_name, last_name) VALUES (?,?)";
+    private final String SQL_SAVE_TEACHERS_SUBJECTS = "INSERT INTO teacherssubjects (teacher_id, subject_id) VALUES (?,?)";
     private final String SQL_UPDATE_TEACHER = "UPDATE teachers SET first_name = ? , last_name = ? WHERE id = ?";
     private final String SQL_DELETE_TEACHER = "DELETE FROM teachers WHERE id = ?";
     private final String SQL_FIND_TEACHER_WITH_SUBJECTS = "SELECT teachers.*, subjects.id as subject_id, subjects.name FROM teacherssubjects INNER JOIN subjects ON subject_id = subjects.id INNER JOIN teachers ON teacher_id = teachers.id WHERE teacher_id = ?";
+    private final String SQL_FIND_ALL_SUBJECTS = "SELECT * FROM teachersubjects WHERE teacher_id = ?";
 
     public TeacherDaoJdbcTemplateImpl(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
@@ -43,7 +45,7 @@ public class TeacherDaoJdbcTemplateImpl implements TeacherDao {
 
     @Override
     public Teacher find(Integer teacherId) {
-        template.query(SQL_SELECT_TEACHER_WITH_SUBJECTS, teacherRowMapper, teacherId);
+        template.query(SQL_FIND_TEACHER_WITH_SUBJECTS, teacherRowMapper, teacherId);
         if (teachers.containsKey(teacherId)) {
             return teachers.get(teacherId);
         } else {
@@ -53,7 +55,12 @@ public class TeacherDaoJdbcTemplateImpl implements TeacherDao {
 
     @Override
     public void save(Teacher teacher) {
-        template.update(SQL_SAVE_TEACHER, teacher.getId(), teacher.getFirstName(), teacher.getLastName());
+        template.update(SQL_SAVE_TEACHER, teacher.getFirstName(), teacher.getLastName());
+        if (!teacher.getSubjects().isEmpty()) {
+            for (Subject subject : teacher.getSubjects()) {
+                template.update(SQL_SAVE_TEACHERS_SUBJECTS, teacher.getId(), subject.getId());
+            }
+        }
     }
 
     @Override
@@ -82,7 +89,7 @@ public class TeacherDaoJdbcTemplateImpl implements TeacherDao {
 
     @Override
     public Teacher findAllSubjects(Integer teacherId) {
-        template.query(SQL_SELECT_TEACHER_WITH_SUBJECTS, teacherRowMapper, teacherId);
+        template.query(SQL_FIND_ALL_SUBJECTS, teacherRowMapper, teacherId);
         if (teachers.containsKey(teacherId)) {
             return teachers.get(teacherId);
         } else {

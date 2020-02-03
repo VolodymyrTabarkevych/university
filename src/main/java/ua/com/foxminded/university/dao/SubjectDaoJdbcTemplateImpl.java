@@ -13,6 +13,7 @@ import ua.com.foxminded.university.domain.Subject;
 public class SubjectDaoJdbcTemplateImpl implements SubjectDao {
     private JdbcTemplate template;
     private final String SQL_SELECT_ALL = "SELECT * FROM subjects";
+    private final String SQL_SAVE_SUBJECT = "INSERT INTO subjects (name) VALUES (?)";
 
     public SubjectDaoJdbcTemplateImpl(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
@@ -29,8 +30,8 @@ public class SubjectDaoJdbcTemplateImpl implements SubjectDao {
     }
 
     @Override
-    public void save(Subject model) {
-        // TODO Auto-generated method stub
+    public void save(Subject subject) {
+        template.update(SQL_SAVE_SUBJECT, subject.getName());
 
     }
 

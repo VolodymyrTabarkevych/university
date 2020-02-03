@@ -20,11 +20,15 @@ public class test {
          * dbCooperator.getTeacherDaoJdbcTemplateImpl().findAll()) {
          * System.out.println(teacher.toString()); }
          */
-        Teacher teacher = dbCooperator.getTeacherDaoJdbcTemplateImpl().find(1);
-        System.out.println(teacher.toString());
-        for (Subject subject : teacher.getSubjects()) {
-            System.out.println(subject.toString());
-        }
+        /*
+         * Teacher teacher = dbCooperator.getTeacherDaoJdbcTemplateImpl().save(new
+         * Teacher(1,"OOO", "VVV")); System.out.println(teacher.toString()); for
+         * (Subject subject : teacher.getSubjects()) {
+         * System.out.println(subject.toString()); }
+         */
+        Teacher teacher = new Teacher("Teacher", "ForMath");
+        teacher.addSubject(new Subject("Math"));
+        dbCooperator.getTeacherDaoJdbcTemplateImpl().save(teacher);
     }
 
 }
