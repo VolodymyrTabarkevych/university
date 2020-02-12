@@ -7,8 +7,14 @@ import lombok.Getter;
 
 @Getter
 public class Group {
+    private int id = 0;
     private String name = "This group has no name!";
     private Set<Student> students = new HashSet<>();
+
+    public Group(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Group(String name) {
         this.name = name;

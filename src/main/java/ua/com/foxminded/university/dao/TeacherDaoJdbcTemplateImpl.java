@@ -15,9 +15,9 @@ import ua.com.foxminded.university.domain.Teacher;
 
 public class TeacherDaoJdbcTemplateImpl implements TeacherDao {
     private Map<Integer, Teacher> teachers = new HashMap<>();
-    private Teacher teacher = new Teacher();
+
     private JdbcTemplate template;
-    private final String SQL_SELECT_ALL = "SELECT * FROM teachers";
+    private final String SQL_FIND_ALL = "SELECT * FROM teachers";
     // private final String SQL_FIND_BY_ID = "SELECT * FROM teachers WHERE id = ?";
     private final String SQL_SAVE_TEACHER = "INSERT INTO teachers(first_name, last_name) VALUES (?,?)";
     private final String SQL_SAVE_TEACHERS_SUBJECTS = "INSERT INTO teacherssubjects (teacher_id, subject_id) VALUES (?,?)";
@@ -33,7 +33,7 @@ public class TeacherDaoJdbcTemplateImpl implements TeacherDao {
     private RowMapper<Teacher> teacherRowMapper = (ResultSet resultSet, int i) -> {
         Integer id = resultSet.getInt("id");
         if (!teachers.containsKey(id)) {
-            teacher = new Teacher(resultSet.getInt("id"), resultSet.getString("first_name"),
+            Teacher teacher = new Teacher(resultSet.getInt("id"), resultSet.getString("first_name"),
                     resultSet.getString("last_name"));
             teachers.put(id, teacher);
         }
@@ -84,7 +84,7 @@ public class TeacherDaoJdbcTemplateImpl implements TeacherDao {
 
     @Override
     public List<Teacher> findAll() {
-        return template.query(SQL_SELECT_ALL, teacherRowMapper);
+        return template.query(SQL_FIND_ALL, teacherRowMapper);
     }
 
     @Override

@@ -26,9 +26,12 @@ public class test {
          * (Subject subject : teacher.getSubjects()) {
          * System.out.println(subject.toString()); }
          */
-        Teacher teacher = new Teacher("Teacher", "ForMath");
-        teacher.addSubject(new Subject("Math"));
-        dbCooperator.getTeacherDaoJdbcTemplateImpl().save(teacher);
+        /*
+         * Teacher teacher = new Teacher("Teacher", "ForMath"); teacher.addSubject(new
+         * Subject("Math")); dbCooperator.getTeacherDaoJdbcTemplateImpl().save(teacher);
+         */
+        Subject subject = new Subject(4, "Alch");
+        dbCooperator.getSubjectDaoJdbcTemplateImpl().update(subject);
     }
 
 }
