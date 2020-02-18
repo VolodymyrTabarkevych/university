@@ -23,7 +23,7 @@ class LectureMenu extends Menu {
         textMenu.showLecturesMenuOptions();
         try {
             selectedOption = reader.readLine();
-            if (Boolean.FALSE.equals(checkIfBackMenu(selectedOption)) && selectedOption.equals("a")
+            if (Boolean.FALSE.equals(checkIfReturnMenu(selectedOption)) && selectedOption.equals("a")
                     || selectedOption.equals("b") || selectedOption.equals("c") || selectedOption.equals("d")
                     || selectedOption.equals("e") || selectedOption.equals("f") || selectedOption.equals("g")
                     || selectedOption.equals("h")) {

@@ -17,8 +17,8 @@ public class StudentDaoJdbcTemplateImpl implements StudentDao {
     private Map<Integer, Student> students = new HashMap<>();
     private final String SQL_FIND_ALL = "SELECT * FROM students";
     private final String SQL_FIND_BY_ID = "SELECT * FROM students WHERE id = ?";
-    private final String SQL_SAVE_STUDENT = "INSERT INTO students (first_name, last_name) VALUES (?,?)";
-    private final String SQL_UPDATE_STUDENT = "UPDATE students SET first_name = ?, last_name = ? WHERE id = ?";
+    private final String SQL_SAVE_STUDENT = "INSERT INTO students (first_name, last_name, group_id) VALUES (?,?,?)";
+    private final String SQL_UPDATE_STUDENT = "UPDATE students SET first_name = ?, last_name = ?, group_id = ? WHERE id = ?";
     private final String SQL_DELETE_STUDENT = "DELETE FROM students WHERE id = ?";
 
     public StudentDaoJdbcTemplateImpl(DataSource dataSource) {
@@ -37,7 +37,7 @@ public class StudentDaoJdbcTemplateImpl implements StudentDao {
 
     @Override
     public Student find(Integer id) {
-        template.update(SQL_FIND_BY_ID, studentRowMapper, id);
+        template.query(SQL_FIND_BY_ID, studentRowMapper, id);
         return students.get(id);
     }
 
@@ -49,7 +49,8 @@ public class StudentDaoJdbcTemplateImpl implements StudentDao {
 
     @Override
     public void update(Student student) {
-        template.update(SQL_UPDATE_STUDENT, student.getFirstName(), student.getLastName(), student.getId());
+        template.update(SQL_UPDATE_STUDENT, student.getFirstName(), student.getLastName(), student.getGroup().getId(),
+                student.getId());
 
     }
 
@@ -65,8 +66,7 @@ public class StudentDaoJdbcTemplateImpl implements StudentDao {
     }
 
     @Override
-    public void getGroup() {
-        // TODO Auto-generated method stub
+    public void setGroup(int studentId, int groupId) {
 
     }
 

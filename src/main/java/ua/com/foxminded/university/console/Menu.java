@@ -14,12 +14,13 @@ class Menu {
     DbCooperator dbCooperator = new DbCooperator(dbConnection.init());
     TextUniversityMenu textMenu = new TextUniversityMenu();
     ObjectFinder finder;
+    UniversityViewer viewer = new UniversityViewer();
 
     public Menu() {
         // finder = new ObjectFinder(university);
     }
 
-    Boolean checkIfBackMenu(String selectedOption) {
+    Boolean checkIfReturnMenu(String selectedOption) {
         return selectedOption.equals("p");
     }
 }

@@ -38,7 +38,7 @@ class TextUniversityMenu {
         System.out.println("a. Add student");
         System.out.println("b. Remove student");
         System.out.println("c. Change student group");
-        System.out.println("d. View all groups");
+        System.out.println("d. View all students");
         System.out.println(BACK_BUTTON);
         System.out.println(DIVIDING_LINE);
     }

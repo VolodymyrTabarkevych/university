@@ -36,7 +36,7 @@ public class SubjectDaoJdbcTemplateImpl implements SubjectDao {
 
     @Override
     public Subject find(Integer id) {
-        template.update(SQL_FIND_BY_ID, subjectRowMapper, id);
+        template.query(SQL_FIND_BY_ID, subjectRowMapper, id);
         return subjects.get(id);
     }
 

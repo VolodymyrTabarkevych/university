@@ -37,9 +37,11 @@ public class TeacherDaoJdbcTemplateImpl implements TeacherDao {
                     resultSet.getString("last_name"));
             teachers.put(id, teacher);
         }
-        Subject subject = new Subject(resultSet.getInt("subject_id"), resultSet.getString("name"));
-        subject.getTeachers().add(teachers.get(id));
-        teachers.get(id).addSubject(subject);
+        /*
+         * Subject subject = new Subject(resultSet.getInt("subject_id"),
+         * resultSet.getString("name")); subject.getTeachers().add(teachers.get(id));
+         * teachers.get(id).addSubject(subject);
+         */
         return teachers.get(id);
     };
 

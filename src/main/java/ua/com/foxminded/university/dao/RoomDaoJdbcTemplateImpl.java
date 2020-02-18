@@ -1,7 +1,9 @@
 package ua.com.foxminded.university.dao;
 
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -12,44 +14,52 @@ import ua.com.foxminded.university.domain.Room;
 
 public class RoomDaoJdbcTemplateImpl implements RoomDao {
     private JdbcTemplate template;
-    private final String SQL_SELECT_ALL = "SELECT * FROM rooms";
+    private Map<Integer, Room> rooms = new HashMap<>();
+    private final String SQL_FIND_ALL = "SELECT * FROM rooms";
+    private final String SQL_FIND_BY_ID = "SELECT * FROM rooms WHERE id = ?";
+    private final String SQL_SAVE_ROOM = "INSERT INTO rooms (number) VALUES (?)";
+    private final String SQL_UPDATE_ROOM = "UPDATE rooms SET number = ?, WHERE id = ?";
+    private final String SQL_DELETE_ROOM = "DELETE FROM rooms WHERE id = ?";
 
     public RoomDaoJdbcTemplateImpl(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
     }
 
     private RowMapper<Room> roomRowMapper = (ResultSet resultSet, int i) -> {
-        return new Room(resultSet.getInt("number"));
+        Integer id = resultSet.getInt("id");
+        if (!rooms.containsKey(id)) {
+            Room room = new Room(resultSet.getInt("id"), resultSet.getInt("number"));
+            rooms.put(id, room);
+        }
+        return rooms.get(id);
     };
 
     @Override
     public Room find(Integer id) {
-        // TODO Auto-generated method stub
-        return null;
+        template.query(SQL_FIND_BY_ID, roomRowMapper, id);
+        return rooms.get(id);
     }
 
     @Override
-    public void save(Room model) {
-        // TODO Auto-generated method stub
-
+    public void save(Room room) {
+        template.update(SQL_SAVE_ROOM, room.getNumber());
     }
 
     @Override
-    public void update(Room model) {
-        // TODO Auto-generated method stub
+    public void update(Room room) {
+        template.update(SQL_UPDATE_ROOM, room.getNumber(), room.getId());
 
     }
 
     @Override
     public void delete(Integer id) {
-        // TODO Auto-generated method stub
+        template.update(SQL_DELETE_ROOM, id);
 
     }
 
     @Override
     public List<Room> findAll() {
-        // TODO Auto-generated method stub
-        return null;
+        return template.query(SQL_FIND_ALL, roomRowMapper);
     }
 
 }
