@@ -7,12 +7,7 @@ import ua.com.foxminded.university.domain.Subject;
 import ua.com.foxminded.university.domain.Teacher;
 
 class UniversityViewer extends Menu {
-    public void viewAllTeachers() {
-        for (Teacher teacher : dbCooperator.getTeacherDaoJdbcTemplateImpl().findAll()) {
-            System.out.println(teacher.getId() + ". " + teacher.getFirstName() + " " + teacher.getLastName());
-        }
 
-    }
 
     public void viewAllStudents() {
         for (Student student : dbCooperator.getStudentDaoJdbcTemplateImpl().findAll()) {

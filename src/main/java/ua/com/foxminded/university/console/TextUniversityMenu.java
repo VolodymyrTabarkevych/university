@@ -1,6 +1,6 @@
 package ua.com.foxminded.university.console;
 
-class TextUniversityMenu {
+public class TextUniversityMenu {
     private static final String BACK_BUTTON = "p. Go to the main menu";
     private static final String DIVIDING_LINE = "------------------------------";
 

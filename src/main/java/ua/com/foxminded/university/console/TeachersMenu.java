@@ -14,24 +14,16 @@ public class TeachersMenu extends Menu {
                     || selectedOption.equals("b") || selectedOption.equals("c")) {
                 if (selectedOption.equals("a")) {
                     do {
-                        System.out.println("Enter first name: ");
-                        String firstName = reader.readLine();
-                        System.out.println("Enter last name: ");
-                        String lastName = reader.readLine();
-                        dbCooperator.getTeacherDaoJdbcTemplateImpl().save(new Teacher(firstName, lastName));
-                        System.out.println(CONTINUE_ADDING);
+                        addTeacher(reader);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
                 } else if (selectedOption.equals("b")) {
                     do {
-                        System.out.println("Enter teacher id: ");
-                        int teacherId = Integer.parseInt(reader.readLine());
-                        dbCooperator.getTeacherDaoJdbcTemplateImpl().delete(teacherId);
-                        System.out.println(CONTINUE_REMOVING);
+                        deleteTeacher(reader);
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
                 } else if (selectedOption.equals("c")) {
-                    viewer.viewAllTeachers();
+                    viewAllTeachers();
                 }
             } else {
                 System.out.println(WRONG_INPUT);
@@ -39,6 +31,27 @@ public class TeachersMenu extends Menu {
         } catch (IOException e) {
             System.out.println(WRONG_INPUT);
         }
+    }
 
+    private void addTeacher(BufferedReader reader) throws IOException {
+        System.out.println("Enter first name: ");
+        String firstName = reader.readLine();
+        System.out.println("Enter last name: ");
+        String lastName = reader.readLine();
+        dbCooperator.getTeacherDaoJdbcTemplateImpl().save(new Teacher(firstName, lastName));
+        System.out.println(CONTINUE_ADDING);
+    }
+
+    private void deleteTeacher(BufferedReader reader) throws NumberFormatException, IOException {
+        System.out.println("Enter teacher id: ");
+        int teacherId = Integer.parseInt(reader.readLine());
+        dbCooperator.getTeacherDaoJdbcTemplateImpl().delete(teacherId);
+        System.out.println(CONTINUE_REMOVING);
+    }
+
+    public void viewAllTeachers() {
+        for (Teacher teacher : dbCooperator.getTeacherDaoJdbcTemplateImpl().findAll()) {
+            System.out.println(teacher.getId() + ". " + teacher.getFirstName() + " " + teacher.getLastName());
+        }
     }
 }
