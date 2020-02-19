@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import ua.com.foxminded.university.dao.DbCooperator;
+import ua.com.foxminded.university.domain.Group;
 import ua.com.foxminded.university.domain.Room;
 
 public class RoomsMenu extends TextUniversityMenu {
@@ -44,14 +45,16 @@ public class RoomsMenu extends TextUniversityMenu {
     }
 
     private void addRoom(BufferedReader reader) throws NumberFormatException, IOException {
+        System.out.println("Enter room number: ");
         int roomNumber = Integer.parseInt(reader.readLine());
-        // university.addNewRoom(roomNumber);
+        dbCooperator.getRoomDaoJdbcTemplateImpl().save(new Room(roomNumber));
         System.out.println(CONTINUE_ADDING);
     }
 
     private void removeRoom(BufferedReader reader) throws NumberFormatException, IOException {
-        int roomNumber = Integer.parseInt(reader.readLine());
-        // university.removeRoom(roomNumber);
+        System.out.println("Enter room id: ");
+        int roomId = Integer.parseInt(reader.readLine());
+        dbCooperator.getRoomDaoJdbcTemplateImpl().delete(roomId);
         System.out.println(CONTINUE_REMOVING);
     }
 

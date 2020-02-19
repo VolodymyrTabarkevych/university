@@ -46,8 +46,10 @@ public class StudentDaoJdbcTemplateImpl implements StudentDao {
         int rowsAffected = 0;
         rowsAffected = template.update(SQL_SAVE_STUDENT, student.getFirstName(), student.getLastName(),
                 student.getGroup().getId());
-        if (rowsAffected == 0) {
-            System.out.println("Student has't been added!");
+        if (rowsAffected > 0) {
+            System.out.println("Student has been added!");
+        } else {
+            System.out.println("Student hasn't been added!");
         }
     }
 
@@ -56,7 +58,9 @@ public class StudentDaoJdbcTemplateImpl implements StudentDao {
         int rowsAffected = 0;
         rowsAffected = template.update(SQL_UPDATE_STUDENT, student.getFirstName(), student.getLastName(),
                 student.getGroup().getId(), student.getId());
-        if (rowsAffected == 0) {
+        if (rowsAffected > 0) {
+            System.out.println("Info has been updated!");
+        } else {
             System.out.println("Info hasn't been updated!");
         }
     }
@@ -65,7 +69,9 @@ public class StudentDaoJdbcTemplateImpl implements StudentDao {
     public void delete(Integer id) {
         int rowsAffected = 0;
         rowsAffected = template.update(SQL_DELETE_STUDENT, id);
-        if (rowsAffected == 0) {
+        if (rowsAffected > 0) {
+            System.out.println("Student has been removed!");
+        } else {
             System.out.println("Student hasn't been removed!");
         }
     }

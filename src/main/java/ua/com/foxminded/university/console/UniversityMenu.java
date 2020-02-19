@@ -25,14 +25,19 @@ public class UniversityMenu extends TextUniversityMenu {
             break;
         case "a":
             teachersMenu.start(reader);
+            break;
         case "b":
             studentsMenu.start(reader);
+            break;
         case "c":
             groupsMenu.start(reader);
+            break;
         case "d":
             roomsMenu.start(reader);
+            break;
         case "e":
             subjectsMenu.start(reader);
+            break;
         default:
             System.out.println(WRONG_INPUT);
         }

@@ -53,7 +53,11 @@ public class RoomDaoJdbcTemplateImpl implements RoomDao {
 
     @Override
     public void delete(Integer id) {
-        template.update(SQL_DELETE_ROOM, id);
+        int rowsAffected = 0;
+        rowsAffected = template.update(SQL_DELETE_ROOM, id);
+        if (rowsAffected == 0) {
+            System.out.println("Room hasn't been removed!");
+        }
 
     }
 

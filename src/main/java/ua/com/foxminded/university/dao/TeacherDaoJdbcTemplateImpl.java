@@ -30,6 +30,18 @@ public class TeacherDaoJdbcTemplateImpl implements TeacherDao {
         this.template = new JdbcTemplate(dataSource);
     }
 
+    private RowMapper<Teacher> teacherRowMapperWithSubjects = (ResultSet resultSet, int i) -> {
+        Integer id = resultSet.getInt("id");
+        if (!teachers.containsKey(id)) {
+            Teacher teacher = new Teacher(resultSet.getInt("id"), resultSet.getString("first_name"),
+                    resultSet.getString("last_name"));
+            teachers.put(id, teacher);
+        }
+        Subject subject = new Subject(resultSet.getInt("subject_id"), resultSet.getString("name"));
+        subject.getTeachers().add(teachers.get(id));
+        teachers.get(id).addSubject(subject);
+        return teachers.get(id);
+    };
     private RowMapper<Teacher> teacherRowMapper = (ResultSet resultSet, int i) -> {
         Integer id = resultSet.getInt("id");
         if (!teachers.containsKey(id)) {
@@ -37,11 +49,6 @@ public class TeacherDaoJdbcTemplateImpl implements TeacherDao {
                     resultSet.getString("last_name"));
             teachers.put(id, teacher);
         }
-        /*
-         * Subject subject = new Subject(resultSet.getInt("subject_id"),
-         * resultSet.getString("name")); subject.getTeachers().add(teachers.get(id));
-         * teachers.get(id).addSubject(subject);
-         */
         return teachers.get(id);
     };
 
@@ -57,17 +64,26 @@ public class TeacherDaoJdbcTemplateImpl implements TeacherDao {
 
     @Override
     public void save(Teacher teacher) {
-        template.update(SQL_SAVE_TEACHER, teacher.getFirstName(), teacher.getLastName());
+        int rowsAffected = 0;
+        rowsAffected = template.update(SQL_SAVE_TEACHER, teacher.getFirstName(), teacher.getLastName());
         if (!teacher.getSubjects().isEmpty()) {
             for (Subject subject : teacher.getSubjects()) {
                 template.update(SQL_SAVE_TEACHERS_SUBJECTS, teacher.getId(), subject.getId());
             }
         }
+        if (rowsAffected > 0) {
+            System.out.println("Teacher has been added!");
+        } else {
+            System.out.println("Teacher hasn't been added!");
+        }
     }
 
     @Override
     public void update(Teacher teacher) {
-        if (template.update(SQL_UPDATE_TEACHER, teacher.getFirstName(), teacher.getLastName(), teacher.getId()) > 0) {
+        int rowsAffected = 0;
+        rowsAffected = template.update(SQL_UPDATE_TEACHER, teacher.getFirstName(), teacher.getLastName(),
+                teacher.getId());
+        if (rowsAffected > 0) {
             System.out.println("Data has been updated!");
         } else {
             System.out.println("No teacher with such id!");
@@ -77,7 +93,9 @@ public class TeacherDaoJdbcTemplateImpl implements TeacherDao {
 
     @Override
     public void delete(Integer id) {
-        if (template.update(SQL_DELETE_TEACHER, id) > 0) {
+        int rowsAffected = 0;
+        rowsAffected = template.update(SQL_DELETE_TEACHER, id);
+        if (rowsAffected > 0) {
             System.out.println("Teacher has been removed!");
         } else {
             System.out.println("No teacher with such id!");
@@ -91,7 +109,7 @@ public class TeacherDaoJdbcTemplateImpl implements TeacherDao {
 
     @Override
     public Teacher findAllSubjects(Integer teacherId) {
-        template.query(SQL_FIND_ALL_SUBJECTS, teacherRowMapper, teacherId);
+        template.query(SQL_FIND_ALL_SUBJECTS, teacherRowMapperWithSubjects, teacherId);
         if (teachers.containsKey(teacherId)) {
             return teachers.get(teacherId);
         } else {
