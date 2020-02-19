@@ -34,14 +34,14 @@ class UniversityTest {
     @Test
     public void addNewStudentToUniversety_shouldAddStudent() {
         university.addNewStudentToUniversity(1, "qqq", "eee");
-        result = university.getStudents().contains(finder.findStudentById(1));
+        result = university.findStudentsFromGroup().contains(finder.findStudentById(1));
         assertTrue(result);
     }
     @Test
     public void removeStudentFromUniversety_shouldRemoveTeacher() {
         university.addNewStudentToUniversity(1, "qqq", "eee");
         university.removeStudentFromUniversity(1);
-        result = university.getStudents().contains(finder.findStudentById(1));
+        result = university.findStudentsFromGroup().contains(finder.findStudentById(1));
         assertFalse(result);
     }
     @Test

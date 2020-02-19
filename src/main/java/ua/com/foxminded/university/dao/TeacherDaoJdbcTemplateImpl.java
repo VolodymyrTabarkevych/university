@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 import ua.com.foxminded.university.domain.Subject;
 import ua.com.foxminded.university.domain.Teacher;
 
-public class TeacherDaoJdbcTemplateImpl implements TeacherDao {
+public class TeacherDaoJdbcTemplateImpl implements CrudDao<Teacher> {
     private Map<Integer, Teacher> teachers = new HashMap<>();
 
     private JdbcTemplate template;
@@ -107,7 +107,6 @@ public class TeacherDaoJdbcTemplateImpl implements TeacherDao {
         return template.query(SQL_FIND_ALL, teacherRowMapper);
     }
 
-    @Override
     public Teacher findAllSubjects(Integer teacherId) {
         template.query(SQL_FIND_ALL_SUBJECTS, teacherRowMapperWithSubjects, teacherId);
         if (teachers.containsKey(teacherId)) {

@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import ua.com.foxminded.university.domain.Subject;
 
-public class SubjectDaoJdbcTemplateImpl implements SubjectDao {
+public class SubjectDaoJdbcTemplateImpl implements CrudDao<Subject> {
     private JdbcTemplate template;
     private Map<Integer, Subject> subjects = new HashMap<>();
     private final String SQL_FIND_ALL = "SELECT * FROM subjects";
@@ -42,18 +42,36 @@ public class SubjectDaoJdbcTemplateImpl implements SubjectDao {
 
     @Override
     public void save(Subject subject) {
-        template.update(SQL_SAVE_SUBJECT, subject.getName());
+        int rowsAffected = 0;
+        rowsAffected = template.update(SQL_SAVE_SUBJECT, subject.getName());
+        if (rowsAffected > 0) {
+            System.out.println("Subject has been added!");
+        } else {
+            System.out.println("Subject hasn't been added!");
+        }
 
     }
 
     @Override
     public void update(Subject subject) {
-        template.update(SQL_UPDATE_SUBJECT, subject.getName(), subject.getId());
+        int rowsAffected = 0;
+        rowsAffected = template.update(SQL_UPDATE_SUBJECT, subject.getName(), subject.getId());
+        if (rowsAffected > 0) {
+            System.out.println("Info has been updated!");
+        } else {
+            System.out.println("Info hasn't been updated!");
+        }
     }
 
     @Override
     public void delete(Integer id) {
-        template.update(SQL_DELETE_SUBJECT, id);
+        int rowsAffected = 0;
+        rowsAffected = template.update(SQL_DELETE_SUBJECT, id);
+        if (rowsAffected > 0) {
+            System.out.println("Subject has been removed!");
+        } else {
+            System.out.println("Subject hasn't been removed!");
+        }
 
     }
 

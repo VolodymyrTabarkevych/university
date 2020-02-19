@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import ua.com.foxminded.university.domain.Student;
 
-public class StudentDaoJdbcTemplateImpl implements StudentDao {
+public class StudentDaoJdbcTemplateImpl implements CrudDao<Student> {
     private JdbcTemplate template;
     private Map<Integer, Student> students = new HashMap<>();
     private final String SQL_FIND_ALL = "SELECT * FROM students";

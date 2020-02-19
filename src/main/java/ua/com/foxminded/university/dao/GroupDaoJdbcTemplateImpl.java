@@ -11,12 +11,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import ua.com.foxminded.university.domain.Group;
+import ua.com.foxminded.university.domain.Student;
 
-public class GroupDaoJdbcTemplateImpl implements GroupDao {
+public class GroupDaoJdbcTemplateImpl implements CrudDao<Group> {
     private JdbcTemplate template;
     private Map<Integer, Group> groups = new HashMap<>();
     private final String SQL_FIND_ALL = "SELECT * FROM groups";
     private final String SQL_FIND_BY_ID = "SELECT * FROM groups WHERE id = ?";
+    private final String SQL_FIND_STUDENTS_BY_GROUP_ID = "SELECT * FROM students WHERE group_id = ?";
     private final String SQL_SAVE_GROUP = "INSERT INTO groups (number) VALUES (?)";
     private final String SQL_UPDATE_GROUP = "UPDATE groups SET number = ?, WHERE id = ?";
     private final String SQL_DELETE_GROUP = "DELETE FROM groups WHERE id = ?";
@@ -42,31 +44,39 @@ public class GroupDaoJdbcTemplateImpl implements GroupDao {
 
     @Override
     public void save(Group group) {
-        template.update(SQL_SAVE_GROUP, group.getName());
-
+        int rowsAffected = 0;
+        rowsAffected = template.update(SQL_SAVE_GROUP, group.getName());
+        if (rowsAffected > 0) {
+            System.out.println("Group has been added!");
+        } else {
+            System.out.println("Group hasn't been added!");
+        }
     }
 
     @Override
     public void update(Group group) {
-        template.update(SQL_UPDATE_GROUP, group.getName(), group.getId());
-
+        int rowsAffected = 0;
+        rowsAffected = template.update(SQL_UPDATE_GROUP, group.getName(), group.getId());
+        if (rowsAffected > 0) {
+            System.out.println("Info has been updated!");
+        } else {
+            System.out.println("Ifno hasn't been updated!");
+        }
     }
 
     @Override
     public void delete(Integer id) {
-        template.update(SQL_DELETE_GROUP, id);
-
+        int rowsAffected = 0;
+        rowsAffected = template.update(SQL_DELETE_GROUP, id);
+        if (rowsAffected > 0) {
+            System.out.println("Group has been removed!");
+        } else {
+            System.out.println("Group hasn't been removed!");
+        }
     }
 
     @Override
     public List<Group> findAll() {
         return template.query(SQL_FIND_ALL, groupRowMapper);
     }
-
-    @Override
-    public void getStudents() {
-        // TODO Auto-generated method stub
-
-    }
-
 }
