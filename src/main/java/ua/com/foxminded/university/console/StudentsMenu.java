@@ -3,12 +3,19 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import ua.com.foxminded.university.dao.DbCooperator;
 import ua.com.foxminded.university.domain.Group;
 import ua.com.foxminded.university.domain.Student;
 
-public class StudentsMenu extends Menu {
+class StudentsMenu extends TextUniversityMenu {
+    DbCooperator dbCooperator;
+
+    public StudentsMenu(DbCooperator dbCooperator) {
+        this.dbCooperator = dbCooperator;
+    }
+
     public void start(BufferedReader reader) {
-        textMenu.showStudentsMenuOptions();
+        showStudentsMenuOptions();
         try {
             String selectedOption = reader.readLine();
             if (Boolean.FALSE.equals(checkIfReturnMenu(selectedOption)) && selectedOption.equals("a")
@@ -43,7 +50,7 @@ public class StudentsMenu extends Menu {
                     student.setGroup(new Group(groupId));
                     dbCooperator.getStudentDaoJdbcTemplateImpl().update(student);
                 } else if (selectedOption.equals("d")) {
-                    viewer.viewAllStudents();
+                    //viewer.viewAllStudents();
                 }
             } else {
                 System.out.println(WRONG_INPUT);

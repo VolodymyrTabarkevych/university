@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import ua.com.foxminded.university.domain.Lecture;
 
-class LectureMenu extends Menu {
+/*class LectureMenu extends Menu {
     private static final String ENTER_LECTURE_ID = "Enter lecture id: ";
     private int lectureId = 0;
     private String subjectName = "";
@@ -57,7 +57,7 @@ class LectureMenu extends Menu {
                 lectureId = Integer.parseInt(reader.readLine());
                 System.out.println("Enter room number: ");
                 roomNumber = Integer.parseInt(reader.readLine());
-                finder.findLectureById(lectureId).setRoom(finder.findRoomByNumber(roomNumber));
+                //finder.findLectureById(lectureId).setRoom(finder.findRoomByNumber(roomNumber));
                 System.out.println("Room was changed!");
                 System.out.println(CONTINUE_CHANGING);
                 selectedOption = reader.readLine();
@@ -79,7 +79,7 @@ class LectureMenu extends Menu {
                 month = Integer.parseInt(reader.readLine());
                 System.out.println("Enter day of month");
                 day = Integer.parseInt(reader.readLine());
-                finder.findLectureById(lectureId).setDate(year, month, day);
+                //finder.findLectureById(lectureId).setDate(year, month, day);
                 System.out.println("Date was changed!");
                 System.out.println(CONTINUE_CHANGING);
                 selectedOption = reader.readLine();
@@ -99,7 +99,7 @@ class LectureMenu extends Menu {
                 startHour = Integer.parseInt(reader.readLine());
                 System.out.println("Enter start minute: ");
                 startMinute = Integer.parseInt(reader.readLine());
-                finder.findLectureById(lectureId).setTime(startHour, startMinute);
+                //finder.findLectureById(lectureId).setTime(startHour, startMinute);
                 System.out.println("Time was changed!");
                 System.out.println(CONTINUE_CHANGING);
                 selectedOption = reader.readLine();
@@ -117,7 +117,7 @@ class LectureMenu extends Menu {
                 lectureId = Integer.parseInt(reader.readLine());
                 System.out.println("Enter group name: ");
                 groupName = reader.readLine();
-                finder.findLectureById(lectureId).setGroup(finder.findGroupByName(groupName));
+                //finder.findLectureById(lectureId).setGroup(finder.findGroupByName(groupName));
                 System.out.println("Group was changed!");
                 System.out.println(CONTINUE_CHANGING);
                 selectedOption = reader.readLine();
@@ -134,7 +134,7 @@ class LectureMenu extends Menu {
                 lectureId = Integer.parseInt(reader.readLine());
                 System.out.println("Enter teacher id: ");
                 personId = Integer.parseInt(reader.readLine());
-                finder.findLectureById(lectureId).setTeacher(finder.findTeacherById(personId));
+                //finder.findLectureById(lectureId).setTeacher(finder.findTeacherById(personId));
                 System.out.println("Teacher was changed!");
                 System.out.println(CONTINUE_CHANGING);
                 selectedOption = reader.readLine();
@@ -151,7 +151,7 @@ class LectureMenu extends Menu {
                 lectureId = Integer.parseInt(reader.readLine());
                 System.out.println("Enter subject name: ");
                 subjectName = reader.readLine();
-                finder.findLectureById(lectureId).setSubject(finder.findSubjectByName(subjectName));
+                //finder.findLectureById(lectureId).setSubject(finder.findSubjectByName(subjectName));
                 System.out.println("Subject was changed!");
                 System.out.println(CONTINUE_CHANGING);
                 selectedOption = reader.readLine();
@@ -202,7 +202,7 @@ class LectureMenu extends Menu {
                 /*university.getTimetable().addLecture(new Lecture().setSubject(finder.findSubjectByName(subjectName))
                         .setTeacher(finder.findTeacherById(personId)).setGroup(finder.findGroupByName(groupName))
                         .setDate(year, month, day).setTime(startHour, startMinute)
-                        .setRoom(finder.findRoomByNumber(roomNumber)).setLectureId(lectureId).build());*/
+                        .setRoom(finder.findRoomByNumber(roomNumber)).setLectureId(lectureId).build());
                 System.out.println("Lecture was added!");
                 System.out.println(CONTINUE_ADDING);
                 selectedOption = reader.readLine();
@@ -211,4 +211,4 @@ class LectureMenu extends Menu {
             System.out.println(WRONG_INPUT);
         }
     }
-}
+}*/

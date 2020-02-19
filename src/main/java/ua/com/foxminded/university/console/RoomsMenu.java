@@ -3,9 +3,17 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class RoomsMenu extends Menu {
+import ua.com.foxminded.university.dao.DbCooperator;
+
+public class RoomsMenu extends TextUniversityMenu {
+    DbCooperator dbCooperator;
+
+    public RoomsMenu(DbCooperator dbCooperator) {
+        this.dbCooperator = dbCooperator;
+    }
+
     public void start(BufferedReader reader) {
-        textMenu.showRoomsMenuOptions();
+        showRoomsMenuOptions();
         try {
             String selectedOption = reader.readLine();
             if (Boolean.FALSE.equals(checkIfReturnMenu(selectedOption)) && selectedOption.equals("a")
@@ -25,7 +33,7 @@ public class RoomsMenu extends Menu {
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
                 } else {
-                    viewer.viewAllRooms();
+                    // viewer.viewAllRooms();
                 }
             }
         } catch (IOException e) {

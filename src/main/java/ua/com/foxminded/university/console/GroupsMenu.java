@@ -3,9 +3,17 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class GroupsMenu extends Menu {
+import ua.com.foxminded.university.dao.DbCooperator;
+
+public class GroupsMenu extends TextUniversityMenu {
+    DbCooperator dbCooperator;
+
+    public GroupsMenu(DbCooperator dbCooperator) {
+        this.dbCooperator = dbCooperator;
+    }
+
     public void start(BufferedReader reader) {
-        textMenu.showGroupsMenuOptions();
+        showGroupsMenuOptions();
         try {
             String selectedOption = reader.readLine();
             if (Boolean.FALSE.equals(checkIfReturnMenu(selectedOption)) && selectedOption.equals("a")
@@ -37,12 +45,12 @@ public class GroupsMenu extends Menu {
                         System.out.println(CONTINUE_CHANGING);
                     } while (!selectedOption.equals(""));
                 } else if (selectedOption.equals("d")) {
-                    viewer.viewAllGroups();
+                    // viewer.viewAllGroups();
                 } else if (selectedOption.equals("e")) {
                     do {
                         System.out.println("Enter group name: ");
                         String groupName = reader.readLine();
-                        viewer.showAllStudents(finder.findGroupByName(groupName));
+                        // viewer.showAllStudents(finder.findGroupByName(groupName));
                         System.out.println(CONTINUE_CHANGING);
                     } while (!selectedOption.equals(""));
                 }

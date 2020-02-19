@@ -3,11 +3,18 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import ua.com.foxminded.university.dao.DbCooperator;
 import ua.com.foxminded.university.domain.Teacher;
 
-public class TeachersMenu extends Menu {
+public class TeachersMenu extends TextUniversityMenu {
+    DbCooperator dbCooperator;
+
+    public TeachersMenu(DbCooperator dbCooperator) {
+        this.dbCooperator = dbCooperator;
+    }
+
     public void start(BufferedReader reader) {
-        textMenu.showTeachersMenuOptions();
+        showTeachersMenuOptions();
         try {
             String selectedOption = reader.readLine();
             if (Boolean.FALSE.equals(checkIfReturnMenu(selectedOption)) && selectedOption.equals("a")

@@ -1,6 +1,11 @@
 package ua.com.foxminded.university.console;
 
 public class TextUniversityMenu {
+    static final String WRONG_INPUT = "------------------------------" + System.lineSeparator() + "Wrong input!"
+            + System.lineSeparator() + "------------------------------";
+    static final String CONTINUE_ADDING = "Do you want to continue adding(any button/enter for exit)?";
+    static final String CONTINUE_REMOVING = "Do you want to continue removing(any button/enter for exit)?";
+    static final String CONTINUE_CHANGING = "Do you want to continue changing(any button/enter for exit)?";
     private static final String BACK_BUTTON = "p. Go to the main menu";
     private static final String DIVIDING_LINE = "------------------------------";
 
@@ -95,5 +100,9 @@ public class TextUniversityMenu {
         System.out.println("h. Change room");
         System.out.println(BACK_BUTTON);
         System.out.println(DIVIDING_LINE);
+    }
+
+    Boolean checkIfReturnMenu(String selectedOption) {
+        return selectedOption.equals("p");
     }
 }

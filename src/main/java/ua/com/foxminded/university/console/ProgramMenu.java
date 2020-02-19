@@ -4,8 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class ProgramMenu extends Menu {
-    UniversityMenu universityMenu = new UniversityMenu();
+import ua.com.foxminded.university.dao.DbConnection;
+import ua.com.foxminded.university.dao.DbCooperator;
+
+public class ProgramMenu extends TextUniversityMenu {
+    DbConnection dbConnection = new DbConnection();
+    DbCooperator dbCooperator = new DbCooperator(dbConnection.init());
+    UniversityMenu universityMenu = new UniversityMenu(dbCooperator);
     TimetableMenu timetableMenu = new TimetableMenu();
 
     public void start() {
@@ -13,16 +18,16 @@ public class ProgramMenu extends Menu {
         String selectedOption = " ";
 
         while (!selectedOption.equals("")) {
-            textMenu.showOptions();
+            showOptions();
             try {
                 selectedOption = reader.readLine();
                 if (selectedOption.equals("a") || selectedOption.equals("b")) {
                     if (selectedOption.equals("a")) {
-                        textMenu.showTimetableMenuOptions();
+                        showTimetableMenuOptions();
                         selectedOption = reader.readLine();
-                        //timetableMenu.start(selectedOption, reader);
+                        // timetableMenu.start(selectedOption, reader);
                     } else {
-                        textMenu.showUniversityMenuOptions();
+                        showUniversityMenuOptions();
                         selectedOption = reader.readLine();
                         universityMenu.start(selectedOption, reader);
                     }

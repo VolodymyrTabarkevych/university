@@ -6,7 +6,7 @@ import ua.com.foxminded.university.domain.Student;
 import ua.com.foxminded.university.domain.Subject;
 import ua.com.foxminded.university.domain.Teacher;
 
-class UniversityViewer extends Menu {
+/*class UniversityViewer {
 
 
     public void viewAllStudents() {
@@ -39,4 +39,4 @@ class UniversityViewer extends Menu {
             System.out.println(student.getFirstName() + " " + student.getLastName());
         }
     }
-}
+}*/

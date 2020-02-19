@@ -3,9 +3,17 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class SubjectsMenu extends Menu {
+import ua.com.foxminded.university.dao.DbCooperator;
+
+class SubjectsMenu extends TextUniversityMenu {
+    DbCooperator dbCooperator;
+
+    public SubjectsMenu(DbCooperator dbCooperator) {
+        this.dbCooperator = dbCooperator;
+    }
+
     public void start(BufferedReader reader) {
-        textMenu.showSubjectsMenuOptions();
+        showSubjectsMenuOptions();
         try {
             String selectedOption = reader.readLine();
             if (Boolean.FALSE.equals(checkIfReturnMenu(selectedOption)) && selectedOption.equals("a")
@@ -25,7 +33,7 @@ public class SubjectsMenu extends Menu {
                         selectedOption = reader.readLine();
                     } while (!selectedOption.equals(""));
                 } else {
-                    viewer.viewAllSubjects();
+                    // viewer.viewAllSubjects();
                 }
             }
         } catch (IOException e) {

@@ -2,14 +2,24 @@ package ua.com.foxminded.university.console;
 
 import java.io.BufferedReader;
 
-class UniversityMenu extends Menu {
-    private StudentsMenu studentsMenu = new StudentsMenu();
-    private SubjectsMenu subjectsMenu = new SubjectsMenu();
-    private RoomsMenu roomsMenu = new RoomsMenu();
-    private GroupsMenu groupsMenu = new GroupsMenu();
-    private TeachersMenu teachersMenu = new TeachersMenu();
+import ua.com.foxminded.university.dao.DbCooperator;
 
-    void start(String selectedOption, BufferedReader reader) {
+public class UniversityMenu extends TextUniversityMenu {
+    private StudentsMenu studentsMenu;
+    private SubjectsMenu subjectsMenu;
+    private RoomsMenu roomsMenu;
+    private GroupsMenu groupsMenu;
+    private TeachersMenu teachersMenu;
+
+    public UniversityMenu(DbCooperator dbCooperator) {
+        this.studentsMenu = new StudentsMenu(dbCooperator);
+        this.subjectsMenu = new SubjectsMenu(dbCooperator);
+        this.roomsMenu = new RoomsMenu(dbCooperator);
+        this.groupsMenu = new GroupsMenu(dbCooperator);
+        this.teachersMenu = new TeachersMenu(dbCooperator);
+    }
+
+    public void start(String selectedOption, BufferedReader reader) {
         if (Boolean.FALSE.equals(checkIfReturnMenu(selectedOption)) && selectedOption.equals("a")
                 || selectedOption.equals("b") || selectedOption.equals("c") || selectedOption.equals("d")
                 || selectedOption.equals("e")) {

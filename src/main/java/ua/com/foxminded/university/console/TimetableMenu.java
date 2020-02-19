@@ -7,8 +7,8 @@ import java.util.Set;
 import ua.com.foxminded.university.domain.Lecture;
 import ua.com.foxminded.university.domain.LectureDate;
 
-class TimetableMenu extends Menu {
-    private LectureMenu lectureMenu = new LectureMenu();
+public class TimetableMenu extends TextUniversityMenu {
+    //private LectureMenu lectureMenu = new LectureMenu();
     private int day = 0;
     private int year = 0;
     private int personId = 0;
