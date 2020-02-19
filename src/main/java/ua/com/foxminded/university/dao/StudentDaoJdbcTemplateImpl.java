@@ -43,31 +43,35 @@ public class StudentDaoJdbcTemplateImpl implements StudentDao {
 
     @Override
     public void save(Student student) {
-        template.update(SQL_SAVE_STUDENT, student.getFirstName(), student.getLastName(), student.getGroup().getId());
-
+        int rowsAffected = 0;
+        rowsAffected = template.update(SQL_SAVE_STUDENT, student.getFirstName(), student.getLastName(),
+                student.getGroup().getId());
+        if (rowsAffected == 0) {
+            System.out.println("Student has't been added!");
+        }
     }
 
     @Override
     public void update(Student student) {
-        template.update(SQL_UPDATE_STUDENT, student.getFirstName(), student.getLastName(), student.getGroup().getId(),
-                student.getId());
-
+        int rowsAffected = 0;
+        rowsAffected = template.update(SQL_UPDATE_STUDENT, student.getFirstName(), student.getLastName(),
+                student.getGroup().getId(), student.getId());
+        if (rowsAffected == 0) {
+            System.out.println("Info hasn't been updated!");
+        }
     }
 
     @Override
     public void delete(Integer id) {
-        template.update(SQL_DELETE_STUDENT, id);
-
+        int rowsAffected = 0;
+        rowsAffected = template.update(SQL_DELETE_STUDENT, id);
+        if (rowsAffected == 0) {
+            System.out.println("Student hasn't been removed!");
+        }
     }
 
     @Override
     public List<Student> findAll() {
         return template.query(SQL_FIND_ALL, studentRowMapper);
     }
-
-    @Override
-    public void setGroup(int studentId, int groupId) {
-
-    }
-
 }

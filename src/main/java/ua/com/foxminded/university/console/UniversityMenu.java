@@ -20,22 +20,21 @@ public class UniversityMenu extends TextUniversityMenu {
     }
 
     public void start(String selectedOption, BufferedReader reader) {
-        if (Boolean.FALSE.equals(checkIfReturnMenu(selectedOption)) && selectedOption.equals("a")
-                || selectedOption.equals("b") || selectedOption.equals("c") || selectedOption.equals("d")
-                || selectedOption.equals("e")) {
-            if (selectedOption.equals("a")) {
-                teachersMenu.start(reader);
-            } else if (selectedOption.equals("b")) {
-                studentsMenu.start(reader);
-            } else if (selectedOption.equals("c")) {
-                groupsMenu.start(reader);
-            } else if (selectedOption.equals("d")) {
-                roomsMenu.start(reader);
-            } else if (selectedOption.equals("e")) {
-                subjectsMenu.start(reader);
-            } else {
-                System.out.println(WRONG_INPUT);
-            }
+        switch (selectedOption) {
+        case "p":
+            break;
+        case "a":
+            teachersMenu.start(reader);
+        case "b":
+            studentsMenu.start(reader);
+        case "c":
+            groupsMenu.start(reader);
+        case "d":
+            roomsMenu.start(reader);
+        case "e":
+            subjectsMenu.start(reader);
+        default:
+            System.out.println(WRONG_INPUT);
         }
     }
 }

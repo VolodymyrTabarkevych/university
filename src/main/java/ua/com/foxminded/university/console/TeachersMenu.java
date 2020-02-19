@@ -17,22 +17,25 @@ public class TeachersMenu extends TextUniversityMenu {
         showTeachersMenuOptions();
         try {
             String selectedOption = reader.readLine();
-            if (Boolean.FALSE.equals(checkIfReturnMenu(selectedOption)) && selectedOption.equals("a")
-                    || selectedOption.equals("b") || selectedOption.equals("c")) {
-                if (selectedOption.equals("a")) {
-                    do {
-                        addTeacher(reader);
-                        selectedOption = reader.readLine();
-                    } while (!selectedOption.equals(""));
-                } else if (selectedOption.equals("b")) {
-                    do {
-                        deleteTeacher(reader);
-                        selectedOption = reader.readLine();
-                    } while (!selectedOption.equals(""));
-                } else if (selectedOption.equals("c")) {
-                    viewAllTeachers();
-                }
-            } else {
+            switch (selectedOption) {
+            case "p":
+                break;
+            case "a":
+                do {
+                    addTeacher(reader);
+                    selectedOption = reader.readLine();
+                } while (!selectedOption.equals(""));
+                break;
+            case "b":
+                do {
+                    removeTeacher(reader);
+                    selectedOption = reader.readLine();
+                } while (!selectedOption.equals(""));
+                break;
+            case "c":
+                viewAllTeachers();
+                break;
+            default:
                 System.out.println(WRONG_INPUT);
             }
         } catch (IOException e) {
@@ -49,7 +52,7 @@ public class TeachersMenu extends TextUniversityMenu {
         System.out.println(CONTINUE_ADDING);
     }
 
-    private void deleteTeacher(BufferedReader reader) throws NumberFormatException, IOException {
+    private void removeTeacher(BufferedReader reader) throws NumberFormatException, IOException {
         System.out.println("Enter teacher id: ");
         int teacherId = Integer.parseInt(reader.readLine());
         dbCooperator.getTeacherDaoJdbcTemplateImpl().delete(teacherId);

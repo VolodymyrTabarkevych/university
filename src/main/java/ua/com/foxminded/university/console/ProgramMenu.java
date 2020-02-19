@@ -21,16 +21,21 @@ public class ProgramMenu extends TextUniversityMenu {
             showOptions();
             try {
                 selectedOption = reader.readLine();
-                if (selectedOption.equals("a") || selectedOption.equals("b")) {
-                    if (selectedOption.equals("a")) {
-                        showTimetableMenuOptions();
-                        selectedOption = reader.readLine();
-                        // timetableMenu.start(selectedOption, reader);
-                    } else {
-                        showUniversityMenuOptions();
-                        selectedOption = reader.readLine();
-                        universityMenu.start(selectedOption, reader);
-                    }
+                switch (selectedOption) {
+                case "p":
+                    break;
+                case "a":
+                    showTimetableMenuOptions();
+                    selectedOption = reader.readLine();
+                    // timetableMenu.start(selectedOption, reader);
+                    break;
+                case "b":
+                    showUniversityMenuOptions();
+                    selectedOption = reader.readLine();
+                    universityMenu.start(selectedOption, reader);
+                    break;
+                default:
+                    System.out.println(WRONG_INPUT);
                 }
             } catch (NumberFormatException | IOException e) {
                 System.out.println(WRONG_INPUT);

@@ -101,8 +101,4 @@ public class TextUniversityMenu {
         System.out.println(BACK_BUTTON);
         System.out.println(DIVIDING_LINE);
     }
-
-    Boolean checkIfReturnMenu(String selectedOption) {
-        return selectedOption.equals("p");
-    }
 }
