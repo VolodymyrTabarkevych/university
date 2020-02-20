@@ -3,6 +3,7 @@ package ua.com.foxminded.university;
 import ua.com.foxminded.university.console.UniversityMenu;
 import ua.com.foxminded.university.dao.DbConnection;
 import ua.com.foxminded.university.dao.DbCooperator;
+import ua.com.foxminded.university.domain.Lecture;
 
 public class test {
 
@@ -29,8 +30,9 @@ public class test {
          * Teacher teacher = new Teacher("Teacher", "ForMath"); teacher.addSubject(new
          * Subject("Math")); dbCooperator.getTeacherDaoJdbcTemplateImpl().save(teacher);
          */
-        UniversityMenu universityMenu = new UniversityMenu(dbCooperator);
-        //Menu menu = new Menu();
+        for (Lecture lecture : dbCooperator.getLectureDaoJdbcTemplateImpl().findAll()) {
+            System.out.println(lecture.toString());
+        }
     }
 
 }

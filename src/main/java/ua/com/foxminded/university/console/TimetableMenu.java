@@ -2,6 +2,8 @@ package ua.com.foxminded.university.console;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import ua.com.foxminded.university.dao.DbCooperator;
@@ -16,9 +18,15 @@ public class TimetableMenu extends TextUniversityMenu {
     private int year = 0;
     private int personId = 0;
     private int month = 0;
+
     public TimetableMenu(DbCooperator dbCooperator) {
-        timetable = new Timetable(dbCooperator);
+        Set<Lecture> lectures = new HashSet<>();
+        for (Lecture lecture : dbCooperator.getLectureDaoJdbcTemplateImpl().findAll()) {
+            lectures.add(lecture);
+        }
+        timetable = new Timetable(lectures);
     }
+
     void start(String selectedOption, BufferedReader reader) {
         switch (selectedOption) {
         case "a":

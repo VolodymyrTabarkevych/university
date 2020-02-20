@@ -11,6 +11,7 @@ public class DbCooperator {
     private GroupDaoJdbcTemplateImpl groupDaoJdbcTemplateImpl;
     private SubjectDaoJdbcTemplateImpl subjectDaoJdbcTemplateImpl;
     private RoomDaoJdbcTemplateImpl roomDaoJdbcTemplateImpl;
+    private LectureDaoJdbcTemplateImpl lectureDaoJdbcTemplateImpl;
 
     public DbCooperator(DataSource dataSource) {
         this.teacherDaoJdbcTemplateImpl = new TeacherDaoJdbcTemplateImpl(dataSource);
@@ -18,5 +19,6 @@ public class DbCooperator {
         this.groupDaoJdbcTemplateImpl = new GroupDaoJdbcTemplateImpl(dataSource);
         this.subjectDaoJdbcTemplateImpl = new SubjectDaoJdbcTemplateImpl(dataSource);
         this.roomDaoJdbcTemplateImpl = new RoomDaoJdbcTemplateImpl(dataSource);
+        this.lectureDaoJdbcTemplateImpl = new LectureDaoJdbcTemplateImpl(dataSource);
     }
 }

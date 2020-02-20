@@ -15,11 +15,12 @@ public class Timetable {
     }
 
     public void addLecture(Lecture lecture) {
-        if (checkIfLectureToAddHasCorrectDateAndTime(lecture)) {
+        lectures.add(lecture);
+        /*if (checkIfLectureToAddHasCorrectDateAndTime(lecture)) {
             lectures.add(lecture);
         } else {
             System.out.println("There is already a lecture on this date!");
-        }
+        }*/
     }
 
     public void removeLecture(int lectureId) {
@@ -36,7 +37,7 @@ public class Timetable {
         return new LectureFilter(lectures);
     }
 
-    private boolean checkIfLectureToAddHasCorrectDateAndTime(Lecture lecture) {
+    /*private boolean checkIfLectureToAddHasCorrectDateAndTime(Lecture lecture) {
         Boolean result = true;
         for (Lecture lectureFromList : lectures) {
             if (lectureFromList.getDate().getYear() == lecture.getDate().getYear()
@@ -51,5 +52,5 @@ public class Timetable {
             }
         }
         return result;
-    }
+    }*/
 }

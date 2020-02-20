@@ -2,6 +2,9 @@ package ua.com.foxminded.university.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -20,13 +23,17 @@ class TimetableTest {
 
     @BeforeAll
     public static void setUp() {
-        timetable = new Timetable();
+        Set<Lecture> lectures = new HashSet<>();
+        timetable = new Timetable(lectures);
         lecture = new Lecture().setLectureId(1).setDate(2018, 7, 17).setTime(11, 35).setRoom(new Room(2))
-                .setGroup(new Group("MB-1")).setSubject(new Subject("Bio")).setTeacher(new Teacher(1, "qqq", "www")).build();
+                .setGroup(new Group("MB-1")).setSubject(new Subject("Bio")).setTeacher(new Teacher(1, "qqq", "www"))
+                .build();
         lecture2 = new Lecture().setLectureId(2).setDate(2018, 7, 17).setTime(10, 30).setRoom(new Room(2))
-                .setGroup(new Group("MB-1")).setSubject(new Subject("Bio")).setTeacher(new Teacher(1, "qqq", "www")).build();
+                .setGroup(new Group("MB-1")).setSubject(new Subject("Bio")).setTeacher(new Teacher(1, "qqq", "www"))
+                .build();
         lecture3 = new Lecture().setLectureId(3).setDate(2018, 7, 17).setTime(10, 30).setRoom(new Room(2))
-                .setGroup(new Group("MB-1")).setSubject(new Subject("Bio")).setTeacher(new Teacher(1, "qqq", "www")).build();
+                .setGroup(new Group("MB-1")).setSubject(new Subject("Bio")).setTeacher(new Teacher(1, "qqq", "www"))
+                .build();
     }
 
     @AfterEach
