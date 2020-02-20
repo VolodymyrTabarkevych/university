@@ -11,7 +11,7 @@ public class ProgramMenu extends TextUniversityMenu {
     DbConnection dbConnection = new DbConnection();
     DbCooperator dbCooperator = new DbCooperator(dbConnection.init());
     UniversityMenu universityMenu = new UniversityMenu(dbCooperator);
-    TimetableMenu timetableMenu = new TimetableMenu();
+    TimetableMenu timetableMenu = new TimetableMenu(dbCooperator);
 
     public void start() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -27,7 +27,7 @@ public class ProgramMenu extends TextUniversityMenu {
                 case "a":
                     showTimetableMenuOptions();
                     selectedOption = reader.readLine();
-                    // timetableMenu.start(selectedOption, reader);
+                    timetableMenu.start(selectedOption, reader);
                     break;
                 case "b":
                     showUniversityMenuOptions();

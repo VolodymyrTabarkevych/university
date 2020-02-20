@@ -4,34 +4,40 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Set;
 
+import ua.com.foxminded.university.dao.DbCooperator;
 import ua.com.foxminded.university.domain.Lecture;
 import ua.com.foxminded.university.domain.LectureDate;
+import ua.com.foxminded.university.domain.Timetable;
 
 public class TimetableMenu extends TextUniversityMenu {
-    //private LectureMenu lectureMenu = new LectureMenu();
+    Timetable timetable;
+    // private LectureMenu lectureMenu = new LectureMenu();
     private int day = 0;
     private int year = 0;
     private int personId = 0;
     private int month = 0;
-/*
+    public TimetableMenu(DbCooperator dbCooperator) {
+        timetable = new Timetable(dbCooperator);
+    }
     void start(String selectedOption, BufferedReader reader) {
-        if (Boolean.FALSE.equals(checkIfBackMenu(selectedOption))) {
-            if (selectedOption.equals("a") || selectedOption.equals("b") || selectedOption.equals("c")
-                    || selectedOption.equals("d") || selectedOption.equals("e") || selectedOption.equals("f")) {
-                if (selectedOption.equals("a")) {
-                    showStudentTimeTableForDay(reader);
-                } else if (selectedOption.equals("b")) {
-                    showStudentTimetableForMonth(reader);
-                } else if (selectedOption.equals("c")) {
-                    showTeacherTimetableForDay(reader);
-                } else if (selectedOption.equals("d")) {
-                    showTeacherTimetableForMonth(reader);
-                } else if (selectedOption.equals("e")) {
-                    lectureMenu.start(reader);
-                }
-            } else {
-                System.out.println(WRONG_INPUT);
-            }
+        switch (selectedOption) {
+        case "a":
+            showStudentTimeTableForDay(reader);
+            break;
+        case "b":
+            showStudentTimetableForMonth(reader);
+            break;
+        case "c":
+            showTeacherTimetableForDay(reader);
+            break;
+        case "d":
+            showTeacherTimetableForMonth(reader);
+            break;
+        case "e":
+            // lectureMenu.start(reader);
+            break;
+        default:
+            System.out.println(WRONG_INPUT);
         }
     }
 
@@ -108,5 +114,5 @@ public class TimetableMenu extends TextUniversityMenu {
         } catch (NumberFormatException | IOException e) {
             System.out.println(WRONG_INPUT);
         }
-    }*/
+    }
 }

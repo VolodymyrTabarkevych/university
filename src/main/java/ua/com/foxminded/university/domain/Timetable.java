@@ -1,6 +1,5 @@
 package ua.com.foxminded.university.domain;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import lombok.Getter;
@@ -9,7 +8,11 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Timetable {
-    private Set<Lecture> lectures = new HashSet<>();
+    private Set<Lecture> lectures;
+
+    public Timetable(Set<Lecture> lectures) {
+        this.lectures = lectures;
+    }
 
     public void addLecture(Lecture lecture) {
         if (checkIfLectureToAddHasCorrectDateAndTime(lecture)) {
