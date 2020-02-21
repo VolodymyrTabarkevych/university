@@ -1,5 +1,6 @@
 package ua.com.foxminded.university.domain;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,7 +42,7 @@ public class LectureFilter {
     public LectureFilter forMonth(int numberOfMonth) {
         if (filteredLectures.isEmpty()) {
             for (Lecture lecture : lectures) {
-                if (lecture.getLectureBegin().getMonth() == numberOfMonth) {
+                if (lecture.getDate().getMonthValue() == numberOfMonth) {
                     filteredLectures.add(lecture);
                 }
             }
@@ -51,12 +52,12 @@ public class LectureFilter {
         return this;
     }
 
-    public LectureFilter forDay(LectureDate date) {
+    public LectureFilter forDay(LocalDate date) {
         if (filteredLectures.isEmpty()) {
             for (Lecture lecture : lectures) {
-                if (lecture.getLectureBegin().getYear() == date.getYear()
-                        && lecture.getLectureBegin().getMonth() == date.getMonth()
-                        && lecture.getLectureBegin().getDay() == date.getDay()) {
+                if (lecture.getDate().getYear() == date.getYear()
+                        && lecture.getDate().getMonthValue() == date.getMonthValue()
+                        && lecture.getDate().getDayOfMonth() == date.getDayOfMonth()) {
                     filteredLectures.add(lecture);
                 }
             }
@@ -66,23 +67,23 @@ public class LectureFilter {
         return this;
     }
 
-    private LectureFilter forDayIfFilteredLecturesNotEmpty(LectureDate date) {
+    private LectureFilter forDayIfFilteredLecturesNotEmpty(LocalDate date) {
         filteredLectures.clear();
         if (Boolean.TRUE.equals(isForStudentUsed)) {
             for (Lecture lecture : lectures) {
                 for (Student student : lecture.getGroup().getStudents()) {
-                    if (student.getId() == personId && lecture.getLectureBegin().getYear() == date.getYear()
-                            && lecture.getLectureBegin().getMonth() == date.getMonth()
-                            && lecture.getLectureBegin().getDay() == date.getDay()) {
+                    if (student.getId() == personId && lecture.getDate().getYear() == date.getYear()
+                            && lecture.getDate().getMonthValue() == date.getMonthValue()
+                            && lecture.getDate().getDayOfMonth() == date.getDayOfMonth()) {
                         filteredLectures.add(lecture);
                     }
                 }
             }
         } else if (Boolean.TRUE.equals(isForTeacherUsed)) {
             for (Lecture lecture : lectures) {
-                if (lecture.getTeacher().getId() == personId && lecture.getLectureBegin().getYear() == date.getYear()
-                        && lecture.getLectureBegin().getMonth() == date.getMonth()
-                        && lecture.getLectureBegin().getDay() == date.getDay()) {
+                if (lecture.getTeacher().getId() == personId && lecture.getDate().getYear() == date.getYear()
+                        && lecture.getDate().getMonthValue() == date.getMonthValue()
+                        && lecture.getDate().getDayOfMonth() == date.getDayOfMonth()) {
                     filteredLectures.add(lecture);
                 }
             }
@@ -95,14 +96,14 @@ public class LectureFilter {
         if (Boolean.TRUE.equals(isForStudentUsed)) {
             for (Lecture lecture : lectures) {
                 for (Student student : lecture.getGroup().getStudents()) {
-                    if (student.getId() == personId && lecture.getLectureBegin().getMonth() == numberOfMonth) {
+                    if (student.getId() == personId && lecture.getDate().getMonthValue() == numberOfMonth) {
                         filteredLectures.add(lecture);
                     }
                 }
             }
         } else if (Boolean.TRUE.equals(isForTeacherUsed)) {
             for (Lecture lecture : lectures) {
-                if (lecture.getTeacher().getId() == personId && lecture.getLectureBegin().getMonth() == numberOfMonth) {
+                if (lecture.getTeacher().getId() == personId && lecture.getDate().getMonthValue() == numberOfMonth) {
                     filteredLectures.add(lecture);
                 }
             }

@@ -19,11 +19,12 @@ import ua.com.foxminded.university.domain.Teacher;
 public class LectureDaoJdbcTemplateImpl implements CrudDao<Lecture> {
     private JdbcTemplate template;
     private Map<Integer, Lecture> lectures = new HashMap<>();
-    private final String SQL_FIND_ALL = "SELECT lecture_id, teachers.first_name, teachers.last_name, groups.name as group_name, subjects.name as subject_name, rooms.number as room_number, lecture_begin, lecture_end FROM lectures INNER JOIN teachers ON teacher_id = teachers.id INNER JOIN groups ON group_id = groups.id INNER JOIN subjects ON subject_id = subjects.id INNER JOIN rooms ON room_id = rooms.id";
-    private final String SQL_FIND_BY_ID = "SELECT * FROM lectures WHERE id = ?";
-    private final String SQL_SAVE_LECTURE = "INSERT INTO lectures (teacher_id, group_id, subject_id,room_id,lecture_begin, lecture_end) VALUES (?,?,?,?,?,?)";
-    private final String SQL_UPDATE_LECTURES = "UPDATE lectures SET number = ?, WHERE id = ?";
-    private final String SQL_DELETE_LECTURES = "DELETE FROM lectures WHERE id = ?";
+    // private final String SQL_FIND_ALL = "SELECT * FROM lectures";
+    private final String SQL_FIND_ALL_WITH_DATA = "SELECT lecture_id, teachers.first_name, teachers.last_name, groups.name as group_name, subjects.name as subject_name, rooms.number as room_number, date, start_time, end_time FROM lectures INNER JOIN teachers ON teacher_id = teachers.id INNER JOIN groups ON group_id = groups.id INNER JOIN subjects ON subject_id = subjects.id INNER JOIN rooms ON room_id = rooms.id";
+    private final String SQL_FIND_BY_ID = "SELECT lecture_id, teachers.first_name, teachers.last_name, groups.name as group_name, subjects.name as subject_name, rooms.number as room_number, date, start_time, end_time FROM lectures INNER JOIN teachers ON teacher_id = teachers.id INNER JOIN groups ON group_id = groups.id INNER JOIN subjects ON subject_id = subjects.id INNER JOIN rooms ON room_id = rooms.id WHERE lecture_id = ?";
+    private final String SQL_SAVE_LECTURE = "INSERT INTO lectures (teacher_id, group_id, subject_id,room_id, date, start_time, end_time) VALUES (?,?,?,?,?,?,?)";
+    private final String SQL_UPDATE_LECTURE = "UPDATE lectures SET teacher_id = ?, group_id = ?, subject_id = ?, room_id = ?, date = ?, start_time = ?, end_time = ? WHERE lecture_id = ?";
+    private final String SQL_DELETE_LECTURE = "DELETE FROM lectures WHERE lecture_id = ?";
 
     public LectureDaoJdbcTemplateImpl(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
@@ -32,13 +33,13 @@ public class LectureDaoJdbcTemplateImpl implements CrudDao<Lecture> {
     private RowMapper<Lecture> lectureRowMapper = (ResultSet resultSet, int i) -> {
         Integer id = resultSet.getInt("lecture_id");
         if (!lectures.containsKey(id)) {
-            Lecture lecture = new Lecture().setLectureId(resultSet.getInt("lecture_id"))
+            Lecture lecture = new Lecture.Builder().setLectureId(resultSet.getInt("lecture_id"))
                     .setTeacher(new Teacher(resultSet.getString("first_name"), resultSet.getString("last_name")))
                     .setGroup(new Group(resultSet.getString("group_name")))
                     .setSubject(new Subject(resultSet.getString("subject_name")))
-                    .setRoom(new Room(resultSet.getInt("room_number")))
-                    .setDateTimeBegin(resultSet.getTimestamp("lecture_begin"))
-                    .setDateTimeEnd(resultSet.getTimestamp("lecture_end")).build();
+                    .setRoom(new Room(resultSet.getInt("room_number"))).setDate(resultSet.getDate("date").toLocalDate())
+                    .setStartTime(resultSet.getTime("start_time").toLocalTime())
+                    .setEndTime(resultSet.getTime("end_time").toLocalTime()).build();
             lectures.put(id, lecture);
         }
         return lectures.get(id);
@@ -46,16 +47,16 @@ public class LectureDaoJdbcTemplateImpl implements CrudDao<Lecture> {
 
     @Override
     public Lecture find(Integer id) {
-        // TODO Auto-generated method stub
-        return null;
+        template.query(SQL_FIND_BY_ID, lectureRowMapper, id);
+        return lectures.get(id);
     }
 
     @Override
     public void save(Lecture lecture) {
         int rowsAffected = 0;
         rowsAffected = template.update(SQL_SAVE_LECTURE, lecture.getTeacher().getId(), lecture.getGroup().getId(),
-                lecture.getSubject().getId(), lecture.getRoom().getId(), lecture.getLectureBegin(),
-                lecture.getLectureEnd());
+                lecture.getSubject().getId(), lecture.getRoom().getId(), lecture.getDate(), lecture.getStartTime(),
+                lecture.getEndTime());
         if (rowsAffected > 0) {
             System.out.println("Lecture has been added!");
         } else {
@@ -64,8 +65,10 @@ public class LectureDaoJdbcTemplateImpl implements CrudDao<Lecture> {
     }
 
     @Override
-    public void update(Lecture model) {
-        // TODO Auto-generated method stub
+    public void update(Lecture lecture) {
+        template.update(SQL_UPDATE_LECTURE, lecture.getTeacher().getId(), lecture.getGroup().getId(),
+                lecture.getSubject().getId(), lecture.getRoom().getId(), lecture.getDate(), lecture.getStartTime(),
+                lecture.getEndTime(), lecture.getLectureId());
 
     }
 
@@ -77,7 +80,7 @@ public class LectureDaoJdbcTemplateImpl implements CrudDao<Lecture> {
 
     @Override
     public List<Lecture> findAll() {
-        return template.query(SQL_FIND_ALL, lectureRowMapper);
+        return template.query(SQL_FIND_ALL_WITH_DATA, lectureRowMapper);
     }
 
 }

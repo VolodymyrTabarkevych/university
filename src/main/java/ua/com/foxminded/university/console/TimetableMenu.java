@@ -2,12 +2,12 @@ package ua.com.foxminded.university.console;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 import ua.com.foxminded.university.dao.DbCooperator;
 import ua.com.foxminded.university.domain.Lecture;
-import ua.com.foxminded.university.domain.LectureDate;
 import ua.com.foxminded.university.domain.Timetable;
 
 public class TimetableMenu extends TextUniversityMenu {
@@ -77,7 +77,7 @@ public class TimetableMenu extends TextUniversityMenu {
             month = Integer.parseInt(reader.readLine());
             System.out.println("Enter day: ");
             day = Integer.parseInt(reader.readLine());
-            showFilteredLectures(timetable.filter().forStudent(personId).forDay(new LectureDate(year, month, day))
+            showFilteredLectures(timetable.filter().forStudent(personId).forDay(LocalDate.of(year, month, day))
                     .getFilteredLectures());
         } catch (NumberFormatException | IOException e) {
             System.out.println(WRONG_INPUT);
@@ -106,7 +106,7 @@ public class TimetableMenu extends TextUniversityMenu {
             month = Integer.parseInt(reader.readLine());
             System.out.println("Enter day: ");
             day = Integer.parseInt(reader.readLine());
-            showFilteredLectures(timetable.filter().forTeacher(personId).forDay(new LectureDate(year, month, day))
+            showFilteredLectures(timetable.filter().forTeacher(personId).forDay(LocalDate.of(year, month, day))
                     .getFilteredLectures());
         } catch (NumberFormatException | IOException e) {
             System.out.println(WRONG_INPUT);
