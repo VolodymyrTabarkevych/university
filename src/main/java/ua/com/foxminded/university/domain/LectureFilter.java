@@ -41,7 +41,7 @@ public class LectureFilter {
     public LectureFilter forMonth(int numberOfMonth) {
         if (filteredLectures.isEmpty()) {
             for (Lecture lecture : lectures) {
-                if (lecture.getDate().getMonth() == numberOfMonth) {
+                if (lecture.getLectureBegin().getMonth() == numberOfMonth) {
                     filteredLectures.add(lecture);
                 }
             }
@@ -54,8 +54,9 @@ public class LectureFilter {
     public LectureFilter forDay(LectureDate date) {
         if (filteredLectures.isEmpty()) {
             for (Lecture lecture : lectures) {
-                if (lecture.getDate().getYear() == date.getYear() && lecture.getDate().getMonth() == date.getMonth()
-                        && lecture.getDate().getDay() == date.getDay()) {
+                if (lecture.getLectureBegin().getYear() == date.getYear()
+                        && lecture.getLectureBegin().getMonth() == date.getMonth()
+                        && lecture.getLectureBegin().getDay() == date.getDay()) {
                     filteredLectures.add(lecture);
                 }
             }
@@ -70,18 +71,18 @@ public class LectureFilter {
         if (Boolean.TRUE.equals(isForStudentUsed)) {
             for (Lecture lecture : lectures) {
                 for (Student student : lecture.getGroup().getStudents()) {
-                    if (student.getId() == personId && lecture.getDate().getYear() == date.getYear()
-                            && lecture.getDate().getMonth() == date.getMonth()
-                            && lecture.getDate().getDay() == date.getDay()) {
+                    if (student.getId() == personId && lecture.getLectureBegin().getYear() == date.getYear()
+                            && lecture.getLectureBegin().getMonth() == date.getMonth()
+                            && lecture.getLectureBegin().getDay() == date.getDay()) {
                         filteredLectures.add(lecture);
                     }
                 }
             }
         } else if (Boolean.TRUE.equals(isForTeacherUsed)) {
             for (Lecture lecture : lectures) {
-                if (lecture.getTeacher().getId() == personId && lecture.getDate().getYear() == date.getYear()
-                        && lecture.getDate().getMonth() == date.getMonth()
-                        && lecture.getDate().getDay() == date.getDay()) {
+                if (lecture.getTeacher().getId() == personId && lecture.getLectureBegin().getYear() == date.getYear()
+                        && lecture.getLectureBegin().getMonth() == date.getMonth()
+                        && lecture.getLectureBegin().getDay() == date.getDay()) {
                     filteredLectures.add(lecture);
                 }
             }
@@ -94,14 +95,14 @@ public class LectureFilter {
         if (Boolean.TRUE.equals(isForStudentUsed)) {
             for (Lecture lecture : lectures) {
                 for (Student student : lecture.getGroup().getStudents()) {
-                    if (student.getId() == personId && lecture.getDate().getMonth() == numberOfMonth) {
+                    if (student.getId() == personId && lecture.getLectureBegin().getMonth() == numberOfMonth) {
                         filteredLectures.add(lecture);
                     }
                 }
             }
         } else if (Boolean.TRUE.equals(isForTeacherUsed)) {
             for (Lecture lecture : lectures) {
-                if (lecture.getTeacher().getId() == personId && lecture.getDate().getMonth() == numberOfMonth) {
+                if (lecture.getTeacher().getId() == personId && lecture.getLectureBegin().getMonth() == numberOfMonth) {
                     filteredLectures.add(lecture);
                 }
             }
