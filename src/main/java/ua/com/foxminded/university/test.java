@@ -35,7 +35,10 @@ public class test {
          * dbCooperator.getLectureDaoJdbcTemplateImpl().findAll()) {
          * System.out.println(lecture.toString()); }
          */
-        System.out.println(dbCooperator.getLectureDaoJdbcTemplateImpl().find(1).toString());
+        // System.out.println(dbCooperator.getLectureDaoJdbcTemplateImpl().find(1).toString());
+        Lecture lecture = dbCooperator.getLectureDaoJdbcTemplateImpl().find(1);
+        lecture.setGroup(dbCooperator.getGroupDaoJdbcTemplateImpl().find(2));
+        dbCooperator.getLectureDaoJdbcTemplateImpl().update(lecture);
     }
 
 }

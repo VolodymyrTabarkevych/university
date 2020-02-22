@@ -10,14 +10,15 @@ CREATE TABLE lectures(lecture_id serial primary key,
 					  group_id INTEGER, 
 					  subject_id INTEGER, 
 					  room_id INTEGER, 
-					  lecture_date date,
-					  lecture_start_time time,
-					  lecture_end_time time,
+					  date date,
+					  start_time time,
+					  end_time time,
 					  FOREIGN KEY (teacher_id) REFERENCES teachers(id) on delete cascade on update cascade,
 					  FOREIGN KEY (group_id) REFERENCES groups(id) on delete cascade on update cascade,
 					  FOREIGN KEY (subject_id) REFERENCES subjects(id) on delete cascade on update cascade,
 					  FOREIGN KEY (room_id) REFERENCES rooms(id) on delete cascade on update cascade);
 					  
+INSERT INTO lectures(teacher_id, group_id,subject_id,room_id,date,start_time,end_time) VALUES (1,1,1,1,'17-06-2020','08:00','09:20');
 SELECT teachers.first_name,
 teachers.last_name,
 groups.name as group_name,

@@ -4,8 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
+@Getter@Setter
 public class Lecture {
     private int lectureId = 0;
     private Subject subject = new Subject("");

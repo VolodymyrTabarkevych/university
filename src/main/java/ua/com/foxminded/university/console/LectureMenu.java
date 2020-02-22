@@ -2,20 +2,14 @@ package ua.com.foxminded.university.console;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Calendar;
 
 import ua.com.foxminded.university.dao.DbCooperator;
 import ua.com.foxminded.university.domain.Lecture;
 
 class LectureMenu extends TextUniversityMenu {
-    DbCooperator dbCooperator;
+    private DbCooperator dbCooperator;
     private int lectureId = 0;
     private int subjectId = 0;
     private int groupId = 0;
@@ -156,10 +150,13 @@ class LectureMenu extends TextUniversityMenu {
     private void changeSubject(BufferedReader reader) {
         try {
             do {
+                System.out.println("Enter lecture id: ");
+                lectureId = Integer.parseInt(reader.readLine());
                 System.out.println("Enter subject name: ");
                 subjectId = Integer.parseInt(reader.readLine());
-                // finder.findLectureById(lectureId).setSubject(finder.findSubjectByName(subjectName));
-                System.out.println("Subject was changed!");
+                Lecture lecture = dbCooperator.getLectureDaoJdbcTemplateImpl().find(lectureId);
+                lecture.setSubject(dbCooperator.getSubjectDaoJdbcTemplateImpl().find(subjectId));
+                dbCooperator.getLectureDaoJdbcTemplateImpl().update(lecture);
                 System.out.println(CONTINUE_CHANGING);
                 selectedOption = reader.readLine();
             } while (!selectedOption.equals(""));
@@ -171,8 +168,9 @@ class LectureMenu extends TextUniversityMenu {
     private void removeLecture(BufferedReader reader) {
         try {
             do {
-                // university.getTimetable().removeLecture(lectureId);
-                System.out.println("Lecture was removed!");
+                System.out.println("Enter lecture id: ");
+                lectureId = Integer.parseInt(reader.readLine());
+                dbCooperator.getLectureDaoJdbcTemplateImpl().delete(lectureId);
                 System.out.println(CONTINUE_REMOVING);
                 selectedOption = reader.readLine();
             } while (!selectedOption.equals(""));
@@ -189,6 +187,8 @@ class LectureMenu extends TextUniversityMenu {
             personId = Integer.parseInt(reader.readLine());
             System.out.println("Enter group id: ");
             groupId = Integer.parseInt(reader.readLine());
+            System.out.println("Enter room id");
+            roomId = Integer.parseInt(reader.readLine());
             System.out.println("Enter year:");
             year = Integer.parseInt(reader.readLine());
             System.out.println("Enter month: ");
@@ -199,8 +199,6 @@ class LectureMenu extends TextUniversityMenu {
             startHour = Integer.parseInt(reader.readLine());
             System.out.println("Enter start minute");
             startMinute = Integer.parseInt(reader.readLine());
-            System.out.println("Enter room id");
-            roomId = Integer.parseInt(reader.readLine());
             Lecture lecture = new Lecture.Builder()
                     .setTeacher(dbCooperator.getTeacherDaoJdbcTemplateImpl().find(personId))
                     .setGroup(dbCooperator.getGroupDaoJdbcTemplateImpl().find(groupId))
