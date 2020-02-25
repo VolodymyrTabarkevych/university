@@ -9,11 +9,10 @@ import java.util.Set;
 import ua.com.foxminded.university.dao.DbCooperator;
 import ua.com.foxminded.university.domain.Lecture;
 import ua.com.foxminded.university.domain.Student;
-import ua.com.foxminded.university.domain.Timetable;
 
 public class TimetableMenu extends TextUniversityMenu {
     private DbCooperator dbCooperator;
-    private Timetable timetable;
+    private Set<Lecture> filteredLectures;
     private LectureMenu lectureMenu;
     private int day = 0;
     private int year = 0;
@@ -55,7 +54,9 @@ public class TimetableMenu extends TextUniversityMenu {
             personId = Integer.parseInt(reader.readLine());
             System.out.println("Enter month number: ");
             month = Integer.parseInt(reader.readLine());
-            showFilteredLectures(timetable.filter().forTeacher(personId).forMonth(month).getFilteredLectures());
+            filteredLectures = new HashSet<Lecture>(dbCooperator.getLectureDaoJdbcTemplateImpl()
+                    .findAllLecturesByTeacherIdAndMonth(personId, LocalDate.of(year, month, day)));
+            showFilteredLectures(filteredLectures);
         } catch (NumberFormatException | IOException e) {
             System.out.println(WRONG_INPUT);
         }
@@ -69,7 +70,6 @@ public class TimetableMenu extends TextUniversityMenu {
     }
 
     private void showStudentTimeTableForDay(BufferedReader reader) {
-        Student student;
         try {
             System.out.println("Enter student id: ");
             personId = Integer.parseInt(reader.readLine());
@@ -79,11 +79,10 @@ public class TimetableMenu extends TextUniversityMenu {
             month = Integer.parseInt(reader.readLine());
             System.out.println("Enter day: ");
             day = Integer.parseInt(reader.readLine());
-            student = dbCooperator.getStudentDaoJdbcTemplateImpl().find(personId);
-            timetable = new Timetable(new HashSet<>(
-                    dbCooperator.getLectureDaoJdbcTemplateImpl().findAllLecturesByGroupId(student.getGroup().getId())));
-            showFilteredLectures(timetable.filter().forStudent(personId).forDay(LocalDate.of(year, month, day))
-                    .getFilteredLectures());
+            Student student = dbCooperator.getStudentDaoJdbcTemplateImpl().find(personId);
+            filteredLectures = new HashSet<Lecture>(dbCooperator.getLectureDaoJdbcTemplateImpl()
+                    .findAllLecturesByGroupIdAndDay(student.getGroup().getId(), LocalDate.of(year, month, day)));
+            showFilteredLectures(filteredLectures);
         } catch (NumberFormatException | IOException e) {
             System.out.println(WRONG_INPUT);
         }
@@ -95,7 +94,10 @@ public class TimetableMenu extends TextUniversityMenu {
             personId = Integer.parseInt(reader.readLine());
             System.out.println("Enter month number: ");
             month = Integer.parseInt(reader.readLine());
-            showFilteredLectures(timetable.filter().forStudent(personId).forMonth(month).getFilteredLectures());
+            Student student = dbCooperator.getStudentDaoJdbcTemplateImpl().find(personId);
+            filteredLectures = new HashSet<Lecture>(dbCooperator.getLectureDaoJdbcTemplateImpl()
+                    .findAllLecturesByGroupIdAndMonth(student.getGroup().getId(), LocalDate.of(year, month, day)));
+            showFilteredLectures(filteredLectures);
         } catch (NumberFormatException | IOException e) {
             System.out.println(WRONG_INPUT);
         }
@@ -111,8 +113,9 @@ public class TimetableMenu extends TextUniversityMenu {
             month = Integer.parseInt(reader.readLine());
             System.out.println("Enter day: ");
             day = Integer.parseInt(reader.readLine());
-            showFilteredLectures(timetable.filter().forTeacher(personId).forDay(LocalDate.of(year, month, day))
-                    .getFilteredLectures());
+            filteredLectures = new HashSet<Lecture>(dbCooperator.getLectureDaoJdbcTemplateImpl()
+                    .findAllLecturesByTeacherIdAndDay(personId, LocalDate.of(year, month, day)));
+            showFilteredLectures(filteredLectures);
         } catch (NumberFormatException | IOException e) {
             System.out.println(WRONG_INPUT);
         }
