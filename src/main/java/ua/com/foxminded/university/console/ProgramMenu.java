@@ -29,11 +29,7 @@ public class ProgramMenu extends TextUniversityMenu {
     }
 
     public void start() {
-        try {
-            dbTestData.createData();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        dbTestData.createData();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String selectedOption = " ";
 

@@ -36,7 +36,7 @@ public class DbTestData {
                 System.out.println("User 'admin' is already exists!");
             }
             statement.executeUpdate("GRANT ALL PRIVILEGES ON DATABASE university to admin");
-            dbConnection.setProps("url", "jdbc:postgresql://localhost:5432/university");
+            dbConnection.setProps("url", dbConnection.getProps().getProperty("url") + "university");
             dbConnection.setProps("user", "admin");
             dbConnection.setProps("password", "1111");
         } catch (SQLException e) {
@@ -45,7 +45,7 @@ public class DbTestData {
         return dbConnection;
     }
 
-    public void createData() throws SQLException, FileNotFoundException, IOException {
+    public void createData() {
         dataSource = dbConnection.init();
         try (BufferedReader sqlFile = new BufferedReader(new FileReader("src/main/resources/database.sql"));
                 Statement statement = dataSource.getConnection().createStatement();
@@ -65,6 +65,8 @@ public class DbTestData {
                 }
                 statement.executeUpdate(line);
             }
+        } catch (SQLException | IOException e) {
+            System.out.println("Cant create data for database!");
         }
     }
 }

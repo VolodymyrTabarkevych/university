@@ -6,7 +6,9 @@ import java.util.Properties;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import lombok.Getter;
 
+@Getter
 public class DbConnection {
     private Properties props;
 
