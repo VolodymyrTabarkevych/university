@@ -38,7 +38,7 @@ public class ProgramMenu extends TextUniversityMenu {
             try {
                 selectedOption = reader.readLine();
                 switch (selectedOption) {
-                case "p":
+                case "":
                     break;
                 case "a":
                     showTimetableMenuOptions();
