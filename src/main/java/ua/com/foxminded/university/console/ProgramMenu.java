@@ -8,10 +8,10 @@ import ua.com.foxminded.university.dao.DbConnection;
 import ua.com.foxminded.university.dao.DbCooperator;
 
 public class ProgramMenu extends TextUniversityMenu {
-    DbConnection dbConnection = new DbConnection();
-    DbCooperator dbCooperator = new DbCooperator(dbConnection.init());
-    UniversityMenu universityMenu = new UniversityMenu(dbCooperator);
-    TimetableMenu timetableMenu = new TimetableMenu(dbCooperator);
+    private DbConnection dbConnection = new DbConnection();
+    private DbCooperator dbCooperator = new DbCooperator(dbConnection.init());
+    private UniversityMenu universityMenu = new UniversityMenu(dbCooperator);
+    private TimetableMenu timetableMenu = new TimetableMenu(dbCooperator);
 
     public void start() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

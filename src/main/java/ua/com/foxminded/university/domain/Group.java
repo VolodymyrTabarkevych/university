@@ -32,6 +32,10 @@ public class Group {
         students.add(student);
     }
 
+    public void addStudents(Set<Student> students) {
+        this.students = students;
+    }
+
     public void removeStudent(Student student) {
         students.remove(student);
         student.setGroup(null);

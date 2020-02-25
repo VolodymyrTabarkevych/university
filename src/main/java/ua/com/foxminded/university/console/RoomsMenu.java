@@ -4,11 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import ua.com.foxminded.university.dao.DbCooperator;
-import ua.com.foxminded.university.domain.Group;
 import ua.com.foxminded.university.domain.Room;
 
 public class RoomsMenu extends TextUniversityMenu {
-    DbCooperator dbCooperator;
+    private DbCooperator dbCooperator;
+    private String selectedOption = "";
 
     public RoomsMenu(DbCooperator dbCooperator) {
         this.dbCooperator = dbCooperator;
@@ -17,21 +17,15 @@ public class RoomsMenu extends TextUniversityMenu {
     public void start(BufferedReader reader) {
         showRoomsMenuOptions();
         try {
-            String selectedOption = reader.readLine();
+            selectedOption = reader.readLine();
             switch (selectedOption) {
             case "p":
                 break;
             case "a":
-                do {
-                    addRoom(reader);
-                    selectedOption = reader.readLine();
-                } while (!selectedOption.equals(""));
+                addRoom(reader);
                 break;
             case "b":
-                do {
-                    removeRoom(reader);
-                    selectedOption = reader.readLine();
-                } while (!selectedOption.equals(""));
+                removeRoom(reader);
                 break;
             case "c":
                 viewAllRooms();
@@ -45,17 +39,23 @@ public class RoomsMenu extends TextUniversityMenu {
     }
 
     private void addRoom(BufferedReader reader) throws NumberFormatException, IOException {
-        System.out.println("Enter room number: ");
-        int roomNumber = Integer.parseInt(reader.readLine());
-        dbCooperator.getRoomDaoJdbcTemplateImpl().save(new Room(roomNumber));
-        System.out.println(CONTINUE_ADDING);
+        do {
+            System.out.println("Enter room number: ");
+            int roomNumber = Integer.parseInt(reader.readLine());
+            dbCooperator.getRoomDaoJdbcTemplateImpl().save(new Room(roomNumber));
+            System.out.println(CONTINUE_ADDING);
+            selectedOption = reader.readLine();
+        } while (!selectedOption.equals(""));
     }
 
     private void removeRoom(BufferedReader reader) throws NumberFormatException, IOException {
-        System.out.println("Enter room id: ");
-        int roomId = Integer.parseInt(reader.readLine());
-        dbCooperator.getRoomDaoJdbcTemplateImpl().delete(roomId);
-        System.out.println(CONTINUE_REMOVING);
+        do {
+            System.out.println("Enter room id: ");
+            int roomId = Integer.parseInt(reader.readLine());
+            dbCooperator.getRoomDaoJdbcTemplateImpl().delete(roomId);
+            System.out.println(CONTINUE_REMOVING);
+            selectedOption = reader.readLine();
+        } while (!selectedOption.equals(""));
     }
 
     private void viewAllRooms() {

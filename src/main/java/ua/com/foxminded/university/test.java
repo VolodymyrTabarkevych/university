@@ -1,12 +1,18 @@
 package ua.com.foxminded.university;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import ua.com.foxminded.university.console.GroupsMenu;
+import ua.com.foxminded.university.console.TimetableMenu;
 import ua.com.foxminded.university.dao.DbConnection;
 import ua.com.foxminded.university.dao.DbCooperator;
 import ua.com.foxminded.university.domain.Lecture;
 
 public class test {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         DbConnection dbConnection = new DbConnection();
         DbCooperator dbCooperator = new DbCooperator(dbConnection.init());
         /*
@@ -36,9 +42,10 @@ public class test {
          * System.out.println(lecture.toString()); }
          */
         // System.out.println(dbCooperator.getLectureDaoJdbcTemplateImpl().find(1).toString());
-        Lecture lecture = dbCooperator.getLectureDaoJdbcTemplateImpl().find(1);
-        lecture.setGroup(dbCooperator.getGroupDaoJdbcTemplateImpl().find(2));
-        dbCooperator.getLectureDaoJdbcTemplateImpl().update(lecture);
+        
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        TimetableMenu timetableMenu = new TimetableMenu(dbCooperator);
+        timetableMenu.start("a", reader);
     }
 
 }

@@ -20,8 +20,18 @@ public class Student extends Person {
         super(id);
     }
 
+    public Student(int id, String firstName, String lastName, Group group) {
+        super(id, firstName, lastName);
+        this.group = group;
+    }
+
     public Student(String firstName, String lastName, Group group) {
         super(firstName, lastName);
         this.group = group;
+    }
+
+    @Override
+    public String toString() {
+        return this.getId() + ". " + this.getFirstName() + " " + this.getLastName() + " - " + getGroup().getName();
     }
 }

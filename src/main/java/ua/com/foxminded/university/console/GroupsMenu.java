@@ -5,9 +5,11 @@ import java.io.IOException;
 
 import ua.com.foxminded.university.dao.DbCooperator;
 import ua.com.foxminded.university.domain.Group;
+import ua.com.foxminded.university.domain.Student;
 
 public class GroupsMenu extends TextUniversityMenu {
-    DbCooperator dbCooperator;
+    private DbCooperator dbCooperator;
+    private String selectedOption = "";
 
     public GroupsMenu(DbCooperator dbCooperator) {
         this.dbCooperator = dbCooperator;
@@ -16,34 +18,24 @@ public class GroupsMenu extends TextUniversityMenu {
     public void start(BufferedReader reader) {
         showGroupsMenuOptions();
         try {
-            String selectedOption = reader.readLine();
+            selectedOption = reader.readLine();
             switch (selectedOption) {
             case "p":
                 break;
             case "a":
-                do {
-                    addGroup(reader);
-                    selectedOption = reader.readLine();
-                } while (!selectedOption.equals(""));
+                addGroup(reader);
                 break;
             case "b":
-                do {
-                    removeGroup(reader);
-                    selectedOption = reader.readLine();
-                } while (!selectedOption.equals(""));
+                removeGroup(reader);
                 break;
             case "c":
-                do {
-                    addStudentToGroup(reader);
-                } while (!selectedOption.equals(""));
+                addStudentToGroup(reader);
                 break;
             case "d":
                 viewAllGroups();
                 break;
             case "e":
-                do {
-                    viewAllStudentsInGroup(reader);
-                } while (!selectedOption.equals(""));
+                viewAllStudentsInGroup(reader);
                 break;
             default:
                 System.out.println(WRONG_INPUT);
@@ -54,26 +46,39 @@ public class GroupsMenu extends TextUniversityMenu {
     }
 
     private void addGroup(BufferedReader reader) throws IOException {
-        System.out.println("Enter group name: ");
-        String groupName = reader.readLine();
-        // university.addNewGroup(groupName);
-        System.out.println(CONTINUE_ADDING);
+        do {
+            System.out.println("Enter group name: ");
+            String groupName = reader.readLine();
+            dbCooperator.getGroupDaoJdbcTemplateImpl().save(new Group(groupName));
+            System.out.println(CONTINUE_ADDING);
+            selectedOption = reader.readLine();
+        } while (!selectedOption.equals(""));
     }
 
     private void removeGroup(BufferedReader reader) throws IOException {
-        System.out.println("Enter group name: ");
-        String groupName = reader.readLine();
-        // university.removeGroup(groupName);
-        System.out.println(CONTINUE_REMOVING);
+        do {
+            System.out.println("Enter group id: ");
+            int groupId = Integer.parseInt(reader.readLine());
+            dbCooperator.getGroupDaoJdbcTemplateImpl().delete(groupId);
+            System.out.println(CONTINUE_REMOVING);
+            selectedOption = reader.readLine();
+        } while (!selectedOption.equals(""));
     }
 
     private void addStudentToGroup(BufferedReader reader) throws IOException {
-        System.out.println("Enter student id: ");
-        int studentId = Integer.parseInt(reader.readLine());
-        System.out.println("Enter group name: ");
-        String groupName = reader.readLine();
-        // university.changeStudentGroup(studentId, groupName);
-        System.out.println(CONTINUE_CHANGING);
+        do {
+            System.out.println("Enter student id: ");
+            int studentId = Integer.parseInt(reader.readLine());
+            System.out.println("Enter group id: ");
+            int groupId = Integer.parseInt(reader.readLine());
+            Student student = dbCooperator.getStudentDaoJdbcTemplateImpl().find(studentId);
+            Group group = dbCooperator.getGroupDaoJdbcTemplateImpl().find(groupId);
+            group.addStudent(student);
+            student.setGroup(group);
+            dbCooperator.getGroupDaoJdbcTemplateImpl().update(group);
+            System.out.println(CONTINUE_CHANGING);
+            selectedOption = reader.readLine();
+        } while (!selectedOption.equals(""));
     }
 
     private void viewAllGroups() {
@@ -83,9 +88,11 @@ public class GroupsMenu extends TextUniversityMenu {
     }
 
     private void viewAllStudentsInGroup(BufferedReader reader) throws IOException {
-        System.out.println("Enter group name: ");
-        String groupName = reader.readLine();
-        // viewer.showAllStudents(finder.findGroupByName(groupName));
+        System.out.println("Enter group id: ");
+        int groupId = Integer.parseInt(reader.readLine());
+        for (Student student : dbCooperator.getStudentDaoJdbcTemplateImpl().findAllByGroupId(groupId)) {
+            System.out.println(student.toString());
+        }
         System.out.println(CONTINUE_CHANGING);
     }
 }

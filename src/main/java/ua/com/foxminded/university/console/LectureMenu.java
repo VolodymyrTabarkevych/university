@@ -31,6 +31,8 @@ class LectureMenu extends TextUniversityMenu {
         try {
             selectedOption = reader.readLine();
             switch (selectedOption) {
+            case "p":
+                break;
             case "a":
                 addLecture(reader);
                 break;
@@ -58,125 +60,111 @@ class LectureMenu extends TextUniversityMenu {
             default:
                 System.out.println(WRONG_INPUT);
             }
-        } catch (IOException e) {
+        } catch (IOException | NumberFormatException e) {
             System.out.println(WRONG_INPUT);
         }
     }
 
-    private void changeRoom(BufferedReader reader) {
-        try {
-            do {
-                System.out.println("Enter room number: ");
-                roomId = Integer.parseInt(reader.readLine());
-                // finder.findLectureById(lectureId).setRoom(finder.findRoomByNumber(roomNumber));
-                System.out.println("Room was changed!");
-                System.out.println(CONTINUE_CHANGING);
-                selectedOption = reader.readLine();
-            } while (!selectedOption.equals(""));
-        } catch (IOException e) {
-            System.out.println(WRONG_INPUT);
-        }
+    private void changeRoom(BufferedReader reader) throws NumberFormatException, IOException {
+        do {
+            System.out.println("Enter lecture id: ");
+            lectureId = Integer.parseInt(reader.readLine());
+            System.out.println("Enter room number: ");
+            roomId = Integer.parseInt(reader.readLine());
+            Lecture lecture = dbCooperator.getLectureDaoJdbcTemplateImpl().find(lectureId);
+            lecture.setRoom(dbCooperator.getRoomDaoJdbcTemplateImpl().find(roomId));
+            dbCooperator.getLectureDaoJdbcTemplateImpl().update(lecture);
+            System.out.println(CONTINUE_CHANGING);
+            selectedOption = reader.readLine();
+        } while (!selectedOption.equals(""));
+    }
+
+    private void changeDate(BufferedReader reader) throws NumberFormatException, IOException {
+        do {
+            System.out.println("Enter lecture id: ");
+            lectureId = Integer.parseInt(reader.readLine());
+            System.out.println("Enter year: ");
+            year = Integer.parseInt(reader.readLine());
+            System.out.println("Enter month: ");
+            month = Integer.parseInt(reader.readLine());
+            System.out.println("Enter day of month");
+            day = Integer.parseInt(reader.readLine());
+            Lecture lecture = dbCooperator.getLectureDaoJdbcTemplateImpl().find(lectureId);
+            lecture.setDate(LocalDate.of(year, month, day));
+            dbCooperator.getLectureDaoJdbcTemplateImpl().update(lecture);
+            System.out.println(CONTINUE_CHANGING);
+            selectedOption = reader.readLine();
+        } while (!selectedOption.equals(""));
 
     }
 
-    private void changeDate(BufferedReader reader) {
-        try {
-            do {
-                System.out.println("Enter year: ");
-                year = Integer.parseInt(reader.readLine());
-                System.out.println("Enter month: ");
-                month = Integer.parseInt(reader.readLine());
-                System.out.println("Enter day of month");
-                day = Integer.parseInt(reader.readLine());
-                // finder.findLectureById(lectureId).setDate(year, month, day);
-                System.out.println("Date was changed!");
-                System.out.println(CONTINUE_CHANGING);
-                selectedOption = reader.readLine();
-            } while (!selectedOption.equals(""));
-        } catch (IOException e) {
-            System.out.println(WRONG_INPUT);
-        }
-
+    private void changeTime(BufferedReader reader) throws NumberFormatException, IOException {
+        do {
+            System.out.println("Enter lecture id: ");
+            lectureId = Integer.parseInt(reader.readLine());
+            System.out.println("Enter start hour: ");
+            startHour = Integer.parseInt(reader.readLine());
+            System.out.println("Enter start minute: ");
+            startMinute = Integer.parseInt(reader.readLine());
+            Lecture lecture = dbCooperator.getLectureDaoJdbcTemplateImpl().find(lectureId);
+            lecture.setStartTime(LocalTime.of(startHour, startMinute));
+            lecture.setEndTime(LocalTime.of(startHour, startMinute).plusHours(1).plusMinutes(20));
+            dbCooperator.getLectureDaoJdbcTemplateImpl().update(lecture);
+            System.out.println(CONTINUE_CHANGING);
+            selectedOption = reader.readLine();
+        } while (!selectedOption.equals(""));
     }
 
-    private void changeTime(BufferedReader reader) {
-        try {
-            do {
-                System.out.println("Enter start hour: ");
-                startHour = Integer.parseInt(reader.readLine());
-                System.out.println("Enter start minute: ");
-                startMinute = Integer.parseInt(reader.readLine());
-                // finder.findLectureById(lectureId).setTime(startHour, startMinute);
-                System.out.println("Time was changed!");
-                System.out.println(CONTINUE_CHANGING);
-                selectedOption = reader.readLine();
-            } while (!selectedOption.equals(""));
-        } catch (IOException e) {
-            System.out.println(WRONG_INPUT);
-        }
-
+    private void changeGroup(BufferedReader reader) throws NumberFormatException, IOException {
+        do {
+            System.out.println("Enter lecture id: ");
+            lectureId = Integer.parseInt(reader.readLine());
+            System.out.println("Enter group name: ");
+            groupId = Integer.parseInt(reader.readLine());
+            Lecture lecture = dbCooperator.getLectureDaoJdbcTemplateImpl().find(lectureId);
+            lecture.setGroup(dbCooperator.getGroupDaoJdbcTemplateImpl().find(personId));
+            dbCooperator.getLectureDaoJdbcTemplateImpl().update(lecture);
+            System.out.println(CONTINUE_CHANGING);
+            selectedOption = reader.readLine();
+        } while (!selectedOption.equals(""));
     }
 
-    private void changeGroup(BufferedReader reader) {
-        try {
-            do {
-                System.out.println("Enter group name: ");
-                groupId = Integer.parseInt(reader.readLine());
-                // finder.findLectureById(lectureId).setGroup(finder.findGroupByName(groupName));
-                System.out.println("Group was changed!");
-                System.out.println(CONTINUE_CHANGING);
-                selectedOption = reader.readLine();
-            } while (!selectedOption.equals(""));
-        } catch (IOException e) {
-            System.out.println(WRONG_INPUT);
-        }
+    private void changeTeacher(BufferedReader reader) throws NumberFormatException, IOException {
+        do {
+            System.out.println("Enter lecture id: ");
+            lectureId = Integer.parseInt(reader.readLine());
+            System.out.println("Enter teacher id: ");
+            personId = Integer.parseInt(reader.readLine());
+            Lecture lecture = dbCooperator.getLectureDaoJdbcTemplateImpl().find(lectureId);
+            lecture.setTeacher(dbCooperator.getTeacherDaoJdbcTemplateImpl().find(personId));
+            dbCooperator.getLectureDaoJdbcTemplateImpl().update(lecture);
+            System.out.println(CONTINUE_CHANGING);
+            selectedOption = reader.readLine();
+        } while (!selectedOption.equals(""));
     }
 
-    private void changeTeacher(BufferedReader reader) {
-        try {
-            do {
-                System.out.println("Enter teacher id: ");
-                personId = Integer.parseInt(reader.readLine());
-                // finder.findLectureById(lectureId).setTeacher(finder.findTeacherById(personId));
-                System.out.println("Teacher was changed!");
-                System.out.println(CONTINUE_CHANGING);
-                selectedOption = reader.readLine();
-            } while (!selectedOption.equals(""));
-        } catch (IOException e) {
-            System.out.println(WRONG_INPUT);
-        }
+    private void changeSubject(BufferedReader reader) throws IOException {
+        do {
+            System.out.println("Enter lecture id: ");
+            lectureId = Integer.parseInt(reader.readLine());
+            System.out.println("Enter subject name: ");
+            subjectId = Integer.parseInt(reader.readLine());
+            Lecture lecture = dbCooperator.getLectureDaoJdbcTemplateImpl().find(lectureId);
+            lecture.setSubject(dbCooperator.getSubjectDaoJdbcTemplateImpl().find(subjectId));
+            dbCooperator.getLectureDaoJdbcTemplateImpl().update(lecture);
+            System.out.println(CONTINUE_CHANGING);
+            selectedOption = reader.readLine();
+        } while (!selectedOption.equals(""));
     }
 
-    private void changeSubject(BufferedReader reader) {
-        try {
-            do {
-                System.out.println("Enter lecture id: ");
-                lectureId = Integer.parseInt(reader.readLine());
-                System.out.println("Enter subject name: ");
-                subjectId = Integer.parseInt(reader.readLine());
-                Lecture lecture = dbCooperator.getLectureDaoJdbcTemplateImpl().find(lectureId);
-                lecture.setSubject(dbCooperator.getSubjectDaoJdbcTemplateImpl().find(subjectId));
-                dbCooperator.getLectureDaoJdbcTemplateImpl().update(lecture);
-                System.out.println(CONTINUE_CHANGING);
-                selectedOption = reader.readLine();
-            } while (!selectedOption.equals(""));
-        } catch (IOException e) {
-            System.out.println(WRONG_INPUT);
-        }
-    }
-
-    private void removeLecture(BufferedReader reader) {
-        try {
-            do {
-                System.out.println("Enter lecture id: ");
-                lectureId = Integer.parseInt(reader.readLine());
-                dbCooperator.getLectureDaoJdbcTemplateImpl().delete(lectureId);
-                System.out.println(CONTINUE_REMOVING);
-                selectedOption = reader.readLine();
-            } while (!selectedOption.equals(""));
-        } catch (IOException e) {
-            System.out.println(WRONG_INPUT);
-        }
+    private void removeLecture(BufferedReader reader) throws NumberFormatException, IOException {
+        do {
+            System.out.println("Enter lecture id: ");
+            lectureId = Integer.parseInt(reader.readLine());
+            dbCooperator.getLectureDaoJdbcTemplateImpl().delete(lectureId);
+            System.out.println(CONTINUE_REMOVING);
+            selectedOption = reader.readLine();
+        } while (!selectedOption.equals(""));
     }
 
     private void addLecture(BufferedReader reader) throws IOException {
@@ -205,7 +193,7 @@ class LectureMenu extends TextUniversityMenu {
                     .setSubject(dbCooperator.getSubjectDaoJdbcTemplateImpl().find(subjectId))
                     .setRoom(dbCooperator.getRoomDaoJdbcTemplateImpl().find(roomId))
                     .setDate(LocalDate.of(year, month, day)).setStartTime(LocalTime.of(startHour, startMinute))
-                    .setEndTime(LocalTime.of(startHour + 1, startMinute + 20)).build();
+                    .setEndTime(LocalTime.of(startHour, startMinute).plusHours(1).plusMinutes(20)).build();
             dbCooperator.getLectureDaoJdbcTemplateImpl().save(lecture);
             System.out.println(CONTINUE_ADDING);
             selectedOption = reader.readLine();

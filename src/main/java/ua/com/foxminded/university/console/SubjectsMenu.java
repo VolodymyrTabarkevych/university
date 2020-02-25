@@ -7,7 +7,8 @@ import ua.com.foxminded.university.dao.DbCooperator;
 import ua.com.foxminded.university.domain.Subject;
 
 class SubjectsMenu extends TextUniversityMenu {
-    DbCooperator dbCooperator;
+    private DbCooperator dbCooperator;
+    private String selectedOption = "";
 
     public SubjectsMenu(DbCooperator dbCooperator) {
         this.dbCooperator = dbCooperator;
@@ -16,21 +17,15 @@ class SubjectsMenu extends TextUniversityMenu {
     public void start(BufferedReader reader) {
         showSubjectsMenuOptions();
         try {
-            String selectedOption = reader.readLine();
+            selectedOption = reader.readLine();
             switch (selectedOption) {
             case "p":
                 break;
             case "a":
-                do {
-                    addSubject(reader);
-                    selectedOption = reader.readLine();
-                } while (!selectedOption.equals(""));
+                addSubject(reader);
                 break;
             case "b":
-                do {
-                    removeSubject(reader);
-                    selectedOption = reader.readLine();
-                } while (!selectedOption.equals(""));
+                removeSubject(reader);
                 break;
             case "c":
                 viewAllSubjects();
@@ -44,21 +39,28 @@ class SubjectsMenu extends TextUniversityMenu {
     }
 
     private void addSubject(BufferedReader reader) throws IOException {
-        String subjectName = reader.readLine();
-        // university.addNewSubject(subjectName);
-        System.out.println(CONTINUE_ADDING);
-
+        do {
+            System.out.println("Enter subject name: ");
+            String subjectName = reader.readLine();
+            dbCooperator.getSubjectDaoJdbcTemplateImpl().save(new Subject(subjectName));
+            System.out.println(CONTINUE_ADDING);
+            selectedOption = reader.readLine();
+        } while (!selectedOption.equals(""));
     }
 
     private void removeSubject(BufferedReader reader) throws IOException {
-        String subjectName = reader.readLine();
-        // university.removeSubject(subjectName);
-        System.out.println(CONTINUE_REMOVING);
+        do {
+            System.out.println("Enter subject id: ");
+            int subjectId = Integer.parseInt(reader.readLine());
+            dbCooperator.getSubjectDaoJdbcTemplateImpl().delete(subjectId);
+            System.out.println(CONTINUE_REMOVING);
+            selectedOption = reader.readLine();
+        } while (!selectedOption.equals(""));
     }
 
     private void viewAllSubjects() {
         for (Subject subject : dbCooperator.getSubjectDaoJdbcTemplateImpl().findAll()) {
-            System.out.println(subject.getName());
+            System.out.println(subject.toString());
         }
     }
 }

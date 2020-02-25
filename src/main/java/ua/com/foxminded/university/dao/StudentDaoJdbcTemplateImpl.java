@@ -10,16 +10,18 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import ua.com.foxminded.university.domain.Group;
 import ua.com.foxminded.university.domain.Student;
 
 public class StudentDaoJdbcTemplateImpl implements CrudDao<Student> {
     private JdbcTemplate template;
     private Map<Integer, Student> students = new HashMap<>();
-    private final String SQL_FIND_ALL = "SELECT * FROM students";
-    private final String SQL_FIND_BY_ID = "SELECT * FROM students WHERE id = ?";
+    private final String SQL_FIND_ALL = "SELECT students.id, first_name, last_name, groups.id as group_id, groups.name as group_name FROM students INNER JOIN groups ON group_id = groups.id";
+    private final String SQL_FIND_BY_ID = "SELECT students.id, first_name, last_name, groups.id as group_id, groups.name as group_name FROM students INNER JOIN groups ON group_id = groups.id WHERE id = ?";
     private final String SQL_SAVE_STUDENT = "INSERT INTO students (first_name, last_name, group_id) VALUES (?,?,?)";
     private final String SQL_UPDATE_STUDENT = "UPDATE students SET first_name = ?, last_name = ?, group_id = ? WHERE id = ?";
     private final String SQL_DELETE_STUDENT = "DELETE FROM students WHERE id = ?";
+    private final String SQL_FIND_STUDENTS_BY_GROUP_ID = "SELECT students.id, first_name, last_name, groups.id as group_id, groups.name as group_name FROM students INNER JOIN groups ON group_id = groups.id WHERE group_id = ?";
 
     public StudentDaoJdbcTemplateImpl(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
@@ -29,7 +31,7 @@ public class StudentDaoJdbcTemplateImpl implements CrudDao<Student> {
         Integer id = resultSet.getInt("id");
         if (!students.containsKey(id)) {
             Student student = new Student(resultSet.getInt("id"), resultSet.getString("first_name"),
-                    resultSet.getString("last_name"));
+                    resultSet.getString("last_name"), new Group(resultSet.getInt("group_id"),resultSet.getString("group_name")));
             students.put(id, student);
         }
         return students.get(id);
@@ -79,5 +81,9 @@ public class StudentDaoJdbcTemplateImpl implements CrudDao<Student> {
     @Override
     public List<Student> findAll() {
         return template.query(SQL_FIND_ALL, studentRowMapper);
+    }
+
+    public List<Student> findAllByGroupId(Integer groupId) {
+        return template.query(SQL_FIND_STUDENTS_BY_GROUP_ID, studentRowMapper, groupId);
     }
 }

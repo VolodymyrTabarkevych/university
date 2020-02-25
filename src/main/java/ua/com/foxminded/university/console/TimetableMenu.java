@@ -3,7 +3,6 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 import ua.com.foxminded.university.dao.DbCooperator;
@@ -11,6 +10,7 @@ import ua.com.foxminded.university.domain.Lecture;
 import ua.com.foxminded.university.domain.Timetable;
 
 public class TimetableMenu extends TextUniversityMenu {
+    private DbCooperator dbCooperator;
     private Timetable timetable;
     private LectureMenu lectureMenu;
     private int day = 0;
@@ -19,16 +19,14 @@ public class TimetableMenu extends TextUniversityMenu {
     private int month = 0;
 
     public TimetableMenu(DbCooperator dbCooperator) {
-        Set<Lecture> lectures = new HashSet<>();
-        for (Lecture lecture : dbCooperator.getLectureDaoJdbcTemplateImpl().findAll()) {
-            lectures.add(lecture);
-        }
-        timetable = new Timetable(lectures);
+        this.dbCooperator = dbCooperator;
         lectureMenu = new LectureMenu(dbCooperator);
     }
 
-    void start(String selectedOption, BufferedReader reader) {
+    public void start(String selectedOption, BufferedReader reader) {
         switch (selectedOption) {
+        case "p":
+            break;
         case "a":
             showStudentTimeTableForDay(reader);
             break;
@@ -69,6 +67,7 @@ public class TimetableMenu extends TextUniversityMenu {
 
     private void showStudentTimeTableForDay(BufferedReader reader) {
         try {
+            timetable = new Timetable(dbCooperator.getStudentDaoJdbcTemplateImpl().);
             System.out.println("Enter student id: ");
             personId = Integer.parseInt(reader.readLine());
             System.out.println("Enter year:");

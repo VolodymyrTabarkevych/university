@@ -2,6 +2,7 @@ package ua.com.foxminded.university.dao;
 
 import java.sql.ResultSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -15,22 +16,24 @@ import ua.com.foxminded.university.domain.Student;
 
 public class GroupDaoJdbcTemplateImpl implements CrudDao<Group> {
     private JdbcTemplate template;
+    private StudentDaoJdbcTemplateImpl studentDaoJdbcTemplateImpl;
     private Map<Integer, Group> groups = new HashMap<>();
     private final String SQL_FIND_ALL = "SELECT * FROM groups";
     private final String SQL_FIND_BY_ID = "SELECT * FROM groups WHERE id = ?";
-    private final String SQL_FIND_STUDENTS_BY_GROUP_ID = "SELECT * FROM students WHERE group_id = ?";
     private final String SQL_SAVE_GROUP = "INSERT INTO groups (number) VALUES (?)";
     private final String SQL_UPDATE_GROUP = "UPDATE groups SET number = ?, WHERE id = ?";
     private final String SQL_DELETE_GROUP = "DELETE FROM groups WHERE id = ?";
 
     public GroupDaoJdbcTemplateImpl(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
+        this.studentDaoJdbcTemplateImpl = new StudentDaoJdbcTemplateImpl(dataSource);
     }
 
     private RowMapper<Group> groupRowMapper = (ResultSet resultSet, int i) -> {
         Integer id = resultSet.getInt("id");
         if (!groups.containsKey(id)) {
             Group group = new Group(resultSet.getInt("id"), resultSet.getString("name"));
+            group.addStudents(new HashSet<Student>(studentDaoJdbcTemplateImpl.findAllByGroupId(group.getId())));
             groups.put(id, group);
         }
         return groups.get(id);
