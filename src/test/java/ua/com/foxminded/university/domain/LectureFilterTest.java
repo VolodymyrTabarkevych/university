@@ -2,6 +2,8 @@ package ua.com.foxminded.university.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,17 +41,21 @@ class LectureFilterTest {
         group1.addStudent(student3);
         group2.addStudent(student2);
         lectures = new HashSet<>();
-        lecture1 = new Lecture().setLectureId(1).setTeacher(teacher1).setSubject(new Subject("Bio")).setGroup(group2)
-                .setRoom(new Room(1)).setDate(2019, 6, 17).setTime(12, 30).build();
-        lecture2 = new Lecture().setLectureId(2).setTeacher(teacher1).setSubject(new Subject("Bio")).setGroup(group1)
-                .setRoom(new Room(1)).setDate(2019, 7, 17).setTime(10, 30).build();
-        lecture3 = new Lecture().setLectureId(3).setTeacher(teacher2).setSubject(new Subject("Bio")).setGroup(group2)
-                .setRoom(new Room(1)).setDate(2019, 6, 17).setTime(14, 30).build();
-        lecture4 = new Lecture().setLectureId(4).setTeacher(teacher1)
-                .setSubject(new Subject("Bio")).setGroup(group1).setRoom(new Room(1)).setDate(2019, 6, 20)
-                .setTime(14, 30).build();
-        lecture5 = new Lecture().setLectureId(5).setTeacher(teacher2).setSubject(new Subject("Bio")).setGroup(group1)
-                .setRoom(new Room(1)).setDate(2019, 6, 17).setTime(9, 30).build();
+        lecture1 = new Lecture.Builder().setLectureId(1).setTeacher(teacher1).setSubject(new Subject("Bio"))
+                .setGroup(group2).setRoom(new Room(1)).setDate(LocalDate.of(2019, 6, 17))
+                .setStartTime(LocalTime.of(12, 30)).build();
+        lecture2 = new Lecture.Builder().setLectureId(2).setTeacher(teacher1).setSubject(new Subject("Bio"))
+                .setGroup(group1).setRoom(new Room(1)).setDate(LocalDate.of(2019, 7, 17))
+                .setStartTime(LocalTime.of(10, 30)).build();
+        lecture3 = new Lecture.Builder().setLectureId(3).setTeacher(teacher2).setSubject(new Subject("Bio"))
+                .setGroup(group2).setRoom(new Room(1)).setDate(LocalDate.of(2019, 6, 17))
+                .setStartTime(LocalTime.of(14, 30)).build();
+        lecture4 = new Lecture.Builder().setLectureId(4).setTeacher(teacher1).setSubject(new Subject("Bio"))
+                .setGroup(group1).setRoom(new Room(1)).setDate(LocalDate.of(2019, 6, 20))
+                .setStartTime(LocalTime.of(14, 30)).build();
+        lecture5 = new Lecture.Builder().setLectureId(5).setTeacher(teacher2).setSubject(new Subject("Bio"))
+                .setGroup(group1).setRoom(new Room(1)).setDate(LocalDate.of(2019, 6, 17))
+                .setStartTime(LocalTime.of(9, 30)).build();
         lectures.add(lecture1);
         lectures.add(lecture2);
         lectures.add(lecture3);
@@ -64,7 +70,7 @@ class LectureFilterTest {
 
     @Test
     public void forDay_shouldAddLecturesToFilterWithExectDay() {
-        lectureFilter.forDay(new LectureDate(2019, 6, 17));
+        lectureFilter.forDay(LocalDate.of(2019, 6, 17));
         result = lectureFilter.getFilteredLectures().contains(lecture1)
                 && lectureFilter.getFilteredLectures().contains(lecture3);
         assertTrue(result);
@@ -99,14 +105,14 @@ class LectureFilterTest {
 
     @Test
     public void forDayIfFilteredLecturesNotEmpty_shouldAddLecturesToFilterWithExectStudentAndDay() {
-        lectureFilter.forStudent(1).forDay(new LectureDate(2019, 6, 20));
+        lectureFilter.forStudent(1).forDay(LocalDate.of(2019, 6, 20));
         result = lectureFilter.getFilteredLectures().contains(lecture4);
         assertTrue(result);
     }
 
     @Test
     public void forDayIfFilteredLecturesNotEmpty_shouldAddLecturesToFilterWithExectTeacherAndDay() {
-        lectureFilter.forTeacher(2).forDay(new LectureDate(2019, 6, 17));
+        lectureFilter.forTeacher(2).forDay(LocalDate.of(2019, 6, 17));
         result = lectureFilter.getFilteredLectures().contains(lecture3)
                 && lectureFilter.getFilteredLectures().contains(lecture5);
         assertTrue(result);
@@ -119,6 +125,7 @@ class LectureFilterTest {
                 && lectureFilter.getFilteredLectures().contains(lecture1);
         assertTrue(result);
     }
+
     @Test
     public void forMonthIfFilteredLecturesNotEmpty_shouldAddLecturesToFilterWithExectTeacherAndMonth() {
         lectureFilter.forTeacher(2).forMonth(6);

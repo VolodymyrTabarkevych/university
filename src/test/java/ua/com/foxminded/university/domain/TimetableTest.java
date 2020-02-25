@@ -2,6 +2,8 @@ package ua.com.foxminded.university.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,13 +27,13 @@ class TimetableTest {
     public static void setUp() {
         Set<Lecture> lectures = new HashSet<>();
         timetable = new Timetable(lectures);
-        lecture = new Lecture().setLectureId(1).setDate(2018, 7, 17).setTime(11, 35).setRoom(new Room(2))
+        lecture = new Lecture.Builder().setLectureId(1).setDate(LocalDate.of(2018, 7, 17)).setStartTime(LocalTime.of(11, 35)).setRoom(new Room(2))
                 .setGroup(new Group("MB-1")).setSubject(new Subject("Bio")).setTeacher(new Teacher(1, "qqq", "www"))
                 .build();
-        lecture2 = new Lecture().setLectureId(2).setDate(2018, 7, 17).setTime(10, 30).setRoom(new Room(2))
+        lecture2 = new Lecture.Builder().setLectureId(2).setDate(LocalDate.of(2018, 7, 17)).setStartTime(LocalTime.of(10, 30)).setRoom(new Room(2))
                 .setGroup(new Group("MB-1")).setSubject(new Subject("Bio")).setTeacher(new Teacher(1, "qqq", "www"))
                 .build();
-        lecture3 = new Lecture().setLectureId(3).setDate(2018, 7, 17).setTime(10, 30).setRoom(new Room(2))
+        lecture3 = new Lecture.Builder().setLectureId(3).setDate(LocalDate.of(2018, 7, 17)).setStartTime(LocalTime.of(10, 30)).setRoom(new Room(2))
                 .setGroup(new Group("MB-1")).setSubject(new Subject("Bio")).setTeacher(new Teacher(1, "qqq", "www"))
                 .build();
     }

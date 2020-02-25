@@ -1,16 +1,34 @@
 package ua.com.foxminded.university.dao;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+
 public class DbConnection {
+    private Properties props;
+
+    public DbConnection() {
+        props = new Properties();
+        try (FileInputStream in = new FileInputStream("src/main/resources/database.properties")) {
+            props.load(in);
+        } catch (IOException e) {
+            System.out.println("Cannot read the file: " + e.getStackTrace());
+        }
+    }
+
     public DriverManagerDataSource init() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUsername("postgres");
-        //dataSource.setPassword("1234");
-        dataSource.setPassword("1");
-        dataSource.setUrl("jdbc:postgresql://localhost:5433/university");
-        //dataSource.setUrl("jdbc:postgresql://localhost:5432/university");
+        dataSource.setUsername(props.getProperty("user"));
+        dataSource.setPassword(props.getProperty("password"));
+        dataSource.setUrl(props.getProperty("url"));
         dataSource.setDriverClassName("org.postgresql.Driver");
         return dataSource;
+    }
+
+    public void setProps(String key, String value) {
+        this.props.setProperty(key, value);
     }
 }

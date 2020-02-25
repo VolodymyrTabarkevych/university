@@ -17,7 +17,7 @@ public class StudentDaoJdbcTemplateImpl implements CrudDao<Student> {
     private JdbcTemplate template;
     private Map<Integer, Student> students = new HashMap<>();
     private final String SQL_FIND_ALL = "SELECT students.id, first_name, last_name, groups.id as group_id, groups.name as group_name FROM students INNER JOIN groups ON group_id = groups.id";
-    private final String SQL_FIND_BY_ID = "SELECT students.id, first_name, last_name, groups.id as group_id, groups.name as group_name FROM students INNER JOIN groups ON group_id = groups.id WHERE id = ?";
+    private final String SQL_FIND_BY_ID = "SELECT students.id, first_name, last_name, groups.id as group_id, groups.name as group_name FROM students INNER JOIN groups ON group_id = groups.id WHERE students.id = ?";
     private final String SQL_SAVE_STUDENT = "INSERT INTO students (first_name, last_name, group_id) VALUES (?,?,?)";
     private final String SQL_UPDATE_STUDENT = "UPDATE students SET first_name = ?, last_name = ?, group_id = ? WHERE id = ?";
     private final String SQL_DELETE_STUDENT = "DELETE FROM students WHERE id = ?";
@@ -31,7 +31,8 @@ public class StudentDaoJdbcTemplateImpl implements CrudDao<Student> {
         Integer id = resultSet.getInt("id");
         if (!students.containsKey(id)) {
             Student student = new Student(resultSet.getInt("id"), resultSet.getString("first_name"),
-                    resultSet.getString("last_name"), new Group(resultSet.getInt("group_id"),resultSet.getString("group_name")));
+                    resultSet.getString("last_name"),
+                    new Group(resultSet.getInt("group_id"), resultSet.getString("group_name")));
             students.put(id, student);
         }
         return students.get(id);

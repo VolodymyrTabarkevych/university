@@ -4,16 +4,36 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import javax.sql.DataSource;
+
+import ua.com.foxminded.university.DbTestData;
 import ua.com.foxminded.university.dao.DbConnection;
 import ua.com.foxminded.university.dao.DbCooperator;
 
 public class ProgramMenu extends TextUniversityMenu {
-    private DbConnection dbConnection = new DbConnection();
-    private DbCooperator dbCooperator = new DbCooperator(dbConnection.init());
-    private UniversityMenu universityMenu = new UniversityMenu(dbCooperator);
-    private TimetableMenu timetableMenu = new TimetableMenu(dbCooperator);
+    private DbConnection dbConnection;
+    private DbTestData dbTestData;
+    private DataSource dataSource;
+    private DbCooperator dbCooperator;
+    private UniversityMenu universityMenu;
+    private TimetableMenu timetableMenu;
+
+    public ProgramMenu() {
+        this.dbConnection = new DbConnection();
+        this.dbTestData = new DbTestData(dbConnection);
+        this.dbConnection = dbTestData.createUniversetyDB();
+        this.dataSource = dbConnection.init();
+        this.dbCooperator = new DbCooperator(dataSource);
+        this.universityMenu = new UniversityMenu(dbCooperator);
+        this.timetableMenu = new TimetableMenu(dbCooperator);
+    }
 
     public void start() {
+        try {
+            dbTestData.createData();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String selectedOption = " ";
 

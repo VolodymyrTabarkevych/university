@@ -3,10 +3,12 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 import ua.com.foxminded.university.dao.DbCooperator;
 import ua.com.foxminded.university.domain.Lecture;
+import ua.com.foxminded.university.domain.Student;
 import ua.com.foxminded.university.domain.Timetable;
 
 public class TimetableMenu extends TextUniversityMenu {
@@ -62,12 +64,13 @@ public class TimetableMenu extends TextUniversityMenu {
     private void showFilteredLectures(Set<Lecture> filteredLectures) {
         for (Lecture lecture : filteredLectures) {
             System.out.println(lecture.toString());
+            System.out.println("***********************");
         }
     }
 
     private void showStudentTimeTableForDay(BufferedReader reader) {
+        Student student;
         try {
-            timetable = new Timetable(dbCooperator.getStudentDaoJdbcTemplateImpl().);
             System.out.println("Enter student id: ");
             personId = Integer.parseInt(reader.readLine());
             System.out.println("Enter year:");
@@ -76,6 +79,9 @@ public class TimetableMenu extends TextUniversityMenu {
             month = Integer.parseInt(reader.readLine());
             System.out.println("Enter day: ");
             day = Integer.parseInt(reader.readLine());
+            student = dbCooperator.getStudentDaoJdbcTemplateImpl().find(personId);
+            timetable = new Timetable(new HashSet<>(
+                    dbCooperator.getLectureDaoJdbcTemplateImpl().findAllLecturesByGroupId(student.getGroup().getId())));
             showFilteredLectures(timetable.filter().forStudent(personId).forDay(LocalDate.of(year, month, day))
                     .getFilteredLectures());
         } catch (NumberFormatException | IOException e) {

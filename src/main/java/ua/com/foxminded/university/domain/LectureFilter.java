@@ -9,7 +9,6 @@ public class LectureFilter {
     private Set<Lecture> filteredLectures = new HashSet<>();
     private Boolean isForStudentUsed = false;
     private Boolean isForTeacherUsed = false;
-    private Boolean isEverythingGood = true;
     private int personId = 0;
 
     public LectureFilter(Set<Lecture> lectures) {
@@ -17,65 +16,53 @@ public class LectureFilter {
     }
 
     public LectureFilter forStudent(int studentId) {
-        if (isEverythingGood) {
-            isEverythingGood = false;
-            isForStudentUsed = false;
-            for (Lecture lecture : lectures) {
-                for (Student student : lecture.getGroup().getStudents()) {
-                    if (student.getId() == studentId) {
-                        filteredLectures.add(lecture);
-                        isEverythingGood = true;
-                    }
+        isForStudentUsed = true;
+        for (Lecture lecture : lectures) {
+            for (Student student : lecture.getGroup().getStudents()) {
+                if (student.getId() == studentId) {
+                    filteredLectures.add(lecture);
                 }
             }
-            personId = studentId;
         }
+        personId = studentId;
         return this;
     }
 
     public LectureFilter forTeacher(int teacherId) {
-        if (isEverythingGood) {
-            isEverythingGood = false;
-            isForTeacherUsed = true;
-            for (Lecture lecture : lectures) {
-                if (lecture.getTeacher().getId() == teacherId) {
-                    filteredLectures.add(lecture);
-                    isEverythingGood = true;
-                }
+        isForTeacherUsed = true;
+        for (Lecture lecture : lectures) {
+            if (lecture.getTeacher().getId() == teacherId) {
+                filteredLectures.add(lecture);
             }
-            personId = teacherId;
         }
+        personId = teacherId;
         return this;
     }
 
     public LectureFilter forMonth(int numberOfMonth) {
-        if (isEverythingGood) {
-            if (filteredLectures.isEmpty()) {
-                for (Lecture lecture : lectures) {
-                    if (lecture.getDate().getMonthValue() == numberOfMonth) {
-                        filteredLectures.add(lecture);
-                    }
+        if (filteredLectures.isEmpty()) {
+            for (Lecture lecture : lectures) {
+                if (lecture.getDate().getMonthValue() == numberOfMonth) {
+                    filteredLectures.add(lecture);
                 }
-            } else {
-                forMonthIfFilteredLecturesNotEmpty(numberOfMonth);
             }
+        } else {
+            forMonthIfFilteredLecturesNotEmpty(numberOfMonth);
         }
         return this;
     }
 
     public LectureFilter forDay(LocalDate date) {
-        if (isEverythingGood) {
-            if (filteredLectures.isEmpty()) {
-                for (Lecture lecture : lectures) {
-                    if (lecture.getDate().getYear() == date.getYear()
-                            && lecture.getDate().getMonthValue() == date.getMonthValue()
-                            && lecture.getDate().getDayOfMonth() == date.getDayOfMonth()) {
-                        filteredLectures.add(lecture);
-                    }
+        if (filteredLectures.isEmpty()) {
+            for (Lecture lecture : lectures) {
+                if (lecture.getDate().getYear() == date.getYear()
+                        && lecture.getDate().getMonthValue() == date.getMonthValue()
+                        && lecture.getDate().getDayOfMonth() == date.getDayOfMonth()) {
+                    filteredLectures.add(lecture);
                 }
-            } else {
-                forDayIfFilteredLecturesNotEmpty(date);
             }
+        } else {
+            forDayIfFilteredLecturesNotEmpty(date);
         }
         return this;
     }
