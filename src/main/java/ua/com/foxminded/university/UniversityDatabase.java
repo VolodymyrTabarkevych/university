@@ -11,15 +11,15 @@ import javax.sql.DataSource;
 
 import ua.com.foxminded.university.dao.DbConnection;
 
-public class DbTestData {
+public class UniversityDatabase {
     private DbConnection dbConnection;
     private DataSource dataSource;
 
-    public DbTestData(DbConnection dbConnection) {
+    public UniversityDatabase(DbConnection dbConnection) {
         this.dbConnection = dbConnection;
     }
 
-    public DbConnection createUniversetyDB() {
+    public DbConnection createDatabase() {
         dataSource = dbConnection.init();
         try (Statement statement = dataSource.getConnection().createStatement()) {
             try {
@@ -44,7 +44,7 @@ public class DbTestData {
         return dbConnection;
     }
 
-    public void createData() {
+    public void createDataForDatabase() {
         dataSource = dbConnection.init();
         try (BufferedReader sqlFile = new BufferedReader(new FileReader("src/main/resources/database.sql"));
                 Statement statement = dataSource.getConnection().createStatement();

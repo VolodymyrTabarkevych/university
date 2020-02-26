@@ -6,13 +6,13 @@ import java.io.InputStreamReader;
 
 import javax.sql.DataSource;
 
-import ua.com.foxminded.university.DbTestData;
+import ua.com.foxminded.university.UniversityDatabase;
 import ua.com.foxminded.university.dao.DbConnection;
 import ua.com.foxminded.university.dao.DbCooperator;
 
 public class ProgramMenu extends TextUniversityMenu {
     private DbConnection dbConnection;
-    private DbTestData dbTestData;
+    private UniversityDatabase dbTestData;
     private DataSource dataSource;
     private DbCooperator dbCooperator;
     private UniversityMenu universityMenu;
@@ -20,8 +20,8 @@ public class ProgramMenu extends TextUniversityMenu {
 
     public ProgramMenu() {
         this.dbConnection = new DbConnection();
-        this.dbTestData = new DbTestData(dbConnection);
-        this.dbConnection = dbTestData.createUniversetyDB();
+        this.dbTestData = new UniversityDatabase(dbConnection);
+        this.dbConnection = dbTestData.createDatabase();
         this.dataSource = dbConnection.init();
         this.dbCooperator = new DbCooperator(dataSource);
         this.universityMenu = new UniversityMenu(dbCooperator);
@@ -29,7 +29,7 @@ public class ProgramMenu extends TextUniversityMenu {
     }
 
     public void start() {
-        dbTestData.createData();
+        dbTestData.createDataForDatabase();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String selectedOption = " ";
 
