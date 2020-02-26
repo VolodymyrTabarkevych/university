@@ -34,7 +34,7 @@ public class UniversityDatabase {
                 System.out.println("User '" + user + "' is already exists!");
             }
             statement.executeUpdate("GRANT ALL PRIVILEGES ON DATABASE " + dbName + " to " + user);
-            dbConnection.setProps("url", dbConnection.getProps().getProperty("url") + "university");
+            dbConnection.setProps("url", dbConnection.getProps().getProperty("url") + dbName);
             dbConnection.setProps("user", user);
             dbConnection.setProps("password", password);
             statement.executeUpdate("DROP TABLE IF EXISTS lectures CASCADE");
