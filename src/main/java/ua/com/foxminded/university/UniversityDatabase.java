@@ -8,6 +8,9 @@ import javax.sql.DataSource;
 import ua.com.foxminded.university.dao.DbConnection;
 
 public class UniversityDatabase {
+    private static final String user = "admin";
+    private static final String password = "1111";
+    private static final String dbName = "university";
     private DbConnection dbConnection;
     private DataSource dataSource;
 
@@ -19,21 +22,21 @@ public class UniversityDatabase {
         dataSource = dbConnection.init();
         try (Statement statement = dataSource.getConnection().createStatement()) {
             try {
-                statement.executeUpdate("DROP DATABASE IF EXISTS university");
-                statement.executeUpdate("CREATE DATABASE university");
+                statement.executeUpdate("DROP DATABASE IF EXISTS " + dbName);
+                statement.executeUpdate("CREATE DATABASE " + dbName);
             } catch (SQLException e) {
                 System.out.println("Database is already exists!");
             }
             try {
-                statement.executeUpdate("DROP USER IF EXISTS admin");
-                statement.executeUpdate("CREATE USER admin WITH PASSWORD '1111'");
+                statement.executeUpdate("DROP USER IF EXISTS " + user);
+                statement.executeUpdate("CREATE USER " + user + " WITH PASSWORD " + "'" + password + "'");
             } catch (SQLException e) {
-                System.out.println("User 'admin' is already exists!");
+                System.out.println("User '" + user + "' is already exists!");
             }
-            statement.executeUpdate("GRANT ALL PRIVILEGES ON DATABASE university to admin");
+            statement.executeUpdate("GRANT ALL PRIVILEGES ON DATABASE " + dbName + " to " + user);
             dbConnection.setProps("url", dbConnection.getProps().getProperty("url") + "university");
-            dbConnection.setProps("user", "admin");
-            dbConnection.setProps("password", "1111");
+            dbConnection.setProps("user", user);
+            dbConnection.setProps("password", password);
             statement.executeUpdate("DROP TABLE IF EXISTS lectures CASCADE");
             statement.executeUpdate("DROP TABLE IF EXISTS students CASCADE");
             statement.executeUpdate("DROP TABLE IF EXISTS groups CASCADE");

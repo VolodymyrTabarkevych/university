@@ -34,9 +34,9 @@ public class ProgramMenu extends TextUniversityMenu {
     public void start() {
         sampleDataForDatabase.createData();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String selectedOption = " ";
+        String selectedOption = "";
 
-        while (!selectedOption.equals("")) {
+        while (!selectedOption.equals(" ")) {
             showOptions();
             try {
                 selectedOption = reader.readLine();
