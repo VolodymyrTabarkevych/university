@@ -1,9 +1,7 @@
 package ua.com.foxminded.university.dao;
 
 import java.sql.ResultSet;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -14,7 +12,6 @@ import ua.com.foxminded.university.domain.Room;
 
 public class RoomDaoJdbcTemplateImpl implements CrudDao<Room> {
     private JdbcTemplate template;
-    private Map<Integer, Room> rooms = new HashMap<>();
     private final String SQL_FIND_ALL = "SELECT * FROM rooms";
     private final String SQL_FIND_BY_ID = "SELECT * FROM rooms WHERE id = ?";
     private final String SQL_SAVE_ROOM = "INSERT INTO rooms (number) VALUES (?)";
@@ -26,18 +23,17 @@ public class RoomDaoJdbcTemplateImpl implements CrudDao<Room> {
     }
 
     private RowMapper<Room> roomRowMapper = (ResultSet resultSet, int i) -> {
-        Integer id = resultSet.getInt("id");
-        if (!rooms.containsKey(id)) {
-            Room room = new Room(resultSet.getInt("id"), resultSet.getInt("number"));
-            rooms.put(id, room);
-        }
-        return rooms.get(id);
+        Room room = new Room(resultSet.getInt("id"), resultSet.getInt("number"));
+        return room;
     };
 
     @Override
     public Room find(Integer id) {
-        template.query(SQL_FIND_BY_ID, roomRowMapper, id);
-        return rooms.get(id);
+        Room room = template.query(SQL_FIND_BY_ID, roomRowMapper, id).get(0);
+        if (room == null) {
+            System.out.println("No room with such id!");
+        }
+        return room;
     }
 
     @Override

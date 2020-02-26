@@ -2,9 +2,7 @@ package ua.com.foxminded.university.dao;
 
 import java.sql.ResultSet;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -19,8 +17,6 @@ import ua.com.foxminded.university.domain.Teacher;
 public class LectureDaoJdbcTemplateImpl implements CrudDao<Lecture> {
     private JdbcTemplate template;
     private GroupDaoJdbcTemplateImpl groupDaoJdbcTemplateImpl;
-    private Map<Integer, Lecture> lectures = new HashMap<>();
-    // private final String SQL_FIND_ALL = "SELECT * FROM lectures";
     private final String SQL_FIND_ALL_WITH_DATA = "SELECT lecture_id, teachers.id as teacher_id, teachers.first_name, teachers.last_name, groups.id as group_id, groups.name as group_name, subjects.id as subject_id, subjects.name as subject_name, rooms.id as room_id, rooms.number as room_number, date, start_time, end_time FROM lectures INNER JOIN teachers ON teacher_id = teachers.id INNER JOIN groups ON group_id = groups.id INNER JOIN subjects ON subject_id = subjects.id INNER JOIN rooms ON room_id = rooms.id";
     private final String SQL_FIND_BY_ID = "SELECT lecture_id, teachers.id as teacher_id, teachers.first_name, teachers.last_name, groups.id as group_id, groups.name as group_name, subjects.id as subject_id, subjects.name as subject_name, rooms.id as room_id, rooms.number as room_number, date, start_time, end_time FROM lectures INNER JOIN teachers ON teacher_id = teachers.id INNER JOIN groups ON group_id = groups.id INNER JOIN subjects ON subject_id = subjects.id INNER JOIN rooms ON room_id = rooms.id WHERE lecture_id = ?";
     private final String SQL_FIND_ALL_LECTURES_BY_GROUP_ID_AND_DAY = "SELECT lecture_id, teachers.id as teacher_id, teachers.first_name, teachers.last_name, groups.id as group_id, groups.name as group_name, subjects.id as subject_id, subjects.name as subject_name, rooms.id as room_id, rooms.number as room_number, date, start_time, end_time FROM lectures INNER JOIN teachers ON teacher_id = teachers.id INNER JOIN groups ON group_id = groups.id INNER JOIN subjects ON subject_id = subjects.id INNER JOIN rooms ON room_id = rooms.id WHERE group_id = ? AND date = ?";
@@ -37,26 +33,25 @@ public class LectureDaoJdbcTemplateImpl implements CrudDao<Lecture> {
     }
 
     private RowMapper<Lecture> lectureRowMapper = (ResultSet resultSet, int i) -> {
-        Integer id = resultSet.getInt("lecture_id");
-        if (!lectures.containsKey(id)) {
-            Lecture lecture = new Lecture.Builder().setLectureId(resultSet.getInt("lecture_id"))
-                    .setTeacher(new Teacher(resultSet.getInt("teacher_id"), resultSet.getString("first_name"),
-                            resultSet.getString("last_name")))
-                    .setGroup(groupDaoJdbcTemplateImpl.find(resultSet.getInt("group_id")))
-                    .setSubject(new Subject(resultSet.getInt("subject_id"), resultSet.getString("subject_name")))
-                    .setRoom(new Room(resultSet.getInt("room_id"), resultSet.getInt("room_number")))
-                    .setDate(resultSet.getDate("date").toLocalDate())
-                    .setStartTime(resultSet.getTime("start_time").toLocalTime())
-                    .setEndTime(resultSet.getTime("end_time").toLocalTime()).build();
-            lectures.put(id, lecture);
-        }
-        return lectures.get(id);
+        Lecture lecture = new Lecture.Builder().setLectureId(resultSet.getInt("lecture_id"))
+                .setTeacher(new Teacher(resultSet.getInt("teacher_id"), resultSet.getString("first_name"),
+                        resultSet.getString("last_name")))
+                .setGroup(groupDaoJdbcTemplateImpl.find(resultSet.getInt("group_id")))
+                .setSubject(new Subject(resultSet.getInt("subject_id"), resultSet.getString("subject_name")))
+                .setRoom(new Room(resultSet.getInt("room_id"), resultSet.getInt("room_number")))
+                .setDate(resultSet.getDate("date").toLocalDate())
+                .setStartTime(resultSet.getTime("start_time").toLocalTime())
+                .setEndTime(resultSet.getTime("end_time").toLocalTime()).build();
+        return lecture;
     };
 
     @Override
     public Lecture find(Integer id) {
-        template.query(SQL_FIND_BY_ID, lectureRowMapper, id);
-        return lectures.get(id);
+        Lecture lecture = template.query(SQL_FIND_BY_ID, lectureRowMapper, id).get(0);
+        if (lecture == null) {
+            System.out.println("No lecture with such id!");
+        }
+        return lecture;
     }
 
     public List<Lecture> findAllLecturesByGroupIdAndDay(int groupId, LocalDate date) {

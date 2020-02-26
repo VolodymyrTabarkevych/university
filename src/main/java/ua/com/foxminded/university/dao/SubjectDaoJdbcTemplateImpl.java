@@ -1,9 +1,7 @@
 package ua.com.foxminded.university.dao;
 
 import java.sql.ResultSet;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -14,7 +12,6 @@ import ua.com.foxminded.university.domain.Subject;
 
 public class SubjectDaoJdbcTemplateImpl implements CrudDao<Subject> {
     private JdbcTemplate template;
-    private Map<Integer, Subject> subjects = new HashMap<>();
     private final String SQL_FIND_ALL = "SELECT * FROM subjects";
     private final String SQL_FIND_BY_ID = "SELECT * FROM subjects WHERE id = ?";
     private final String SQL_SAVE_SUBJECT = "INSERT INTO subjects (name) VALUES (?)";
@@ -26,18 +23,17 @@ public class SubjectDaoJdbcTemplateImpl implements CrudDao<Subject> {
     }
 
     private RowMapper<Subject> subjectRowMapper = (ResultSet resultSet, int i) -> {
-        Integer id = resultSet.getInt("id");
-        if (!subjects.containsKey(id)) {
-            Subject subject = new Subject(resultSet.getInt("id"), resultSet.getString("name"));
-            subjects.put(id, subject);
-        }
-        return subjects.get(id);
+        Subject subject = new Subject(resultSet.getInt("id"), resultSet.getString("name"));
+        return subject;
     };
 
     @Override
     public Subject find(Integer id) {
-        template.query(SQL_FIND_BY_ID, subjectRowMapper, id);
-        return subjects.get(id);
+        Subject subject = template.query(SQL_FIND_BY_ID, subjectRowMapper, id).get(0);
+        if (subject == null) {
+            System.out.println("No subject with such id!");
+        }
+        return subject;
     }
 
     @Override

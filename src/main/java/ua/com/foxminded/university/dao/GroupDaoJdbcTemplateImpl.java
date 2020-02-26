@@ -1,10 +1,8 @@
 package ua.com.foxminded.university.dao;
 
 import java.sql.ResultSet;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -17,7 +15,6 @@ import ua.com.foxminded.university.domain.Student;
 public class GroupDaoJdbcTemplateImpl implements CrudDao<Group> {
     private JdbcTemplate template;
     private StudentDaoJdbcTemplateImpl studentDaoJdbcTemplateImpl;
-    private Map<Integer, Group> groups = new HashMap<>();
     private final String SQL_FIND_ALL = "SELECT * FROM groups";
     private final String SQL_FIND_BY_ID = "SELECT * FROM groups WHERE id = ?";
     private final String SQL_SAVE_GROUP = "INSERT INTO groups (number) VALUES (?)";
@@ -30,19 +27,18 @@ public class GroupDaoJdbcTemplateImpl implements CrudDao<Group> {
     }
 
     private RowMapper<Group> groupRowMapper = (ResultSet resultSet, int i) -> {
-        Integer id = resultSet.getInt("id");
-        if (!groups.containsKey(id)) {
-            Group group = new Group(resultSet.getInt("id"), resultSet.getString("name"));
-            group.addStudents(new HashSet<Student>(studentDaoJdbcTemplateImpl.findAllByGroupId(group.getId())));
-            groups.put(id, group);
-        }
-        return groups.get(id);
+        Group group = new Group(resultSet.getInt("id"), resultSet.getString("name"));
+        group.addStudents(new HashSet<Student>(studentDaoJdbcTemplateImpl.findAllByGroupId(group.getId())));
+        return group;
     };
 
     @Override
     public Group find(Integer id) {
-        template.query(SQL_FIND_BY_ID, groupRowMapper, id);
-        return groups.get(id);
+        Group group = template.query(SQL_FIND_BY_ID, groupRowMapper, id).get(0);
+        if (group == null) {
+            System.out.println("No group with such id!");
+        }
+        return group;
     }
 
     @Override
