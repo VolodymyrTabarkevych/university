@@ -4,8 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
+@Getter@Setter
 public class Teacher extends Person {
     private Set<Subject> subjects = new HashSet<>();
 

@@ -6,19 +6,19 @@ import lombok.Getter;
 
 @Getter
 public class DbCooperator {
-    private TeacherDao teacherDaoJdbcTemplateImpl;
-    private StudentDao studentDaoJdbcTemplateImpl;
-    private GroupDao groupDaoJdbcTemplateImpl;
-    private SubjectDao subjectDaoJdbcTemplateImpl;
-    private RoomDao roomDaoJdbcTemplateImpl;
-    private LectureDao lectureDaoJdbcTemplateImpl;
+    private TeacherDao teacherDao;
+    private StudentDao studentDao;
+    private GroupDao groupDao;
+    private SubjectDao subjectDao;
+    private RoomDao roomDao;
+    private LectureDao lectureDao;
 
     public DbCooperator(DataSource dataSource) {
-        this.teacherDaoJdbcTemplateImpl = new TeacherDao(dataSource);
-        this.studentDaoJdbcTemplateImpl = new StudentDao(dataSource);
-        this.groupDaoJdbcTemplateImpl = new GroupDao(dataSource);
-        this.subjectDaoJdbcTemplateImpl = new SubjectDao(dataSource);
-        this.roomDaoJdbcTemplateImpl = new RoomDao(dataSource);
-        this.lectureDaoJdbcTemplateImpl = new LectureDao(dataSource);
+        this.teacherDao = new TeacherDao(dataSource);
+        this.studentDao = new StudentDao(dataSource);
+        this.groupDao = new GroupDao(dataSource);
+        this.subjectDao = new SubjectDao(dataSource);
+        this.roomDao = new RoomDao(dataSource);
+        this.lectureDao = new LectureDao(dataSource);
     }
 }

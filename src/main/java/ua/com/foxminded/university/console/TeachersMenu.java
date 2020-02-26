@@ -44,7 +44,7 @@ public class TeachersMenu extends TextUniversityMenu {
             String firstName = reader.readLine();
             System.out.println("Enter last name: ");
             String lastName = reader.readLine();
-            dbCooperator.getTeacherDaoJdbcTemplateImpl().save(new Teacher(firstName, lastName));
+            dbCooperator.getTeacherDao().save(new Teacher(firstName, lastName));
             System.out.println(CONTINUE_ADDING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -54,14 +54,14 @@ public class TeachersMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter teacher id: ");
             int teacherId = Integer.parseInt(reader.readLine());
-            dbCooperator.getTeacherDaoJdbcTemplateImpl().delete(teacherId);
+            dbCooperator.getTeacherDao().delete(teacherId);
             System.out.println(CONTINUE_REMOVING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
     }
 
     public void viewAllTeachers() {
-        for (Teacher teacher : dbCooperator.getTeacherDaoJdbcTemplateImpl().findAll()) {
+        for (Teacher teacher : dbCooperator.getTeacherDao().findAll()) {
             System.out.println(teacher.getId() + ". " + teacher.getFirstName() + " " + teacher.getLastName());
         }
     }

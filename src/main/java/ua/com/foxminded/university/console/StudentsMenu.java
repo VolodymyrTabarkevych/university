@@ -51,13 +51,13 @@ class StudentsMenu extends TextUniversityMenu {
             System.out.println("Enter last name: ");
             String lastName = reader.readLine();
             System.out.println("Groups: ");
-            for (Group group : dbCooperator.getGroupDaoJdbcTemplateImpl().findAll()) {
+            for (Group group : dbCooperator.getGroupDao().findAll()) {
                 System.out.println("Group id: " + group.getId() + " Group name: " + group.getName());
             }
             System.out.println("Enter group id: ");
             int groupId = Integer.parseInt(reader.readLine());
             try {
-                dbCooperator.getStudentDaoJdbcTemplateImpl().save(new Student(firstName, lastName, new Group(groupId)));
+                dbCooperator.getStudentDao().save(new Student(firstName, lastName, new Group(groupId)));
             } catch (DataIntegrityViolationException e) {
                 System.out.println("No group with such id!");
             }
@@ -70,7 +70,7 @@ class StudentsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter student id: ");
             int studentId = Integer.parseInt(reader.readLine());
-            dbCooperator.getStudentDaoJdbcTemplateImpl().delete(studentId);
+            dbCooperator.getStudentDao().delete(studentId);
             System.out.println(CONTINUE_REMOVING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -82,16 +82,16 @@ class StudentsMenu extends TextUniversityMenu {
             int studentId = Integer.parseInt(reader.readLine());
             System.out.println("Enter group id: ");
             int groupId = Integer.parseInt(reader.readLine());
-            Student student = dbCooperator.getStudentDaoJdbcTemplateImpl().find(studentId);
+            Student student = dbCooperator.getStudentDao().find(studentId);
             student.setGroup(new Group(groupId));
-            dbCooperator.getStudentDaoJdbcTemplateImpl().update(student);
+            dbCooperator.getStudentDao().update(student);
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
     }
 
     private void viewAllStudents() {
-        for (Student student : dbCooperator.getStudentDaoJdbcTemplateImpl().findAll()) {
+        for (Student student : dbCooperator.getStudentDao().findAll()) {
             System.out.println(student.getId() + ". " + student.getFirstName() + " " + student.getLastName());
         }
     }

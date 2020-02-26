@@ -42,7 +42,7 @@ class SubjectsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter subject name: ");
             String subjectName = reader.readLine();
-            dbCooperator.getSubjectDaoJdbcTemplateImpl().save(new Subject(subjectName));
+            dbCooperator.getSubjectDao().save(new Subject(subjectName));
             System.out.println(CONTINUE_ADDING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -52,14 +52,14 @@ class SubjectsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter subject id: ");
             int subjectId = Integer.parseInt(reader.readLine());
-            dbCooperator.getSubjectDaoJdbcTemplateImpl().delete(subjectId);
+            dbCooperator.getSubjectDao().delete(subjectId);
             System.out.println(CONTINUE_REMOVING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
     }
 
     private void viewAllSubjects() {
-        for (Subject subject : dbCooperator.getSubjectDaoJdbcTemplateImpl().findAll()) {
+        for (Subject subject : dbCooperator.getSubjectDao().findAll()) {
             System.out.println(subject.toString());
         }
     }

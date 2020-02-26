@@ -42,7 +42,7 @@ public class RoomsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter room number: ");
             int roomNumber = Integer.parseInt(reader.readLine());
-            dbCooperator.getRoomDaoJdbcTemplateImpl().save(new Room(roomNumber));
+            dbCooperator.getRoomDao().save(new Room(roomNumber));
             System.out.println(CONTINUE_ADDING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -52,14 +52,14 @@ public class RoomsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter room id: ");
             int roomId = Integer.parseInt(reader.readLine());
-            dbCooperator.getRoomDaoJdbcTemplateImpl().delete(roomId);
+            dbCooperator.getRoomDao().delete(roomId);
             System.out.println(CONTINUE_REMOVING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
     }
 
     private void viewAllRooms() {
-        for (Room room : dbCooperator.getRoomDaoJdbcTemplateImpl().findAll()) {
+        for (Room room : dbCooperator.getRoomDao().findAll()) {
             System.out.println(room.getNumber());
         }
     }

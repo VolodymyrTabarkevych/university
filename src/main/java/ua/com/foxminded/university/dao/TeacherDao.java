@@ -1,6 +1,7 @@
 package ua.com.foxminded.university.dao;
 
 import java.sql.ResultSet;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -17,9 +18,9 @@ public class TeacherDao implements CrudDao<Teacher> {
     private final String SQL_SAVE_TEACHERS_SUBJECTS = "INSERT INTO teacherssubjects (teacher_id, subject_id) VALUES (?,?)";
     private final String SQL_UPDATE_TEACHER = "UPDATE teachers SET first_name = ? , last_name = ? WHERE id = ?";
     private final String SQL_DELETE_TEACHER = "DELETE FROM teachers WHERE id = ?";
-    private final String SQL_FIND_TEACHERS_WITH_SUBJECTS = "SELECT teachers.*, subjects.id as subject_id, subjects.name FROM teacherssubjects INNER JOIN subjects ON subject_id = subjects.id INNER JOIN teachers ON teacher_id = teachers.id";
-    private final String SQL_FIND_TEACHER_WITH_SUBJECTS = "SELECT teachers.*, subjects.id as subject_id, subjects.name FROM teacherssubjects INNER JOIN subjects ON subject_id = subjects.id INNER JOIN teachers ON teacher_id = teachers.id WHERE teacher_id = ?";
-    private final String SQL_FIND_ALL_SUBJECTS = "SELECT * FROM teachersubjects WHERE teacher_id = ?";
+    private final String SQL_FIND_TEACHERS = "SELECT * FROM teachers";
+    private final String SQL_FIND_TEACHER = "SELECT * FROM teachers WHERE teacher_id = ?";
+    private final String SQL_FIND_ALL_SUBJECTS = "SELECT subject_id, name FROM teacherssubjects INNER JOIN subjects ON subject_id = subjects.id WHERE teacher_id = ?";
 
     public TeacherDao(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
@@ -28,16 +29,17 @@ public class TeacherDao implements CrudDao<Teacher> {
     private RowMapper<Teacher> teacherRowMapperWithSubjects = (ResultSet resultSet, int i) -> {
         Teacher teacher = new Teacher(resultSet.getInt("id"), resultSet.getString("first_name"),
                 resultSet.getString("last_name"));
-        Subject subject = new Subject(resultSet.getInt("subject_id"), resultSet.getString("name"));
-        subject.getTeachers().add(teacher);
-        teacher.addSubject(subject);
+        teacher.setSubjects(new HashSet<Subject>(findAllSubjects(teacher.getId())));
         return teacher;
+    };
+    private RowMapper<Subject> subjectRowMapper = (ResultSet resultSet, int i) -> {
+        Subject subject = new Subject(resultSet.getInt("subject_id"), resultSet.getString("name"));
+        return subject;
     };
 
     @Override
     public Teacher find(Integer teacherId) {
-        Teacher teacher = template.query(SQL_FIND_TEACHER_WITH_SUBJECTS, teacherRowMapperWithSubjects, teacherId)
-                .get(0);
+        Teacher teacher = template.query(SQL_FIND_TEACHER, teacherRowMapperWithSubjects, teacherId).get(0);
         if (teacher == null) {
             System.out.println("No teacher with such id!");
         }
@@ -86,14 +88,10 @@ public class TeacherDao implements CrudDao<Teacher> {
 
     @Override
     public List<Teacher> findAll() {
-        return template.query(SQL_FIND_TEACHERS_WITH_SUBJECTS, teacherRowMapperWithSubjects);
+        return template.query(SQL_FIND_TEACHERS, teacherRowMapperWithSubjects);
     }
 
-    public Teacher findAllSubjects(Integer teacherId) {
-        Teacher teacher = template.query(SQL_FIND_ALL_SUBJECTS, teacherRowMapperWithSubjects, teacherId).get(0);
-        if (teacher == null) {
-            System.out.println("No teacher with such id!");
-        }
-        return teacher;
+    public List<Subject> findAllSubjects(Integer teacherId) {
+        return template.query(SQL_FIND_ALL_SUBJECTS, subjectRowMapper, teacherId);
     }
 }

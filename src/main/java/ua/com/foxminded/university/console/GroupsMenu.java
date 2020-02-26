@@ -49,7 +49,7 @@ public class GroupsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter group name: ");
             String groupName = reader.readLine();
-            dbCooperator.getGroupDaoJdbcTemplateImpl().save(new Group(groupName));
+            dbCooperator.getGroupDao().save(new Group(groupName));
             System.out.println(CONTINUE_ADDING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -59,7 +59,7 @@ public class GroupsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter group id: ");
             int groupId = Integer.parseInt(reader.readLine());
-            dbCooperator.getGroupDaoJdbcTemplateImpl().delete(groupId);
+            dbCooperator.getGroupDao().delete(groupId);
             System.out.println(CONTINUE_REMOVING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -71,18 +71,18 @@ public class GroupsMenu extends TextUniversityMenu {
             int studentId = Integer.parseInt(reader.readLine());
             System.out.println("Enter group id: ");
             int groupId = Integer.parseInt(reader.readLine());
-            Student student = dbCooperator.getStudentDaoJdbcTemplateImpl().find(studentId);
-            Group group = dbCooperator.getGroupDaoJdbcTemplateImpl().find(groupId);
+            Student student = dbCooperator.getStudentDao().find(studentId);
+            Group group = dbCooperator.getGroupDao().find(groupId);
             group.addStudent(student);
             student.setGroup(group);
-            dbCooperator.getGroupDaoJdbcTemplateImpl().update(group);
+            dbCooperator.getGroupDao().update(group);
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
     }
 
     private void viewAllGroups() {
-        for (Group group : dbCooperator.getGroupDaoJdbcTemplateImpl().findAll()) {
+        for (Group group : dbCooperator.getGroupDao().findAll()) {
             System.out.println(group.getName());
         }
     }
@@ -90,7 +90,7 @@ public class GroupsMenu extends TextUniversityMenu {
     private void viewAllStudentsInGroup(BufferedReader reader) throws IOException {
         System.out.println("Enter group id: ");
         int groupId = Integer.parseInt(reader.readLine());
-        for (Student student : dbCooperator.getStudentDaoJdbcTemplateImpl().findAllByGroupId(groupId)) {
+        for (Student student : dbCooperator.getStudentDao().findAllByGroupId(groupId)) {
             System.out.println(student.toString());
         }
         System.out.println(CONTINUE_CHANGING);

@@ -71,9 +71,9 @@ class LectureMenu extends TextUniversityMenu {
             lectureId = Integer.parseInt(reader.readLine());
             System.out.println("Enter room number: ");
             roomId = Integer.parseInt(reader.readLine());
-            Lecture lecture = dbCooperator.getLectureDaoJdbcTemplateImpl().find(lectureId);
-            lecture.setRoom(dbCooperator.getRoomDaoJdbcTemplateImpl().find(roomId));
-            dbCooperator.getLectureDaoJdbcTemplateImpl().update(lecture);
+            Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
+            lecture.setRoom(dbCooperator.getRoomDao().find(roomId));
+            dbCooperator.getLectureDao().update(lecture);
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -89,9 +89,9 @@ class LectureMenu extends TextUniversityMenu {
             month = Integer.parseInt(reader.readLine());
             System.out.println("Enter day of month");
             day = Integer.parseInt(reader.readLine());
-            Lecture lecture = dbCooperator.getLectureDaoJdbcTemplateImpl().find(lectureId);
+            Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
             lecture.setDate(LocalDate.of(year, month, day));
-            dbCooperator.getLectureDaoJdbcTemplateImpl().update(lecture);
+            dbCooperator.getLectureDao().update(lecture);
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -106,10 +106,10 @@ class LectureMenu extends TextUniversityMenu {
             startHour = Integer.parseInt(reader.readLine());
             System.out.println("Enter start minute: ");
             startMinute = Integer.parseInt(reader.readLine());
-            Lecture lecture = dbCooperator.getLectureDaoJdbcTemplateImpl().find(lectureId);
+            Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
             lecture.setStartTime(LocalTime.of(startHour, startMinute));
             lecture.setEndTime(LocalTime.of(startHour, startMinute).plusHours(1).plusMinutes(20));
-            dbCooperator.getLectureDaoJdbcTemplateImpl().update(lecture);
+            dbCooperator.getLectureDao().update(lecture);
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -121,9 +121,9 @@ class LectureMenu extends TextUniversityMenu {
             lectureId = Integer.parseInt(reader.readLine());
             System.out.println("Enter group name: ");
             groupId = Integer.parseInt(reader.readLine());
-            Lecture lecture = dbCooperator.getLectureDaoJdbcTemplateImpl().find(lectureId);
-            lecture.setGroup(dbCooperator.getGroupDaoJdbcTemplateImpl().find(personId));
-            dbCooperator.getLectureDaoJdbcTemplateImpl().update(lecture);
+            Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
+            lecture.setGroup(dbCooperator.getGroupDao().find(personId));
+            dbCooperator.getLectureDao().update(lecture);
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -135,9 +135,9 @@ class LectureMenu extends TextUniversityMenu {
             lectureId = Integer.parseInt(reader.readLine());
             System.out.println("Enter teacher id: ");
             personId = Integer.parseInt(reader.readLine());
-            Lecture lecture = dbCooperator.getLectureDaoJdbcTemplateImpl().find(lectureId);
-            lecture.setTeacher(dbCooperator.getTeacherDaoJdbcTemplateImpl().find(personId));
-            dbCooperator.getLectureDaoJdbcTemplateImpl().update(lecture);
+            Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
+            lecture.setTeacher(dbCooperator.getTeacherDao().find(personId));
+            dbCooperator.getLectureDao().update(lecture);
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -149,9 +149,9 @@ class LectureMenu extends TextUniversityMenu {
             lectureId = Integer.parseInt(reader.readLine());
             System.out.println("Enter subject name: ");
             subjectId = Integer.parseInt(reader.readLine());
-            Lecture lecture = dbCooperator.getLectureDaoJdbcTemplateImpl().find(lectureId);
-            lecture.setSubject(dbCooperator.getSubjectDaoJdbcTemplateImpl().find(subjectId));
-            dbCooperator.getLectureDaoJdbcTemplateImpl().update(lecture);
+            Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
+            lecture.setSubject(dbCooperator.getSubjectDao().find(subjectId));
+            dbCooperator.getLectureDao().update(lecture);
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -161,7 +161,7 @@ class LectureMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter lecture id: ");
             lectureId = Integer.parseInt(reader.readLine());
-            dbCooperator.getLectureDaoJdbcTemplateImpl().delete(lectureId);
+            dbCooperator.getLectureDao().delete(lectureId);
             System.out.println(CONTINUE_REMOVING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -188,13 +188,13 @@ class LectureMenu extends TextUniversityMenu {
             System.out.println("Enter start minute");
             startMinute = Integer.parseInt(reader.readLine());
             Lecture lecture = new Lecture.Builder()
-                    .setTeacher(dbCooperator.getTeacherDaoJdbcTemplateImpl().find(personId))
-                    .setGroup(dbCooperator.getGroupDaoJdbcTemplateImpl().find(groupId))
-                    .setSubject(dbCooperator.getSubjectDaoJdbcTemplateImpl().find(subjectId))
-                    .setRoom(dbCooperator.getRoomDaoJdbcTemplateImpl().find(roomId))
+                    .setTeacher(dbCooperator.getTeacherDao().find(personId))
+                    .setGroup(dbCooperator.getGroupDao().find(groupId))
+                    .setSubject(dbCooperator.getSubjectDao().find(subjectId))
+                    .setRoom(dbCooperator.getRoomDao().find(roomId))
                     .setDate(LocalDate.of(year, month, day)).setStartTime(LocalTime.of(startHour, startMinute))
                     .setEndTime(LocalTime.of(startHour, startMinute).plusHours(1).plusMinutes(20)).build();
-            dbCooperator.getLectureDaoJdbcTemplateImpl().save(lecture);
+            dbCooperator.getLectureDao().save(lecture);
             System.out.println(CONTINUE_ADDING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
