@@ -9,10 +9,10 @@ import java.util.Scanner;
 
 import javax.sql.DataSource;
 
-public class SampleDataForDatabase {
+public class SampleUniversityData {
     private DataSource dataSource;
 
-    public SampleDataForDatabase(DataSource dataSource) {
+    public SampleUniversityData(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
