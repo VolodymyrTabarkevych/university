@@ -122,7 +122,7 @@ class LectureMenu extends TextUniversityMenu {
             System.out.println("Enter group name: ");
             groupId = Integer.parseInt(reader.readLine());
             Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
-            lecture.setGroup(dbCooperator.getGroupDao().find(personId));
+            lecture.setGroup(dbCooperator.getGroupDao().find(groupId));
             dbCooperator.getLectureDao().update(lecture);
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
