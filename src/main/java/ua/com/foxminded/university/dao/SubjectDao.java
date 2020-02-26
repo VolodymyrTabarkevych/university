@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import ua.com.foxminded.university.domain.Subject;
 
-public class SubjectDaoJdbcTemplateImpl implements CrudDao<Subject> {
+public class SubjectDao implements CrudDao<Subject> {
     private JdbcTemplate template;
     private final String SQL_FIND_ALL = "SELECT * FROM subjects";
     private final String SQL_FIND_BY_ID = "SELECT * FROM subjects WHERE id = ?";
@@ -18,7 +18,7 @@ public class SubjectDaoJdbcTemplateImpl implements CrudDao<Subject> {
     private final String SQL_UPDATE_SUBJECT = "UPDATE subjects SET name = ? WHERE id = ?";
     private final String SQL_DELETE_SUBJECT = "DELETE FROM subjects WHERE id = ?";
 
-    public SubjectDaoJdbcTemplateImpl(DataSource dataSource) {
+    public SubjectDao(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
     }
 

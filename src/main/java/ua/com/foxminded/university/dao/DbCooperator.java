@@ -6,19 +6,19 @@ import lombok.Getter;
 
 @Getter
 public class DbCooperator {
-    private TeacherDaoJdbcTemplateImpl teacherDaoJdbcTemplateImpl;
-    private StudentDaoJdbcTemplateImpl studentDaoJdbcTemplateImpl;
-    private GroupDaoJdbcTemplateImpl groupDaoJdbcTemplateImpl;
-    private SubjectDaoJdbcTemplateImpl subjectDaoJdbcTemplateImpl;
-    private RoomDaoJdbcTemplateImpl roomDaoJdbcTemplateImpl;
-    private LectureDaoJdbcTemplateImpl lectureDaoJdbcTemplateImpl;
+    private TeacherDao teacherDaoJdbcTemplateImpl;
+    private StudentDao studentDaoJdbcTemplateImpl;
+    private GroupDao groupDaoJdbcTemplateImpl;
+    private SubjectDao subjectDaoJdbcTemplateImpl;
+    private RoomDao roomDaoJdbcTemplateImpl;
+    private LectureDao lectureDaoJdbcTemplateImpl;
 
     public DbCooperator(DataSource dataSource) {
-        this.teacherDaoJdbcTemplateImpl = new TeacherDaoJdbcTemplateImpl(dataSource);
-        this.studentDaoJdbcTemplateImpl = new StudentDaoJdbcTemplateImpl(dataSource);
-        this.groupDaoJdbcTemplateImpl = new GroupDaoJdbcTemplateImpl(dataSource);
-        this.subjectDaoJdbcTemplateImpl = new SubjectDaoJdbcTemplateImpl(dataSource);
-        this.roomDaoJdbcTemplateImpl = new RoomDaoJdbcTemplateImpl(dataSource);
-        this.lectureDaoJdbcTemplateImpl = new LectureDaoJdbcTemplateImpl(dataSource);
+        this.teacherDaoJdbcTemplateImpl = new TeacherDao(dataSource);
+        this.studentDaoJdbcTemplateImpl = new StudentDao(dataSource);
+        this.groupDaoJdbcTemplateImpl = new GroupDao(dataSource);
+        this.subjectDaoJdbcTemplateImpl = new SubjectDao(dataSource);
+        this.roomDaoJdbcTemplateImpl = new RoomDao(dataSource);
+        this.lectureDaoJdbcTemplateImpl = new LectureDao(dataSource);
     }
 }

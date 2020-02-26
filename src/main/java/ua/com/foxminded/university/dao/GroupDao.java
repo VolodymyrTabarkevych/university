@@ -12,18 +12,18 @@ import org.springframework.jdbc.core.RowMapper;
 import ua.com.foxminded.university.domain.Group;
 import ua.com.foxminded.university.domain.Student;
 
-public class GroupDaoJdbcTemplateImpl implements CrudDao<Group> {
+public class GroupDao implements CrudDao<Group> {
     private JdbcTemplate template;
-    private StudentDaoJdbcTemplateImpl studentDaoJdbcTemplateImpl;
+    private StudentDao studentDaoJdbcTemplateImpl;
     private final String SQL_FIND_ALL = "SELECT * FROM groups";
     private final String SQL_FIND_BY_ID = "SELECT * FROM groups WHERE id = ?";
     private final String SQL_SAVE_GROUP = "INSERT INTO groups (number) VALUES (?)";
     private final String SQL_UPDATE_GROUP = "UPDATE groups SET number = ?, WHERE id = ?";
     private final String SQL_DELETE_GROUP = "DELETE FROM groups WHERE id = ?";
 
-    public GroupDaoJdbcTemplateImpl(DataSource dataSource) {
+    public GroupDao(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
-        this.studentDaoJdbcTemplateImpl = new StudentDaoJdbcTemplateImpl(dataSource);
+        this.studentDaoJdbcTemplateImpl = new StudentDao(dataSource);
     }
 
     private RowMapper<Group> groupRowMapper = (ResultSet resultSet, int i) -> {

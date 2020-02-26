@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import ua.com.foxminded.university.domain.Subject;
 import ua.com.foxminded.university.domain.Teacher;
 
-public class TeacherDaoJdbcTemplateImpl implements CrudDao<Teacher> {
+public class TeacherDao implements CrudDao<Teacher> {
     private JdbcTemplate template;
     private final String SQL_SAVE_TEACHER = "INSERT INTO teachers(first_name, last_name) VALUES (?,?)";
     private final String SQL_SAVE_TEACHERS_SUBJECTS = "INSERT INTO teacherssubjects (teacher_id, subject_id) VALUES (?,?)";
@@ -21,7 +21,7 @@ public class TeacherDaoJdbcTemplateImpl implements CrudDao<Teacher> {
     private final String SQL_FIND_TEACHER_WITH_SUBJECTS = "SELECT teachers.*, subjects.id as subject_id, subjects.name FROM teacherssubjects INNER JOIN subjects ON subject_id = subjects.id INNER JOIN teachers ON teacher_id = teachers.id WHERE teacher_id = ?";
     private final String SQL_FIND_ALL_SUBJECTS = "SELECT * FROM teachersubjects WHERE teacher_id = ?";
 
-    public TeacherDaoJdbcTemplateImpl(DataSource dataSource) {
+    public TeacherDao(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
     }
 

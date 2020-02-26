@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import ua.com.foxminded.university.domain.Room;
 
-public class RoomDaoJdbcTemplateImpl implements CrudDao<Room> {
+public class RoomDao implements CrudDao<Room> {
     private JdbcTemplate template;
     private final String SQL_FIND_ALL = "SELECT * FROM rooms";
     private final String SQL_FIND_BY_ID = "SELECT * FROM rooms WHERE id = ?";
@@ -18,7 +18,7 @@ public class RoomDaoJdbcTemplateImpl implements CrudDao<Room> {
     private final String SQL_UPDATE_ROOM = "UPDATE rooms SET number = ?, WHERE id = ?";
     private final String SQL_DELETE_ROOM = "DELETE FROM rooms WHERE id = ?";
 
-    public RoomDaoJdbcTemplateImpl(DataSource dataSource) {
+    public RoomDao(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
     }
 

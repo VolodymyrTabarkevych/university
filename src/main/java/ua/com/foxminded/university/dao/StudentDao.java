@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import ua.com.foxminded.university.domain.Group;
 import ua.com.foxminded.university.domain.Student;
 
-public class StudentDaoJdbcTemplateImpl implements CrudDao<Student> {
+public class StudentDao implements CrudDao<Student> {
     private JdbcTemplate template;
     private final String SQL_FIND_ALL = "SELECT students.id, first_name, last_name, groups.id as group_id, groups.name as group_name FROM students INNER JOIN groups ON group_id = groups.id";
     private final String SQL_FIND_BY_ID = "SELECT students.id, first_name, last_name, groups.id as group_id, groups.name as group_name FROM students INNER JOIN groups ON group_id = groups.id WHERE students.id = ?";
@@ -20,7 +20,7 @@ public class StudentDaoJdbcTemplateImpl implements CrudDao<Student> {
     private final String SQL_DELETE_STUDENT = "DELETE FROM students WHERE id = ?";
     private final String SQL_FIND_STUDENTS_BY_GROUP_ID = "SELECT students.id, first_name, last_name, groups.id as group_id, groups.name as group_name FROM students INNER JOIN groups ON group_id = groups.id WHERE group_id = ?";
 
-    public StudentDaoJdbcTemplateImpl(DataSource dataSource) {
+    public StudentDao(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
     }
 
