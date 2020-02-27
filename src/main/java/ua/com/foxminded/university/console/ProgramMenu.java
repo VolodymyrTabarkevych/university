@@ -35,29 +35,29 @@ public class ProgramMenu extends TextUniversityMenu {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String selectedOption = "";
 
-        while (!selectedOption.equals(" ")) {
+        do {
             showOptions();
             try {
                 selectedOption = reader.readLine();
                 switch (selectedOption) {
-                    case "":
-                        break;
-                    case "a":
-                        showTimetableMenuOptions();
-                        selectedOption = reader.readLine();
-                        timetableMenu.start(selectedOption, reader);
-                        break;
-                    case "b":
-                        showUniversityMenuOptions();
-                        selectedOption = reader.readLine();
-                        universityMenu.start(selectedOption, reader);
-                        break;
-                    default:
-                        System.out.println(WRONG_INPUT);
+                case "":
+                    break;
+                case "a":
+                    showTimetableMenuOptions();
+                    selectedOption = reader.readLine();
+                    timetableMenu.start(selectedOption, reader);
+                    break;
+                case "b":
+                    showUniversityMenuOptions();
+                    selectedOption = reader.readLine();
+                    universityMenu.start(selectedOption, reader);
+                    break;
+                default:
+                    System.out.println(WRONG_INPUT);
                 }
             } catch (NumberFormatException | IOException e) {
                 System.out.println(WRONG_INPUT);
             }
-        }
+        } while (!selectedOption.equals(""));
     }
 }
