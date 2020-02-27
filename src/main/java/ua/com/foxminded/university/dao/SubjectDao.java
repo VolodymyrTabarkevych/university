@@ -30,44 +30,22 @@ public class SubjectDao implements CrudDao<Subject> {
     @Override
     public Subject find(Integer id) {
         Subject subject = template.query(SQL_FIND_BY_ID, subjectRowMapper, id).get(0);
-        if (subject == null) {
-            System.out.println("No subject with such id!");
-        }
         return subject;
     }
 
     @Override
-    public void save(Subject subject) {
-        int rowsAffected = 0;
-        rowsAffected = template.update(SQL_SAVE_SUBJECT, subject.getName());
-        if (rowsAffected > 0) {
-            System.out.println("Subject has been added!");
-        } else {
-            System.out.println("Subject hasn't been added!");
-        }
-
+    public int save(Subject subject) {
+        return template.update(SQL_SAVE_SUBJECT, subject.getName());
     }
 
     @Override
-    public void update(Subject subject) {
-        int rowsAffected = 0;
-        rowsAffected = template.update(SQL_UPDATE_SUBJECT, subject.getName(), subject.getId());
-        if (rowsAffected > 0) {
-            System.out.println("Info has been updated!");
-        } else {
-            System.out.println("Info hasn't been updated!");
-        }
+    public int update(Subject subject) {
+        return template.update(SQL_UPDATE_SUBJECT, subject.getName(), subject.getId());
     }
 
     @Override
-    public void delete(Integer id) {
-        int rowsAffected = 0;
-        rowsAffected = template.update(SQL_DELETE_SUBJECT, id);
-        if (rowsAffected > 0) {
-            System.out.println("Subject has been removed!");
-        } else {
-            System.out.println("Subject hasn't been removed!");
-        }
+    public int delete(Integer id) {
+        return template.update(SQL_DELETE_SUBJECT, id);
 
     }
 

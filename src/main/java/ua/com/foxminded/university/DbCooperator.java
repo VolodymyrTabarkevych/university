@@ -1,8 +1,14 @@
-package ua.com.foxminded.university.dao;
+package ua.com.foxminded.university;
 
 import javax.sql.DataSource;
 
 import lombok.Getter;
+import ua.com.foxminded.university.dao.GroupDao;
+import ua.com.foxminded.university.dao.LectureDao;
+import ua.com.foxminded.university.dao.RoomDao;
+import ua.com.foxminded.university.dao.StudentDao;
+import ua.com.foxminded.university.dao.SubjectDao;
+import ua.com.foxminded.university.dao.TeacherDao;
 
 @Getter
 public class DbCooperator {

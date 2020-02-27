@@ -3,11 +3,12 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import ua.com.foxminded.university.dao.DbCooperator;
+import ua.com.foxminded.university.DbCooperator;
 import ua.com.foxminded.university.domain.Subject;
 
 class SubjectsMenu extends TextUniversityMenu {
     private DbCooperator dbCooperator;
+    private int rowsAffected = 0;
     private String selectedOption = "";
 
     public SubjectsMenu(DbCooperator dbCooperator) {
@@ -19,19 +20,19 @@ class SubjectsMenu extends TextUniversityMenu {
         try {
             selectedOption = reader.readLine();
             switch (selectedOption) {
-            case "p":
-                break;
-            case "a":
-                addSubject(reader);
-                break;
-            case "b":
-                removeSubject(reader);
-                break;
-            case "c":
-                viewAllSubjects();
-                break;
-            default:
-                System.out.println(WRONG_INPUT);
+                case "p":
+                    break;
+                case "a":
+                    addSubject(reader);
+                    break;
+                case "b":
+                    removeSubject(reader);
+                    break;
+                case "c":
+                    viewAllSubjects();
+                    break;
+                default:
+                    System.out.println(WRONG_INPUT);
             }
         } catch (IOException e) {
             System.out.println(WRONG_INPUT);
@@ -42,7 +43,12 @@ class SubjectsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter subject name: ");
             String subjectName = reader.readLine();
-            dbCooperator.getSubjectDao().save(new Subject(subjectName));
+            rowsAffected = dbCooperator.getSubjectDao().save(new Subject(subjectName));
+            if (rowsAffected > 0) {
+                System.out.println(DATA_HAS_BEEN_ADDED);
+            } else {
+                System.out.println(DATA_HASNT_BEEN_ADDED);
+            }
             System.out.println(CONTINUE_ADDING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -52,7 +58,12 @@ class SubjectsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter subject id: ");
             int subjectId = Integer.parseInt(reader.readLine());
-            dbCooperator.getSubjectDao().delete(subjectId);
+            rowsAffected = dbCooperator.getSubjectDao().delete(subjectId);
+            if (rowsAffected > 0) {
+                System.out.println(DATA_HAS_BEEN_DELETED);
+            } else {
+                System.out.println(DATA_HASNT_BEEN_DELETED);
+            }
             System.out.println(CONTINUE_REMOVING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));

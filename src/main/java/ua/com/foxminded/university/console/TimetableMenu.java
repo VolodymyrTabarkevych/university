@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import ua.com.foxminded.university.dao.DbCooperator;
+import ua.com.foxminded.university.DbCooperator;
 import ua.com.foxminded.university.domain.Lecture;
 import ua.com.foxminded.university.domain.Student;
 
@@ -26,25 +26,25 @@ public class TimetableMenu extends TextUniversityMenu {
 
     public void start(String selectedOption, BufferedReader reader) {
         switch (selectedOption) {
-        case "p":
-            break;
-        case "a":
-            showStudentTimeTableForDay(reader);
-            break;
-        case "b":
-            showStudentTimetableForMonth(reader);
-            break;
-        case "c":
-            showTeacherTimetableForDay(reader);
-            break;
-        case "d":
-            showTeacherTimetableForMonth(reader);
-            break;
-        case "e":
-            lectureMenu.start(reader);
-            break;
-        default:
-            System.out.println(WRONG_INPUT);
+            case "p":
+                break;
+            case "a":
+                showStudentTimeTableForDay(reader);
+                break;
+            case "b":
+                showStudentTimetableForMonth(reader);
+                break;
+            case "c":
+                showTeacherTimetableForDay(reader);
+                break;
+            case "d":
+                showTeacherTimetableForMonth(reader);
+                break;
+            case "e":
+                lectureMenu.start(reader);
+                break;
+            default:
+                System.out.println(WRONG_INPUT);
         }
     }
 

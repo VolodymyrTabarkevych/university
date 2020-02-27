@@ -2,7 +2,7 @@ package ua.com.foxminded.university.console;
 
 import java.io.BufferedReader;
 
-import ua.com.foxminded.university.dao.DbCooperator;
+import ua.com.foxminded.university.DbCooperator;
 
 public class UniversityMenu extends TextUniversityMenu {
     private StudentsMenu studentsMenu;
@@ -21,25 +21,25 @@ public class UniversityMenu extends TextUniversityMenu {
 
     public void start(String selectedOption, BufferedReader reader) {
         switch (selectedOption) {
-        case "p":
-            break;
-        case "a":
-            teachersMenu.start(reader);
-            break;
-        case "b":
-            studentsMenu.start(reader);
-            break;
-        case "c":
-            groupsMenu.start(reader);
-            break;
-        case "d":
-            roomsMenu.start(reader);
-            break;
-        case "e":
-            subjectsMenu.start(reader);
-            break;
-        default:
-            System.out.println(WRONG_INPUT);
+            case "p":
+                break;
+            case "a":
+                teachersMenu.start(reader);
+                break;
+            case "b":
+                studentsMenu.start(reader);
+                break;
+            case "c":
+                groupsMenu.start(reader);
+                break;
+            case "d":
+                roomsMenu.start(reader);
+                break;
+            case "e":
+                subjectsMenu.start(reader);
+                break;
+            default:
+                System.out.println(WRONG_INPUT);
         }
     }
 }

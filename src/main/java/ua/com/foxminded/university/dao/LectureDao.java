@@ -48,9 +48,6 @@ public class LectureDao implements CrudDao<Lecture> {
     @Override
     public Lecture find(Integer id) {
         Lecture lecture = template.query(SQL_FIND_BY_ID, lectureRowMapper, id).get(0);
-        if (lecture == null) {
-            System.out.println("No lecture with such id!");
-        }
         return lecture;
     }
 
@@ -73,40 +70,22 @@ public class LectureDao implements CrudDao<Lecture> {
     }
 
     @Override
-    public void save(Lecture lecture) {
-        int rowsAffected = 0;
-        rowsAffected = template.update(SQL_SAVE_LECTURE, lecture.getTeacher().getId(), lecture.getGroup().getId(),
+    public int save(Lecture lecture) {
+        return template.update(SQL_SAVE_LECTURE, lecture.getTeacher().getId(), lecture.getGroup().getId(),
                 lecture.getSubject().getId(), lecture.getRoom().getId(), lecture.getDate(), lecture.getStartTime(),
                 lecture.getEndTime());
-        if (rowsAffected > 0) {
-            System.out.println("Lecture has been added!");
-        } else {
-            System.out.println("Lecture hasn't been added!");
-        }
     }
 
     @Override
-    public void update(Lecture lecture) {
-        int rowsAffected = 0;
-        rowsAffected = template.update(SQL_UPDATE_LECTURE, lecture.getTeacher().getId(), lecture.getGroup().getId(),
+    public int update(Lecture lecture) {
+        return template.update(SQL_UPDATE_LECTURE, lecture.getTeacher().getId(), lecture.getGroup().getId(),
                 lecture.getSubject().getId(), lecture.getRoom().getId(), lecture.getDate(), lecture.getStartTime(),
                 lecture.getEndTime(), lecture.getLectureId());
-        if (rowsAffected > 0) {
-            System.out.println("Lecture has been updated!");
-        } else {
-            System.out.println("Lecture hasn't been updated!");
-        }
     }
 
     @Override
-    public void delete(Integer id) {
-        int rowsAffected = 0;
-        template.update(SQL_DELETE_LECTURE, id);
-        if (rowsAffected > 0) {
-            System.out.println("Lecture has been deleted!");
-        } else {
-            System.out.println("Lecture hasn't been deleted!");
-        }
+    public int delete(Integer id) {
+        return template.update(SQL_DELETE_LECTURE, id);
     }
 
     @Override

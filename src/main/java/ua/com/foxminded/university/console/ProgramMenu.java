@@ -8,8 +8,8 @@ import javax.sql.DataSource;
 
 import ua.com.foxminded.university.SampleUniversityData;
 import ua.com.foxminded.university.UniversityDatabase;
-import ua.com.foxminded.university.dao.DbConnection;
-import ua.com.foxminded.university.dao.DbCooperator;
+import ua.com.foxminded.university.DbConnection;
+import ua.com.foxminded.university.DbCooperator;
 
 public class ProgramMenu extends TextUniversityMenu {
     private DbConnection dbConnection;
@@ -23,8 +23,7 @@ public class ProgramMenu extends TextUniversityMenu {
     public ProgramMenu() {
         this.dbConnection = new DbConnection();
         this.universityDatabase = new UniversityDatabase(dbConnection);
-        this.dbConnection = universityDatabase.createDatabase();
-        this.dataSource = dbConnection.init();
+        this.dataSource = universityDatabase.createDatabase();
         this.dbCooperator = new DbCooperator(dataSource);
         this.universityMenu = new UniversityMenu(dbCooperator);
         this.timetableMenu = new TimetableMenu(dbCooperator);
@@ -32,7 +31,7 @@ public class ProgramMenu extends TextUniversityMenu {
     }
 
     public void start() {
-        sampleUniversityData.createData();
+        sampleUniversityData.loadIntoDatabase();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String selectedOption = "";
 
@@ -41,20 +40,20 @@ public class ProgramMenu extends TextUniversityMenu {
             try {
                 selectedOption = reader.readLine();
                 switch (selectedOption) {
-                case "":
-                    break;
-                case "a":
-                    showTimetableMenuOptions();
-                    selectedOption = reader.readLine();
-                    timetableMenu.start(selectedOption, reader);
-                    break;
-                case "b":
-                    showUniversityMenuOptions();
-                    selectedOption = reader.readLine();
-                    universityMenu.start(selectedOption, reader);
-                    break;
-                default:
-                    System.out.println(WRONG_INPUT);
+                    case "":
+                        break;
+                    case "a":
+                        showTimetableMenuOptions();
+                        selectedOption = reader.readLine();
+                        timetableMenu.start(selectedOption, reader);
+                        break;
+                    case "b":
+                        showUniversityMenuOptions();
+                        selectedOption = reader.readLine();
+                        universityMenu.start(selectedOption, reader);
+                        break;
+                    default:
+                        System.out.println(WRONG_INPUT);
                 }
             } catch (NumberFormatException | IOException e) {
                 System.out.println(WRONG_INPUT);

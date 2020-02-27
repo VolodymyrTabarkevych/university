@@ -40,50 +40,28 @@ public class TeacherDao implements CrudDao<Teacher> {
     @Override
     public Teacher find(Integer teacherId) {
         Teacher teacher = template.query(SQL_FIND_TEACHER, teacherRowMapperWithSubjects, teacherId).get(0);
-        if (teacher == null) {
-            System.out.println("No teacher with such id!");
-        }
         return teacher;
     }
 
     @Override
-    public void save(Teacher teacher) {
-        int rowsAffected = 0;
-        rowsAffected = template.update(SQL_SAVE_TEACHER, teacher.getFirstName(), teacher.getLastName());
+    public int save(Teacher teacher) {
+        int rowsAffected = template.update(SQL_SAVE_TEACHER, teacher.getFirstName(), teacher.getLastName());
         if (!teacher.getSubjects().isEmpty()) {
             for (Subject subject : teacher.getSubjects()) {
-                template.update(SQL_SAVE_TEACHERS_SUBJECTS, teacher.getId(), subject.getId());
+                rowsAffected += template.update(SQL_SAVE_TEACHERS_SUBJECTS, teacher.getId(), subject.getId());
             }
         }
-        if (rowsAffected > 0) {
-            System.out.println("Teacher has been added!");
-        } else {
-            System.out.println("Teacher hasn't been added!");
-        }
+        return rowsAffected;
     }
 
     @Override
-    public void update(Teacher teacher) {
-        int rowsAffected = 0;
-        rowsAffected = template.update(SQL_UPDATE_TEACHER, teacher.getFirstName(), teacher.getLastName(),
-                teacher.getId());
-        if (rowsAffected > 0) {
-            System.out.println("Data has been updated!");
-        } else {
-            System.out.println("No teacher with such id!");
-        }
-
+    public int update(Teacher teacher) {
+        return template.update(SQL_UPDATE_TEACHER, teacher.getFirstName(), teacher.getLastName(), teacher.getId());
     }
 
     @Override
-    public void delete(Integer id) {
-        int rowsAffected = 0;
-        rowsAffected = template.update(SQL_DELETE_TEACHER, id);
-        if (rowsAffected > 0) {
-            System.out.println("Teacher has been removed!");
-        } else {
-            System.out.println("No teacher with such id!");
-        }
+    public int delete(Integer id) {
+        return template.update(SQL_DELETE_TEACHER, id);
     }
 
     @Override

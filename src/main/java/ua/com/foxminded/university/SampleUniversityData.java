@@ -16,20 +16,20 @@ public class SampleUniversityData {
         this.dataSource = dataSource;
     }
 
-    public void createData() {
-        try (BufferedReader sqlFile = new BufferedReader(new FileReader("src/main/resources/database.sql"));
+    public void loadIntoDatabase() {
+        try (BufferedReader sqlFile = new BufferedReader(new FileReader("src/main/resources/sample-university/data.sql"));
                 Statement statement = dataSource.getConnection().createStatement();
                 Scanner scan = new Scanner(sqlFile)) {
-            String line = "";
             while (scan.hasNextLine()) {
-                line = scan.nextLine();
+                String line = scan.nextLine();
                 if (line.endsWith(";")) {
                     line = line.substring(0, line.length() - 1);
                 }
                 statement.executeUpdate(line);
             }
         } catch (SQLException | IOException e) {
-            System.out.println("Cant create data for database!");
+            System.out.println("Cannot load sample data into database!");
+            System.out.println(e.getMessage());
         }
     }
 }

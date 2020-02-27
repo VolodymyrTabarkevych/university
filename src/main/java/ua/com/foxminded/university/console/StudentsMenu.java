@@ -5,12 +5,13 @@ import java.io.IOException;
 
 import org.springframework.dao.DataIntegrityViolationException;
 
-import ua.com.foxminded.university.dao.DbCooperator;
+import ua.com.foxminded.university.DbCooperator;
 import ua.com.foxminded.university.domain.Group;
 import ua.com.foxminded.university.domain.Student;
 
 class StudentsMenu extends TextUniversityMenu {
     private DbCooperator dbCooperator;
+    private int rowsAffected = 0;
     private String selectedOption = "";
 
     public StudentsMenu(DbCooperator dbCooperator) {
@@ -22,22 +23,22 @@ class StudentsMenu extends TextUniversityMenu {
         try {
             selectedOption = reader.readLine();
             switch (selectedOption) {
-            case "p":
-                break;
-            case "a":
-                addStudent(reader);
-                break;
-            case "b":
-                removeStudent(reader);
-                break;
-            case "c":
-                changeStudentGroup(reader);
-                break;
-            case "d":
-                viewAllStudents();
-                break;
-            default:
-                System.out.println(WRONG_INPUT);
+                case "p":
+                    break;
+                case "a":
+                    addStudent(reader);
+                    break;
+                case "b":
+                    removeStudent(reader);
+                    break;
+                case "c":
+                    changeStudentGroup(reader);
+                    break;
+                case "d":
+                    viewAllStudents();
+                    break;
+                default:
+                    System.out.println(WRONG_INPUT);
             }
         } catch (IOException e) {
             System.out.println(WRONG_INPUT);
@@ -57,7 +58,12 @@ class StudentsMenu extends TextUniversityMenu {
             System.out.println("Enter group id: ");
             int groupId = Integer.parseInt(reader.readLine());
             try {
-                dbCooperator.getStudentDao().save(new Student(firstName, lastName, new Group(groupId)));
+                rowsAffected = dbCooperator.getStudentDao().save(new Student(firstName, lastName, new Group(groupId)));
+                if (rowsAffected > 0) {
+                    System.out.println(DATA_HAS_BEEN_ADDED);
+                } else {
+                    System.out.println(DATA_HASNT_BEEN_ADDED);
+                }
             } catch (DataIntegrityViolationException e) {
                 System.out.println("No group with such id!");
             }
@@ -70,7 +76,12 @@ class StudentsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter student id: ");
             int studentId = Integer.parseInt(reader.readLine());
-            dbCooperator.getStudentDao().delete(studentId);
+            rowsAffected = dbCooperator.getStudentDao().delete(studentId);
+            if (rowsAffected > 0) {
+                System.out.println(DATA_HAS_BEEN_DELETED);
+            } else {
+                System.out.println(DATA_HASNT_BEEN_DELETED);
+            }
             System.out.println(CONTINUE_REMOVING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -84,7 +95,12 @@ class StudentsMenu extends TextUniversityMenu {
             int groupId = Integer.parseInt(reader.readLine());
             Student student = dbCooperator.getStudentDao().find(studentId);
             student.setGroup(new Group(groupId));
-            dbCooperator.getStudentDao().update(student);
+            rowsAffected = dbCooperator.getStudentDao().update(student);
+            if (rowsAffected > 0) {
+                System.out.println(DATA_HAS_BEEN_UPDATED);
+            } else {
+                System.out.println(DATA_HASNT_BEEN_UPDATED);
+            }
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));

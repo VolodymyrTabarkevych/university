@@ -3,11 +3,12 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import ua.com.foxminded.university.dao.DbCooperator;
+import ua.com.foxminded.university.DbCooperator;
 import ua.com.foxminded.university.domain.Room;
 
 public class RoomsMenu extends TextUniversityMenu {
     private DbCooperator dbCooperator;
+    private int rowsAffected = 0;
     private String selectedOption = "";
 
     public RoomsMenu(DbCooperator dbCooperator) {
@@ -19,19 +20,19 @@ public class RoomsMenu extends TextUniversityMenu {
         try {
             selectedOption = reader.readLine();
             switch (selectedOption) {
-            case "p":
-                break;
-            case "a":
-                addRoom(reader);
-                break;
-            case "b":
-                removeRoom(reader);
-                break;
-            case "c":
-                viewAllRooms();
-                break;
-            default:
-                System.out.println(WRONG_INPUT);
+                case "p":
+                    break;
+                case "a":
+                    addRoom(reader);
+                    break;
+                case "b":
+                    removeRoom(reader);
+                    break;
+                case "c":
+                    viewAllRooms();
+                    break;
+                default:
+                    System.out.println(WRONG_INPUT);
             }
         } catch (IOException e) {
             System.out.println(WRONG_INPUT);
@@ -42,7 +43,12 @@ public class RoomsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter room number: ");
             int roomNumber = Integer.parseInt(reader.readLine());
-            dbCooperator.getRoomDao().save(new Room(roomNumber));
+            rowsAffected = dbCooperator.getRoomDao().save(new Room(roomNumber));
+            if (rowsAffected > 0) {
+                System.out.println(DATA_HAS_BEEN_ADDED);
+            } else {
+                System.out.println(DATA_HASNT_BEEN_ADDED);
+            }
             System.out.println(CONTINUE_ADDING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -52,7 +58,12 @@ public class RoomsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter room id: ");
             int roomId = Integer.parseInt(reader.readLine());
-            dbCooperator.getRoomDao().delete(roomId);
+            rowsAffected = dbCooperator.getRoomDao().delete(roomId);
+            if (rowsAffected > 0) {
+                System.out.println(DATA_HAS_BEEN_DELETED);
+            } else {
+                System.out.println(DATA_HASNT_BEEN_DELETED);
+            }
             System.out.println(CONTINUE_REMOVING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));

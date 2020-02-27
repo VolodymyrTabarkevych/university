@@ -1,4 +1,4 @@
-package ua.com.foxminded.university.dao;
+package ua.com.foxminded.university;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -30,7 +30,12 @@ public class DbConnection {
         return dataSource;
     }
 
-    public void setProps(String key, String value) {
-        this.props.setProperty(key, value);
+    public DriverManagerDataSource initUniversityDatabase() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setUsername(props.getProperty("u.user"));
+        dataSource.setPassword(props.getProperty("u.password"));
+        dataSource.setUrl(props.getProperty("u.url"));
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        return dataSource;
     }
 }

@@ -3,13 +3,14 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import ua.com.foxminded.university.dao.DbCooperator;
+import ua.com.foxminded.university.DbCooperator;
 import ua.com.foxminded.university.domain.Group;
 import ua.com.foxminded.university.domain.Student;
 
 public class GroupsMenu extends TextUniversityMenu {
     private DbCooperator dbCooperator;
     private String selectedOption = "";
+    private int rowsAffected = 0;
 
     public GroupsMenu(DbCooperator dbCooperator) {
         this.dbCooperator = dbCooperator;
@@ -20,25 +21,25 @@ public class GroupsMenu extends TextUniversityMenu {
         try {
             selectedOption = reader.readLine();
             switch (selectedOption) {
-            case "p":
-                break;
-            case "a":
-                addGroup(reader);
-                break;
-            case "b":
-                removeGroup(reader);
-                break;
-            case "c":
-                addStudentToGroup(reader);
-                break;
-            case "d":
-                viewAllGroups();
-                break;
-            case "e":
-                viewAllStudentsInGroup(reader);
-                break;
-            default:
-                System.out.println(WRONG_INPUT);
+                case "p":
+                    break;
+                case "a":
+                    addGroup(reader);
+                    break;
+                case "b":
+                    removeGroup(reader);
+                    break;
+                case "c":
+                    addStudentToGroup(reader);
+                    break;
+                case "d":
+                    viewAllGroups();
+                    break;
+                case "e":
+                    viewAllStudentsInGroup(reader);
+                    break;
+                default:
+                    System.out.println(WRONG_INPUT);
             }
         } catch (IOException e) {
             System.out.println(WRONG_INPUT);
@@ -49,7 +50,12 @@ public class GroupsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter group name: ");
             String groupName = reader.readLine();
-            dbCooperator.getGroupDao().save(new Group(groupName));
+            rowsAffected = dbCooperator.getGroupDao().save(new Group(groupName));
+            if (rowsAffected > 0) {
+                System.out.println(DATA_HAS_BEEN_ADDED);
+            } else {
+                System.out.println(DATA_HASNT_BEEN_ADDED);
+            }
             System.out.println(CONTINUE_ADDING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -59,7 +65,12 @@ public class GroupsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter group id: ");
             int groupId = Integer.parseInt(reader.readLine());
-            dbCooperator.getGroupDao().delete(groupId);
+            rowsAffected = dbCooperator.getGroupDao().delete(groupId);
+            if (rowsAffected > 0) {
+                System.out.println(DATA_HAS_BEEN_DELETED);
+            } else {
+                System.out.println(DATA_HASNT_BEEN_DELETED);
+            }
             System.out.println(CONTINUE_REMOVING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -75,7 +86,12 @@ public class GroupsMenu extends TextUniversityMenu {
             Group group = dbCooperator.getGroupDao().find(groupId);
             group.addStudent(student);
             student.setGroup(group);
-            dbCooperator.getGroupDao().update(group);
+            rowsAffected = dbCooperator.getGroupDao().update(group);
+            if (rowsAffected > 0) {
+                System.out.println(DATA_HAS_BEEN_UPDATED);
+            } else {
+                System.out.println(DATA_HASNT_BEEN_UPDATED);
+            }
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));

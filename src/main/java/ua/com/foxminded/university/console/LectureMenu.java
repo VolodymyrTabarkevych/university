@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import ua.com.foxminded.university.dao.DbCooperator;
+import ua.com.foxminded.university.DbCooperator;
 import ua.com.foxminded.university.domain.Lecture;
 
 class LectureMenu extends TextUniversityMenu {
     private DbCooperator dbCooperator;
+    private int rowsAffected = 0;
     private int lectureId = 0;
     private int subjectId = 0;
     private int groupId = 0;
@@ -31,34 +32,34 @@ class LectureMenu extends TextUniversityMenu {
         try {
             selectedOption = reader.readLine();
             switch (selectedOption) {
-            case "p":
-                break;
-            case "a":
-                addLecture(reader);
-                break;
-            case "b":
-                removeLecture(reader);
-                break;
-            case "c":
-                changeSubject(reader);
-                break;
-            case "d":
-                changeTeacher(reader);
-                break;
-            case "e":
-                changeGroup(reader);
-                break;
-            case "f":
-                changeDate(reader);
-                break;
-            case "g":
-                changeTime(reader);
-                break;
-            case "h":
-                changeRoom(reader);
-                break;
-            default:
-                System.out.println(WRONG_INPUT);
+                case "p":
+                    break;
+                case "a":
+                    addLecture(reader);
+                    break;
+                case "b":
+                    removeLecture(reader);
+                    break;
+                case "c":
+                    changeSubject(reader);
+                    break;
+                case "d":
+                    changeTeacher(reader);
+                    break;
+                case "e":
+                    changeGroup(reader);
+                    break;
+                case "f":
+                    changeDate(reader);
+                    break;
+                case "g":
+                    changeTime(reader);
+                    break;
+                case "h":
+                    changeRoom(reader);
+                    break;
+                default:
+                    System.out.println(WRONG_INPUT);
             }
         } catch (IOException | NumberFormatException e) {
             System.out.println(WRONG_INPUT);
@@ -73,7 +74,12 @@ class LectureMenu extends TextUniversityMenu {
             roomId = Integer.parseInt(reader.readLine());
             Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
             lecture.setRoom(dbCooperator.getRoomDao().find(roomId));
-            dbCooperator.getLectureDao().update(lecture);
+            rowsAffected = dbCooperator.getLectureDao().update(lecture);
+            if (rowsAffected > 0) {
+                System.out.println(DATA_HAS_BEEN_UPDATED);
+            } else {
+                System.out.println(DATA_HASNT_BEEN_UPDATED);
+            }
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -91,7 +97,12 @@ class LectureMenu extends TextUniversityMenu {
             day = Integer.parseInt(reader.readLine());
             Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
             lecture.setDate(LocalDate.of(year, month, day));
-            dbCooperator.getLectureDao().update(lecture);
+            rowsAffected = dbCooperator.getLectureDao().update(lecture);
+            if (rowsAffected > 0) {
+                System.out.println(DATA_HAS_BEEN_UPDATED);
+            } else {
+                System.out.println(DATA_HASNT_BEEN_UPDATED);
+            }
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -109,7 +120,12 @@ class LectureMenu extends TextUniversityMenu {
             Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
             lecture.setStartTime(LocalTime.of(startHour, startMinute));
             lecture.setEndTime(LocalTime.of(startHour, startMinute).plusHours(1).plusMinutes(20));
-            dbCooperator.getLectureDao().update(lecture);
+            rowsAffected = dbCooperator.getLectureDao().update(lecture);
+            if (rowsAffected > 0) {
+                System.out.println(DATA_HAS_BEEN_UPDATED);
+            } else {
+                System.out.println(DATA_HASNT_BEEN_UPDATED);
+            }
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -123,7 +139,12 @@ class LectureMenu extends TextUniversityMenu {
             groupId = Integer.parseInt(reader.readLine());
             Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
             lecture.setGroup(dbCooperator.getGroupDao().find(groupId));
-            dbCooperator.getLectureDao().update(lecture);
+            rowsAffected = dbCooperator.getLectureDao().update(lecture);
+            if (rowsAffected > 0) {
+                System.out.println(DATA_HAS_BEEN_UPDATED);
+            } else {
+                System.out.println(DATA_HASNT_BEEN_UPDATED);
+            }
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -137,7 +158,12 @@ class LectureMenu extends TextUniversityMenu {
             personId = Integer.parseInt(reader.readLine());
             Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
             lecture.setTeacher(dbCooperator.getTeacherDao().find(personId));
-            dbCooperator.getLectureDao().update(lecture);
+            rowsAffected = dbCooperator.getLectureDao().update(lecture);
+            if (rowsAffected > 0) {
+                System.out.println(DATA_HAS_BEEN_UPDATED);
+            } else {
+                System.out.println(DATA_HASNT_BEEN_UPDATED);
+            }
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -151,7 +177,12 @@ class LectureMenu extends TextUniversityMenu {
             subjectId = Integer.parseInt(reader.readLine());
             Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
             lecture.setSubject(dbCooperator.getSubjectDao().find(subjectId));
-            dbCooperator.getLectureDao().update(lecture);
+            rowsAffected = dbCooperator.getLectureDao().update(lecture);
+            if (rowsAffected > 0) {
+                System.out.println(DATA_HAS_BEEN_UPDATED);
+            } else {
+                System.out.println(DATA_HASNT_BEEN_UPDATED);
+            }
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -161,7 +192,12 @@ class LectureMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter lecture id: ");
             lectureId = Integer.parseInt(reader.readLine());
-            dbCooperator.getLectureDao().delete(lectureId);
+            rowsAffected = dbCooperator.getLectureDao().delete(lectureId);
+            if (rowsAffected > 0) {
+                System.out.println(DATA_HAS_BEEN_DELETED);
+            } else {
+                System.out.println(DATA_HASNT_BEEN_DELETED);
+            }
             System.out.println(CONTINUE_REMOVING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -187,14 +223,18 @@ class LectureMenu extends TextUniversityMenu {
             startHour = Integer.parseInt(reader.readLine());
             System.out.println("Enter start minute");
             startMinute = Integer.parseInt(reader.readLine());
-            Lecture lecture = new Lecture.Builder()
-                    .setTeacher(dbCooperator.getTeacherDao().find(personId))
+            Lecture lecture = new Lecture.Builder().setTeacher(dbCooperator.getTeacherDao().find(personId))
                     .setGroup(dbCooperator.getGroupDao().find(groupId))
                     .setSubject(dbCooperator.getSubjectDao().find(subjectId))
-                    .setRoom(dbCooperator.getRoomDao().find(roomId))
-                    .setDate(LocalDate.of(year, month, day)).setStartTime(LocalTime.of(startHour, startMinute))
+                    .setRoom(dbCooperator.getRoomDao().find(roomId)).setDate(LocalDate.of(year, month, day))
+                    .setStartTime(LocalTime.of(startHour, startMinute))
                     .setEndTime(LocalTime.of(startHour, startMinute).plusHours(1).plusMinutes(20)).build();
-            dbCooperator.getLectureDao().save(lecture);
+            rowsAffected = dbCooperator.getLectureDao().save(lecture);
+            if (rowsAffected > 0) {
+                System.out.println(DATA_HAS_BEEN_ADDED);
+            } else {
+                System.out.println(DATA_HASNT_BEEN_ADDED);
+            }
             System.out.println(CONTINUE_ADDING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));

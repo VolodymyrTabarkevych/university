@@ -34,45 +34,24 @@ public class StudentDao implements CrudDao<Student> {
     @Override
     public Student find(Integer id) {
         Student student = template.query(SQL_FIND_BY_ID, studentRowMapper, id).get(0);
-        if (student == null) {
-            System.out.println("No student with such id!");
-        }
         return student;
     }
 
     @Override
-    public void save(Student student) {
-        int rowsAffected = 0;
-        rowsAffected = template.update(SQL_SAVE_STUDENT, student.getFirstName(), student.getLastName(),
+    public int save(Student student) {
+        return template.update(SQL_SAVE_STUDENT, student.getFirstName(), student.getLastName(),
                 student.getGroup().getId());
-        if (rowsAffected > 0) {
-            System.out.println("Student has been added!");
-        } else {
-            System.out.println("Student hasn't been added!");
-        }
     }
 
     @Override
-    public void update(Student student) {
-        int rowsAffected = 0;
-        rowsAffected = template.update(SQL_UPDATE_STUDENT, student.getFirstName(), student.getLastName(),
+    public int update(Student student) {
+        return template.update(SQL_UPDATE_STUDENT, student.getFirstName(), student.getLastName(),
                 student.getGroup().getId(), student.getId());
-        if (rowsAffected > 0) {
-            System.out.println("Info has been updated!");
-        } else {
-            System.out.println("Info hasn't been updated!");
-        }
     }
 
     @Override
-    public void delete(Integer id) {
-        int rowsAffected = 0;
-        rowsAffected = template.update(SQL_DELETE_STUDENT, id);
-        if (rowsAffected > 0) {
-            System.out.println("Student has been removed!");
-        } else {
-            System.out.println("Student hasn't been removed!");
-        }
+    public int delete(Integer id) {
+        return template.update(SQL_DELETE_STUDENT, id);
     }
 
     @Override

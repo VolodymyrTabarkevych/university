@@ -35,43 +35,22 @@ public class GroupDao implements CrudDao<Group> {
     @Override
     public Group find(Integer id) {
         Group group = template.query(SQL_FIND_BY_ID, groupRowMapper, id).get(0);
-        if (group == null) {
-            System.out.println("No group with such id!");
-        }
         return group;
     }
 
     @Override
-    public void save(Group group) {
-        int rowsAffected = 0;
-        rowsAffected = template.update(SQL_SAVE_GROUP, group.getName());
-        if (rowsAffected > 0) {
-            System.out.println("Group has been added!");
-        } else {
-            System.out.println("Group hasn't been added!");
-        }
+    public int save(Group group) {
+        return template.update(SQL_SAVE_GROUP, group.getName());
     }
 
     @Override
-    public void update(Group group) {
-        int rowsAffected = 0;
-        rowsAffected = template.update(SQL_UPDATE_GROUP, group.getName(), group.getId());
-        if (rowsAffected > 0) {
-            System.out.println("Info has been updated!");
-        } else {
-            System.out.println("Ifno hasn't been updated!");
-        }
+    public int update(Group group) {
+        return template.update(SQL_UPDATE_GROUP, group.getName(), group.getId());
     }
 
     @Override
-    public void delete(Integer id) {
-        int rowsAffected = 0;
-        rowsAffected = template.update(SQL_DELETE_GROUP, id);
-        if (rowsAffected > 0) {
-            System.out.println("Group has been removed!");
-        } else {
-            System.out.println("Group hasn't been removed!");
-        }
+    public int delete(Integer id) {
+        return template.update(SQL_DELETE_GROUP, id);
     }
 
     @Override

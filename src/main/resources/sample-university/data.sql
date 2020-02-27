@@ -1,0 +1,7 @@
+INSERT INTO subjects (name) VALUES ('Math'), ('Biology'), ('English'), ('Chemistry'), ('Music'), ('Art'), ('Geography'), ('Physics'), ('Psychology'), ('Literature');
+INSERT INTO rooms (number) VALUES (1),(2),(3),(4),(5),(6),(7),(8),(9),(10);
+INSERT INTO teachers(first_name, last_name) VALUES ('Vasiliy','Popov'),('Volodymyr','Kozlov'),('Oleksandr','Pavlov'),('Roman','Makarov'),('Sergei','Orlov');
+INSERT INTO teacherssubjects(teacher_id, subject_id) VALUES (1,1),(1,2),(2,3),(2,4),(3,5),(3,6),(4,7),(4,8),(5,9),(5,10);
+INSERT INTO groups (name) VALUES ('MB-1'),('MB-2'),('MB-3'),('MB-4'),('MB-5');
+INSERT INTO students (first_name, last_name, group_id) VALUES ('Oleg','Voroncov',1),('Myhajlo','Baranov',1),('Slava','Lazarev',2),('Maksim','Danilov',2),('Olga','Osipova',3),('Yana','Bobrova',3),('Oleksandra','Zueva',4),('Kateryna','Voronova',4),('Nastya','Galkina',5),('Svitlana','Savina',5);
+INSERT INTO lectures(teacher_id, group_id,subject_id,room_id,date,start_time,end_time) VALUES (5,2,7,1,'17-06-2020','08:00','09:20'),(4,1,6,1,'17-06-2020','08:00','09:20'),(4,1,4,1,'17-06-2020','08:00','09:20'),(1,1,1,1,'17-06-2020','08:00','09:20'),(2,1,5,2,'17-06-2020','08:00','09:20'),(3,2,2,1,'17-06-2020','08:00','09:20'),(1,2,3,1,'17-06-2020','08:00','09:20');
