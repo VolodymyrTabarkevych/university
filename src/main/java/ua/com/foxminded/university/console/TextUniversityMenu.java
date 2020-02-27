@@ -1,8 +1,19 @@
 package ua.com.foxminded.university.console;
 
-class TextUniversityMenu {
-    private static final String BACK_BUTTON = "p. Go to the main menu";
-    private static final String DIVIDING_LINE = "------------------------------";
+public class TextUniversityMenu {
+    static final String DIVIDING_LINE = "------------------------------";
+    static final String WRONG_INPUT = DIVIDING_LINE + System.lineSeparator() + "Wrong input!" + System.lineSeparator()
+            + DIVIDING_LINE;
+    static final String CONTINUE_ADDING = "Do you want to continue adding(any button/enter for exit)?";
+    static final String CONTINUE_REMOVING = "Do you want to continue removing(any button/enter for exit)?";
+    static final String CONTINUE_CHANGING = "Do you want to continue changing(any button/enter for exit)?";
+    static final String BACK_BUTTON = "p. Go to the main menu";
+    static final String DATA_HAS_BEEN_ADDED = "Data has been added!";
+    static final String DATA_HASNT_BEEN_ADDED = "Data hasn't been added!";
+    static final String DATA_HAS_BEEN_UPDATED = "Data has been updated!";
+    static final String DATA_HASNT_BEEN_UPDATED = "Data hasn't been updated!";
+    static final String DATA_HAS_BEEN_DELETED = "Data has been deleted!";
+    static final String DATA_HASNT_BEEN_DELETED = "Data hasn't been deleted!";
 
     public void showOptions() {
         System.out.println("++++++++++++++++++++++++++++++");
@@ -38,7 +49,7 @@ class TextUniversityMenu {
         System.out.println("a. Add student");
         System.out.println("b. Remove student");
         System.out.println("c. Change student group");
-        System.out.println("d. View all groups");
+        System.out.println("d. View all students");
         System.out.println(BACK_BUTTON);
         System.out.println(DIVIDING_LINE);
     }

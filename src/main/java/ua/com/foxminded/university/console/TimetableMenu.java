@@ -2,36 +2,49 @@ package ua.com.foxminded.university.console;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
+import ua.com.foxminded.university.DbCooperator;
 import ua.com.foxminded.university.domain.Lecture;
-import ua.com.foxminded.university.domain.LectureDate;
+import ua.com.foxminded.university.domain.Student;
 
-class TimetableMenu extends Menu {
-    private LectureMenu lectureMenu = new LectureMenu();
+public class TimetableMenu extends TextUniversityMenu {
+    private DbCooperator dbCooperator;
+    private Set<Lecture> filteredLectures;
+    private LectureMenu lectureMenu;
     private int day = 0;
     private int year = 0;
     private int personId = 0;
     private int month = 0;
 
-    void start(String selectedOption, BufferedReader reader) {
-        if (Boolean.FALSE.equals(checkIfBackMenu(selectedOption))) {
-            if (selectedOption.equals("a") || selectedOption.equals("b") || selectedOption.equals("c")
-                    || selectedOption.equals("d") || selectedOption.equals("e") || selectedOption.equals("f")) {
-                if (selectedOption.equals("a")) {
-                    showStudentTimeTableForDay(reader);
-                } else if (selectedOption.equals("b")) {
-                    showStudentTimetableForMonth(reader);
-                } else if (selectedOption.equals("c")) {
-                    showTeacherTimetableForDay(reader);
-                } else if (selectedOption.equals("d")) {
-                    showTeacherTimetableForMonth(reader);
-                } else if (selectedOption.equals("e")) {
-                    lectureMenu.start(reader);
-                }
-            } else {
+    public TimetableMenu(DbCooperator dbCooperator) {
+        this.dbCooperator = dbCooperator;
+        lectureMenu = new LectureMenu(dbCooperator);
+    }
+
+    public void start(String selectedOption, BufferedReader reader) {
+        switch (selectedOption) {
+            case "p":
+                break;
+            case "a":
+                showStudentTimeTableForDay(reader);
+                break;
+            case "b":
+                showStudentTimetableForMonth(reader);
+                break;
+            case "c":
+                showTeacherTimetableForDay(reader);
+                break;
+            case "d":
+                showTeacherTimetableForMonth(reader);
+                break;
+            case "e":
+                lectureMenu.start(reader);
+                break;
+            default:
                 System.out.println(WRONG_INPUT);
-            }
         }
     }
 
@@ -41,8 +54,9 @@ class TimetableMenu extends Menu {
             personId = Integer.parseInt(reader.readLine());
             System.out.println("Enter month number: ");
             month = Integer.parseInt(reader.readLine());
-            showFilteredLectures(
-                    university.getTimetable().filter().forTeacher(personId).forMonth(month).getFilteredLectures());
+            filteredLectures = new HashSet<Lecture>(dbCooperator.getLectureDao()
+                    .findAllLecturesByTeacherIdAndMonth(personId, LocalDate.of(year, month, day)));
+            showFilteredLectures(filteredLectures);
         } catch (NumberFormatException | IOException e) {
             System.out.println(WRONG_INPUT);
         }
@@ -50,16 +64,8 @@ class TimetableMenu extends Menu {
 
     private void showFilteredLectures(Set<Lecture> filteredLectures) {
         for (Lecture lecture : filteredLectures) {
-            System.out.println("******************************");
-            System.out.println("Subject: " + lecture.getSubject().getName());
-            System.out.println(
-                    "Teacher: " + lecture.getTeacher().getFirstName() + " " + lecture.getTeacher().getLastName());
-            System.out.println("Month: " + lecture.getDate().getMonth());
-            System.out.println("Day: " + lecture.getDate().getDay());
-            System.out.println("Time: " + lecture.getTime().getStartHour() + "h " + lecture.getTime().getStartMinute()
-                    + "m | " + lecture.getTime().getEndHour() + "h " + lecture.getTime().getEndMinute() + "m");
-            System.out.println("Group: " + lecture.getGroup().getName());
-            System.out.println("******************************");
+            System.out.println(lecture.toString());
+            System.out.println("***********************");
         }
     }
 
@@ -73,8 +79,10 @@ class TimetableMenu extends Menu {
             month = Integer.parseInt(reader.readLine());
             System.out.println("Enter day: ");
             day = Integer.parseInt(reader.readLine());
-            showFilteredLectures(university.getTimetable().filter().forStudent(personId)
-                    .forDay(new LectureDate(year, month, day)).getFilteredLectures());
+            Student student = dbCooperator.getStudentDao().find(personId);
+            filteredLectures = new HashSet<Lecture>(dbCooperator.getLectureDao()
+                    .findAllLecturesByGroupIdAndDay(student.getGroup().getId(), LocalDate.of(year, month, day)));
+            showFilteredLectures(filteredLectures);
         } catch (NumberFormatException | IOException e) {
             System.out.println(WRONG_INPUT);
         }
@@ -86,8 +94,10 @@ class TimetableMenu extends Menu {
             personId = Integer.parseInt(reader.readLine());
             System.out.println("Enter month number: ");
             month = Integer.parseInt(reader.readLine());
-            showFilteredLectures(
-                    university.getTimetable().filter().forStudent(personId).forMonth(month).getFilteredLectures());
+            Student student = dbCooperator.getStudentDao().find(personId);
+            filteredLectures = new HashSet<Lecture>(dbCooperator.getLectureDao()
+                    .findAllLecturesByGroupIdAndMonth(student.getGroup().getId(), LocalDate.of(year, month, day)));
+            showFilteredLectures(filteredLectures);
         } catch (NumberFormatException | IOException e) {
             System.out.println(WRONG_INPUT);
         }
@@ -103,8 +113,9 @@ class TimetableMenu extends Menu {
             month = Integer.parseInt(reader.readLine());
             System.out.println("Enter day: ");
             day = Integer.parseInt(reader.readLine());
-            showFilteredLectures(university.getTimetable().filter().forTeacher(personId)
-                    .forDay(new LectureDate(year, month, day)).getFilteredLectures());
+            filteredLectures = new HashSet<Lecture>(dbCooperator.getLectureDao()
+                    .findAllLecturesByTeacherIdAndDay(personId, LocalDate.of(year, month, day)));
+            showFilteredLectures(filteredLectures);
         } catch (NumberFormatException | IOException e) {
             System.out.println(WRONG_INPUT);
         }

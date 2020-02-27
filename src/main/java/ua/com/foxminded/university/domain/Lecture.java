@@ -1,70 +1,85 @@
 package ua.com.foxminded.university.domain;
 
-import lombok.Getter;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
-@Getter
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter@Setter
 public class Lecture {
     private int lectureId = 0;
     private Subject subject = new Subject("");
     private Teacher teacher = new Teacher(0, "", "");
     private Group group = new Group("");
-    private LectureDate date = new LectureDate(0, 0, 0);
-    private LectureTime time = new LectureTime(0, 0);
     private Room room = new Room(0);
+    private LocalDate date = LocalDate.of(1, 1, 1);
+    private LocalTime startTime = LocalTime.of(0, 0);
+    private LocalTime endTime = LocalTime.of(0, 0);;
 
-    public Lecture() {
-
-    }
-
-    private Lecture(int lectureId, Subject subject, Teacher teacher, Group group, LectureDate date, LectureTime time,
-            Room room) {
-        this.lectureId = lectureId;
-        this.subject = subject;
-        this.teacher = teacher;
-        this.group = group;
-        this.date = date;
-        this.time = time;
-        this.room = room;
-    }
-
-    public Lecture setLectureId(int lectureId) {
-        this.lectureId = lectureId;
-        return this;
-    }
-
-    public Lecture setSubject(Subject subject) {
-        this.subject = subject;
-        return this;
+    private Lecture() {
 
     }
 
-    public Lecture setTeacher(Teacher teacher) {
-        this.teacher = teacher;
-        return this;
+    @Override
+    public String toString() {
+        return "Teacher: " + teacher.getFirstName() + " " + teacher.getLastName() + System.lineSeparator() + "Group: "
+                + group.getName() + System.lineSeparator() + "Subject: " + subject.getName() + System.lineSeparator()
+                + "Room: " + room.getNumber() + System.lineSeparator() + "Date: " + date.toString()
+                + System.lineSeparator() + "Lecture begin: " + startTime.toString() + " Lecture end: "
+                + endTime.toString();
     }
 
-    public Lecture setGroup(Group group) {
-        this.group = group;
-        return this;
-    }
+    public static class Builder {
+        Lecture lecture;
 
-    public Lecture setDate(int year, int month, int day) {
-        this.date = new LectureDate(year, month, day);
-        return this;
-    }
+        public Builder() {
+            lecture = new Lecture();
+        }
 
-    public Lecture setTime(int startHour, int startMinute) {
-        this.time = new LectureTime(startHour, startMinute);
-        return this;
-    }
+        public Builder setLectureId(int lectureId) {
+            lecture.lectureId = lectureId;
+            return this;
+        }
 
-    public Lecture setRoom(Room room) {
-        this.room = room;
-        return this;
-    }
+        public Builder setSubject(Subject subject) {
+            lecture.subject = subject;
+            return this;
 
-    public Lecture build() {
-        return new Lecture(this.lectureId, this.subject, this.teacher, this.group, this.date, this.time, this.room);
-    }
+        }
 
+        public Builder setTeacher(Teacher teacher) {
+            lecture.teacher = teacher;
+            return this;
+        }
+
+        public Builder setGroup(Group group) {
+            lecture.group = group;
+            return this;
+        }
+
+        public Builder setDate(LocalDate date) {
+            lecture.date = date;
+            return this;
+        }
+
+        public Builder setStartTime(LocalTime startTime) {
+            lecture.startTime = startTime;
+            return this;
+        }
+
+        public Builder setEndTime(LocalTime endTime) {
+            lecture.endTime = endTime;
+            return this;
+        }
+
+        public Builder setRoom(Room room) {
+            lecture.room = room;
+            return this;
+        }
+
+        public Lecture build() {
+            return lecture;
+        }
+    }
 }

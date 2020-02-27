@@ -1,0 +1,14 @@
+DROP TABLE IF EXISTS lectures CASCADE;
+DROP TABLE IF EXISTS students CASCADE;
+DROP TABLE IF EXISTS groups CASCADE;
+DROP TABLE IF EXISTS rooms CASCADE;
+DROP TABLE IF EXISTS teacherssubjects CASCADE;
+DROP TABLE IF EXISTS teachers CASCADE;
+DROP TABLE IF EXISTS subjects CASCADE;
+CREATE TABLE IF NOT EXISTS subjects(id serial primary key, name VARCHAR(60) NOT NULL);
+CREATE TABLE IF NOT EXISTS rooms(id serial primary key, number INTEGER);
+CREATE TABLE IF NOT EXISTS teachers(id serial primary key, first_name VARCHAR(30) NOT NULL, last_name VARCHAR(30) NOT NULL);
+CREATE TABLE IF NOT EXISTS teacherssubjects(teacher_id integer DEFAULT '0', subject_id integer DEFAULT '0', FOREIGN KEY (teacher_id) REFERENCES teachers(id) on delete cascade on update cascade, FOREIGN KEY (subject_id) REFERENCES subjects(id));
+CREATE TABLE IF NOT EXISTS groups(id serial PRIMARY KEY, name VARCHAR(20) NOT NULL);
+CREATE TABLE IF NOT EXISTS students(id serial primary key, first_name VARCHAR(30), last_name VARCHAR(30), group_id INTEGER NOT NULL REFERENCES groups(id) ON DELETE CASCADE ON UPDATE CASCADE);
+CREATE TABLE IF NOT EXISTS lectures(lecture_id serial primary key,teacher_id INTEGER,group_id INTEGER, subject_id INTEGER, room_id INTEGER, date date,start_time time,end_time time,FOREIGN KEY (teacher_id) REFERENCES teachers(id) on delete cascade on update cascade,FOREIGN KEY (group_id) REFERENCES groups(id) on delete cascade on update cascade,FOREIGN KEY (subject_id) REFERENCES subjects(id) on delete cascade on update cascade,FOREIGN KEY (room_id) REFERENCES rooms(id) on delete cascade on update cascade);
