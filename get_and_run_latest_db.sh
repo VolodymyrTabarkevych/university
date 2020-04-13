@@ -9,5 +9,5 @@ then
 	docker run -d -p ${PORT}:5432 -e POSTGRES_PASSWORD=1111 -e POSTGRES_USER=manager -e POSTGRES_DB=university --name=universitydatabase ${DEV_DB_IMG}
     echo "Database will come up on port 5432 within a few minutes"
 else
-    echo "Error! Docker pull failed. Most common reasons: docker daemon not running or not logged in to https://............."
+	echo "Error! Docker pull failed."
 fi
