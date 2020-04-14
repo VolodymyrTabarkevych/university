@@ -15,8 +15,8 @@ public class DbConnection {
         props = new Properties();
         try {
             props.load(DbConnection.class.getResourceAsStream("/database.properties"));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+        } catch (IOException | NullPointerException e) {
+            System.err.println("Cannot load properies file! " + e.getMessage());
         }
     }
 

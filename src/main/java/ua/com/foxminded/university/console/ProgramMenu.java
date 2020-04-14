@@ -46,10 +46,10 @@ public class ProgramMenu extends TextUniversityMenu {
                         universityMenu.start(selectedOption, reader);
                         break;
                     default:
-                        System.out.println(WRONG_INPUT);
+                        System.err.println(WRONG_INPUT);
                 }
             } catch (NumberFormatException | IOException e) {
-                System.out.println(WRONG_INPUT);
+                System.err.println(WRONG_INPUT);
             }
         } while (!selectedOption.equals(""));
     }

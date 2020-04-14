@@ -38,10 +38,10 @@ class StudentsMenu extends TextUniversityMenu {
                     viewAllStudents();
                     break;
                 default:
-                    System.out.println(WRONG_INPUT);
+                    System.err.println(WRONG_INPUT);
             }
         } catch (IOException e) {
-            System.out.println(WRONG_INPUT);
+            System.err.println(WRONG_INPUT);
         }
     }
 
@@ -62,10 +62,10 @@ class StudentsMenu extends TextUniversityMenu {
                 if (rowsAffected > 0) {
                     System.out.println(DATA_HAS_BEEN_ADDED);
                 } else {
-                    System.out.println(DATA_HASNT_BEEN_ADDED);
+                    System.err.println(DATA_HASNT_BEEN_ADDED);
                 }
             } catch (DataIntegrityViolationException e) {
-                System.out.println("No group with such id!");
+                System.err.println("No group with such id!");
             }
             System.out.println(CONTINUE_ADDING);
             selectedOption = reader.readLine();
@@ -80,7 +80,7 @@ class StudentsMenu extends TextUniversityMenu {
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_DELETED);
             } else {
-                System.out.println(DATA_HASNT_BEEN_DELETED);
+                System.err.println(DATA_HASNT_BEEN_DELETED);
             }
             System.out.println(CONTINUE_REMOVING);
             selectedOption = reader.readLine();
@@ -99,7 +99,7 @@ class StudentsMenu extends TextUniversityMenu {
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_UPDATED);
             } else {
-                System.out.println(DATA_HASNT_BEEN_UPDATED);
+                System.err.println(DATA_HASNT_BEEN_UPDATED);
             }
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
