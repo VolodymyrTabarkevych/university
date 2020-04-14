@@ -32,10 +32,10 @@ public class RoomsMenu extends TextUniversityMenu {
                     viewAllRooms();
                     break;
                 default:
-                    System.out.println(WRONG_INPUT);
+                    System.err.println(WRONG_INPUT);
             }
         } catch (IOException e) {
-            System.out.println(WRONG_INPUT);
+            System.err.println(WRONG_INPUT);
         }
     }
 
@@ -47,7 +47,7 @@ public class RoomsMenu extends TextUniversityMenu {
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_ADDED);
             } else {
-                System.out.println(DATA_HASNT_BEEN_ADDED);
+                System.err.println(DATA_HASNT_BEEN_ADDED);
             }
             System.out.println(CONTINUE_ADDING);
             selectedOption = reader.readLine();
@@ -62,7 +62,7 @@ public class RoomsMenu extends TextUniversityMenu {
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_DELETED);
             } else {
-                System.out.println(DATA_HASNT_BEEN_DELETED);
+                System.err.println(DATA_HASNT_BEEN_DELETED);
             }
             System.out.println(CONTINUE_REMOVING);
             selectedOption = reader.readLine();
