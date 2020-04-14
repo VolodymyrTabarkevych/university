@@ -39,7 +39,7 @@ public class UniversityMenu extends TextUniversityMenu {
                 subjectsMenu.start(reader);
                 break;
             default:
-                System.out.println(WRONG_INPUT);
+                System.err.println(WRONG_INPUT);
         }
     }
 }

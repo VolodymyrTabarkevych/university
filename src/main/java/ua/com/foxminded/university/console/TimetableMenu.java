@@ -58,7 +58,7 @@ public class TimetableMenu extends TextUniversityMenu {
                     .findAllLecturesByTeacherIdAndMonth(personId, LocalDate.of(year, month, day)));
             showFilteredLectures(filteredLectures);
         } catch (NumberFormatException | IOException e) {
-            System.out.println(WRONG_INPUT);
+            System.err.println(WRONG_INPUT);
         }
     }
 
@@ -84,7 +84,7 @@ public class TimetableMenu extends TextUniversityMenu {
                     .findAllLecturesByGroupIdAndDay(student.getGroup().getId(), LocalDate.of(year, month, day)));
             showFilteredLectures(filteredLectures);
         } catch (NumberFormatException | IOException e) {
-            System.out.println(WRONG_INPUT);
+            System.err.println(WRONG_INPUT);
         }
     }
 
@@ -99,7 +99,7 @@ public class TimetableMenu extends TextUniversityMenu {
                     .findAllLecturesByGroupIdAndMonth(student.getGroup().getId(), LocalDate.of(year, month, day)));
             showFilteredLectures(filteredLectures);
         } catch (NumberFormatException | IOException e) {
-            System.out.println(WRONG_INPUT);
+            System.err.println(WRONG_INPUT);
         }
     }
 
@@ -117,7 +117,7 @@ public class TimetableMenu extends TextUniversityMenu {
                     .findAllLecturesByTeacherIdAndDay(personId, LocalDate.of(year, month, day)));
             showFilteredLectures(filteredLectures);
         } catch (NumberFormatException | IOException e) {
-            System.out.println(WRONG_INPUT);
+            System.err.println(WRONG_INPUT);
         }
     }
 }
