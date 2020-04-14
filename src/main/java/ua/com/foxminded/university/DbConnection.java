@@ -22,7 +22,6 @@ public class DbConnection {
 
     public DriverManagerDataSource init() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-
         dataSource.setUsername(props.getProperty("user"));
         dataSource.setPassword(props.getProperty("password"));
         dataSource.setUrl(props.getProperty("url"));
