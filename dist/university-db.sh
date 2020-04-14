@@ -1,7 +1,6 @@
-#!/usr/bin/env bash
-
-DEV_DB_IMAGE="tabarkevych/universitydatabse"
-CONTAINER_NAME="universitydatabase"
+#!/bin/env bash
+DEV_DB_IMAGE="tabarkevych/university-database"
+CONTAINER_NAME="university-database"
 PORT=${1:-5432}
 
 # Drop previous container if it's exit

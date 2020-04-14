@@ -1,2 +1,2 @@
-#!/usr/bin/env bash
+#!/bin/env bash
 java -jar university.jar;

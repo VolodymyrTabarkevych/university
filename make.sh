@@ -1,3 +1,3 @@
-#!/usr/bin/env bash
+#!/bin/env bash
 mvn clean compile assembly:single;
 rm -R target
