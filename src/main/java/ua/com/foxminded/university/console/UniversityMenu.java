@@ -2,7 +2,7 @@ package ua.com.foxminded.university.console;
 
 import java.io.BufferedReader;
 
-import ua.com.foxminded.university.DbCooperator;
+import javax.sql.DataSource;
 
 public class UniversityMenu extends TextUniversityMenu {
     private StudentsMenu studentsMenu;
@@ -11,12 +11,12 @@ public class UniversityMenu extends TextUniversityMenu {
     private GroupsMenu groupsMenu;
     private TeachersMenu teachersMenu;
 
-    public UniversityMenu(DbCooperator dbCooperator) {
-        this.studentsMenu = new StudentsMenu(dbCooperator);
-        this.subjectsMenu = new SubjectsMenu(dbCooperator);
-        this.roomsMenu = new RoomsMenu(dbCooperator);
-        this.groupsMenu = new GroupsMenu(dbCooperator);
-        this.teachersMenu = new TeachersMenu(dbCooperator);
+    public UniversityMenu(DataSource dataSource) {
+        this.studentsMenu = new StudentsMenu(dataSource);
+        this.subjectsMenu = new SubjectsMenu(dataSource);
+        this.roomsMenu = new RoomsMenu(dataSource);
+        this.groupsMenu = new GroupsMenu(dataSource);
+        this.teachersMenu = new TeachersMenu(dataSource);
     }
 
     public void start(String selectedOption, BufferedReader reader) {

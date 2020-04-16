@@ -3,16 +3,18 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import ua.com.foxminded.university.DbCooperator;
+import javax.sql.DataSource;
+
+import ua.com.foxminded.universit.service.SubjectService;
 import ua.com.foxminded.university.domain.Subject;
 
 class SubjectsMenu extends TextUniversityMenu {
-    private DbCooperator dbCooperator;
+    private SubjectService subjectService;
     private int rowsAffected = 0;
     private String selectedOption = "";
 
-    public SubjectsMenu(DbCooperator dbCooperator) {
-        this.dbCooperator = dbCooperator;
+    public SubjectsMenu(DataSource dataSource) {
+        this.subjectService = new SubjectService(dataSource);
     }
 
     public void start(BufferedReader reader) {
@@ -43,7 +45,7 @@ class SubjectsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter subject name: ");
             String subjectName = reader.readLine();
-            rowsAffected = dbCooperator.getSubjectDao().save(new Subject(subjectName));
+            rowsAffected = subjectService.addSubject(new Subject(subjectName));
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_ADDED);
             } else {
@@ -58,7 +60,7 @@ class SubjectsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter subject id: ");
             int subjectId = Integer.parseInt(reader.readLine());
-            rowsAffected = dbCooperator.getSubjectDao().delete(subjectId);
+            rowsAffected = subjectService.removeSubject(subjectId);
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_DELETED);
             } else {
@@ -70,7 +72,7 @@ class SubjectsMenu extends TextUniversityMenu {
     }
 
     private void viewAllSubjects() {
-        for (Subject subject : dbCooperator.getSubjectDao().findAll()) {
+        for (Subject subject : subjectService.viewAllSubjects()) {
             System.out.println(subject.toString());
         }
     }

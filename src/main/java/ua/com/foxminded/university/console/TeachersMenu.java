@@ -3,16 +3,18 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import ua.com.foxminded.university.DbCooperator;
+import javax.sql.DataSource;
+
+import ua.com.foxminded.universit.service.TeacherService;
 import ua.com.foxminded.university.domain.Teacher;
 
 public class TeachersMenu extends TextUniversityMenu {
-    private DbCooperator dbCooperator;
+    private TeacherService teacherService;
     private int rowsAffected = 0;
     private String selectedOption = "";
 
-    public TeachersMenu(DbCooperator dbCooperator) {
-        this.dbCooperator = dbCooperator;
+    public TeachersMenu(DataSource dataSource) {
+        this.teacherService = new TeacherService(dataSource);
     }
 
     public void start(BufferedReader reader) {
@@ -45,7 +47,7 @@ public class TeachersMenu extends TextUniversityMenu {
             String firstName = reader.readLine();
             System.out.println("Enter last name: ");
             String lastName = reader.readLine();
-            rowsAffected = dbCooperator.getTeacherDao().save(new Teacher(firstName, lastName));
+            rowsAffected = teacherService.addTeacher(new Teacher(firstName, lastName));
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_ADDED);
             } else {
@@ -60,7 +62,7 @@ public class TeachersMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter teacher id: ");
             int teacherId = Integer.parseInt(reader.readLine());
-            rowsAffected = dbCooperator.getTeacherDao().delete(teacherId);
+            rowsAffected = teacherService.removeTeacher(teacherId);
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_DELETED);
             } else {
@@ -71,8 +73,8 @@ public class TeachersMenu extends TextUniversityMenu {
         } while (!selectedOption.equals(""));
     }
 
-    public void viewAllTeachers() {
-        for (Teacher teacher : dbCooperator.getTeacherDao().findAll()) {
+    private void viewAllTeachers() {
+        for (Teacher teacher : teacherService.viewAllTeachers()) {
             System.out.println(teacher.getId() + ". " + teacher.getFirstName() + " " + teacher.getLastName());
         }
     }

@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import ua.com.foxminded.university.DbCooperator;
-import ua.com.foxminded.university.domain.Lecture;
+import javax.sql.DataSource;
+
+import ua.com.foxminded.universit.service.LectureService;
 
 class LectureMenu extends TextUniversityMenu {
-    private DbCooperator dbCooperator;
+    private LectureService lectureService;
     private int rowsAffected = 0;
     private int lectureId = 0;
     private int subjectId = 0;
@@ -23,8 +24,8 @@ class LectureMenu extends TextUniversityMenu {
     private int month = 0;
     private String selectedOption = "";
 
-    public LectureMenu(DbCooperator dbCooperator) {
-        this.dbCooperator = dbCooperator;
+    public LectureMenu(DataSource dataSource) {
+        this.lectureService = new LectureService(dataSource);
     }
 
     void start(BufferedReader reader) {
@@ -70,11 +71,9 @@ class LectureMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter lecture id: ");
             lectureId = Integer.parseInt(reader.readLine());
-            System.out.println("Enter room number: ");
+            System.out.println("Enter room id: ");
             roomId = Integer.parseInt(reader.readLine());
-            Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
-            lecture.setRoom(dbCooperator.getRoomDao().find(roomId));
-            rowsAffected = dbCooperator.getLectureDao().update(lecture);
+            rowsAffected = lectureService.changeRoom(lectureId, roomId);
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_UPDATED);
             } else {
@@ -95,9 +94,7 @@ class LectureMenu extends TextUniversityMenu {
             month = Integer.parseInt(reader.readLine());
             System.out.println("Enter day of month");
             day = Integer.parseInt(reader.readLine());
-            Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
-            lecture.setDate(LocalDate.of(year, month, day));
-            rowsAffected = dbCooperator.getLectureDao().update(lecture);
+            rowsAffected = lectureService.changeDate(lectureId, LocalDate.of(year, month, day));
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_UPDATED);
             } else {
@@ -117,10 +114,8 @@ class LectureMenu extends TextUniversityMenu {
             startHour = Integer.parseInt(reader.readLine());
             System.out.println("Enter start minute: ");
             startMinute = Integer.parseInt(reader.readLine());
-            Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
-            lecture.setStartTime(LocalTime.of(startHour, startMinute));
-            lecture.setEndTime(LocalTime.of(startHour, startMinute).plusHours(1).plusMinutes(20));
-            rowsAffected = dbCooperator.getLectureDao().update(lecture);
+            rowsAffected = lectureService.changeTime(lectureId, LocalTime.of(startHour, startMinute),
+                    LocalTime.of(startHour, startMinute).plusHours(1).plusMinutes(20));
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_UPDATED);
             } else {
@@ -135,11 +130,9 @@ class LectureMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter lecture id: ");
             lectureId = Integer.parseInt(reader.readLine());
-            System.out.println("Enter group name: ");
+            System.out.println("Enter group id: ");
             groupId = Integer.parseInt(reader.readLine());
-            Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
-            lecture.setGroup(dbCooperator.getGroupDao().find(groupId));
-            rowsAffected = dbCooperator.getLectureDao().update(lecture);
+            rowsAffected = lectureService.changeGroup(lectureId, groupId);
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_UPDATED);
             } else {
@@ -156,9 +149,7 @@ class LectureMenu extends TextUniversityMenu {
             lectureId = Integer.parseInt(reader.readLine());
             System.out.println("Enter teacher id: ");
             personId = Integer.parseInt(reader.readLine());
-            Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
-            lecture.setTeacher(dbCooperator.getTeacherDao().find(personId));
-            rowsAffected = dbCooperator.getLectureDao().update(lecture);
+            rowsAffected = lectureService.changeTeacher(lectureId, personId);
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_UPDATED);
             } else {
@@ -175,9 +166,7 @@ class LectureMenu extends TextUniversityMenu {
             lectureId = Integer.parseInt(reader.readLine());
             System.out.println("Enter subject name: ");
             subjectId = Integer.parseInt(reader.readLine());
-            Lecture lecture = dbCooperator.getLectureDao().find(lectureId);
-            lecture.setSubject(dbCooperator.getSubjectDao().find(subjectId));
-            rowsAffected = dbCooperator.getLectureDao().update(lecture);
+            rowsAffected = lectureService.changeSubject(lectureId, subjectId);
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_UPDATED);
             } else {
@@ -192,7 +181,7 @@ class LectureMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter lecture id: ");
             lectureId = Integer.parseInt(reader.readLine());
-            rowsAffected = dbCooperator.getLectureDao().delete(lectureId);
+            rowsAffected = lectureService.removeLecture(lectureId);
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_DELETED);
             } else {
@@ -223,13 +212,9 @@ class LectureMenu extends TextUniversityMenu {
             startHour = Integer.parseInt(reader.readLine());
             System.out.println("Enter start minute");
             startMinute = Integer.parseInt(reader.readLine());
-            Lecture lecture = new Lecture.Builder().setTeacher(dbCooperator.getTeacherDao().find(personId))
-                    .setGroup(dbCooperator.getGroupDao().find(groupId))
-                    .setSubject(dbCooperator.getSubjectDao().find(subjectId))
-                    .setRoom(dbCooperator.getRoomDao().find(roomId)).setDate(LocalDate.of(year, month, day))
-                    .setStartTime(LocalTime.of(startHour, startMinute))
-                    .setEndTime(LocalTime.of(startHour, startMinute).plusHours(1).plusMinutes(20)).build();
-            rowsAffected = dbCooperator.getLectureDao().save(lecture);
+            rowsAffected = lectureService.addLecture(personId, groupId, subjectId, roomId,
+                    LocalDate.of(year, month, day), LocalTime.of(startHour, startMinute),
+                    LocalTime.of(startHour, startMinute).plusHours(1).plusMinutes(20));
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_ADDED);
             } else {

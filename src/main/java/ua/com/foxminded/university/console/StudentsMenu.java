@@ -3,19 +3,20 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import javax.sql.DataSource;
+
 import org.springframework.dao.DataIntegrityViolationException;
 
-import ua.com.foxminded.university.DbCooperator;
-import ua.com.foxminded.university.domain.Group;
+import ua.com.foxminded.universit.service.StudentService;
 import ua.com.foxminded.university.domain.Student;
 
 class StudentsMenu extends TextUniversityMenu {
-    private DbCooperator dbCooperator;
+    private StudentService studentService;
     private int rowsAffected = 0;
     private String selectedOption = "";
 
-    public StudentsMenu(DbCooperator dbCooperator) {
-        this.dbCooperator = dbCooperator;
+    public StudentsMenu(DataSource dataSource) {
+        this.studentService = new StudentService(dataSource);
     }
 
     public void start(BufferedReader reader) {
@@ -51,14 +52,10 @@ class StudentsMenu extends TextUniversityMenu {
             String firstName = reader.readLine();
             System.out.println("Enter last name: ");
             String lastName = reader.readLine();
-            System.out.println("Groups: ");
-            for (Group group : dbCooperator.getGroupDao().findAll()) {
-                System.out.println("Group id: " + group.getId() + " Group name: " + group.getName());
-            }
             System.out.println("Enter group id: ");
             int groupId = Integer.parseInt(reader.readLine());
             try {
-                rowsAffected = dbCooperator.getStudentDao().save(new Student(firstName, lastName, new Group(groupId)));
+                rowsAffected = studentService.addStudent(new Student(firstName, lastName), groupId);
                 if (rowsAffected > 0) {
                     System.out.println(DATA_HAS_BEEN_ADDED);
                 } else {
@@ -76,7 +73,7 @@ class StudentsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter student id: ");
             int studentId = Integer.parseInt(reader.readLine());
-            rowsAffected = dbCooperator.getStudentDao().delete(studentId);
+            rowsAffected = studentService.removeStudent(studentId);
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_DELETED);
             } else {
@@ -93,9 +90,7 @@ class StudentsMenu extends TextUniversityMenu {
             int studentId = Integer.parseInt(reader.readLine());
             System.out.println("Enter group id: ");
             int groupId = Integer.parseInt(reader.readLine());
-            Student student = dbCooperator.getStudentDao().find(studentId);
-            student.setGroup(new Group(groupId));
-            rowsAffected = dbCooperator.getStudentDao().update(student);
+            rowsAffected = studentService.changeStudentGroup(studentId, groupId);
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_UPDATED);
             } else {
@@ -107,7 +102,7 @@ class StudentsMenu extends TextUniversityMenu {
     }
 
     private void viewAllStudents() {
-        for (Student student : dbCooperator.getStudentDao().findAll()) {
+        for (Student student : studentService.viewAllStudents()) {
             System.out.println(student.getId() + ". " + student.getFirstName() + " " + student.getLastName());
         }
     }

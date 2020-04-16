@@ -3,16 +3,18 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import ua.com.foxminded.university.DbCooperator;
+import javax.sql.DataSource;
+
+import ua.com.foxminded.universit.service.RoomService;
 import ua.com.foxminded.university.domain.Room;
 
 public class RoomsMenu extends TextUniversityMenu {
-    private DbCooperator dbCooperator;
+    private RoomService roomService;
     private int rowsAffected = 0;
     private String selectedOption = "";
 
-    public RoomsMenu(DbCooperator dbCooperator) {
-        this.dbCooperator = dbCooperator;
+    public RoomsMenu(DataSource dataSource) {
+        this.roomService = new RoomService(dataSource);
     }
 
     public void start(BufferedReader reader) {
@@ -43,7 +45,7 @@ public class RoomsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter room number: ");
             int roomNumber = Integer.parseInt(reader.readLine());
-            rowsAffected = dbCooperator.getRoomDao().save(new Room(roomNumber));
+            rowsAffected = roomService.addRoom(new Room(roomNumber));
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_ADDED);
             } else {
@@ -58,7 +60,7 @@ public class RoomsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter room id: ");
             int roomId = Integer.parseInt(reader.readLine());
-            rowsAffected = dbCooperator.getRoomDao().delete(roomId);
+            rowsAffected = roomService.removeRoom(roomId);
             if (rowsAffected > 0) {
                 System.out.println(DATA_HAS_BEEN_DELETED);
             } else {
@@ -70,7 +72,7 @@ public class RoomsMenu extends TextUniversityMenu {
     }
 
     private void viewAllRooms() {
-        for (Room room : dbCooperator.getRoomDao().findAll()) {
+        for (Room room : roomService.viewAllRooms()) {
             System.out.println(room.getNumber());
         }
     }

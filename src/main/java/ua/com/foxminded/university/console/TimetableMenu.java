@@ -3,25 +3,24 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
-import ua.com.foxminded.university.DbCooperator;
+import javax.sql.DataSource;
+
+import ua.com.foxminded.universit.service.TimetableService;
 import ua.com.foxminded.university.domain.Lecture;
-import ua.com.foxminded.university.domain.Student;
 
 public class TimetableMenu extends TextUniversityMenu {
-    private DbCooperator dbCooperator;
-    private Set<Lecture> filteredLectures;
+    private TimetableService timetableService;
     private LectureMenu lectureMenu;
     private int day = 0;
     private int year = 0;
     private int personId = 0;
     private int month = 0;
 
-    public TimetableMenu(DbCooperator dbCooperator) {
-        this.dbCooperator = dbCooperator;
-        lectureMenu = new LectureMenu(dbCooperator);
+    public TimetableMenu(DataSource dataSource) {
+        this.timetableService = new TimetableService(dataSource);
+        lectureMenu = new LectureMenu(dataSource);
     }
 
     public void start(String selectedOption, BufferedReader reader) {
@@ -48,27 +47,6 @@ public class TimetableMenu extends TextUniversityMenu {
         }
     }
 
-    private void showTeacherTimetableForMonth(BufferedReader reader) {
-        try {
-            System.out.println("Enter teacher id: ");
-            personId = Integer.parseInt(reader.readLine());
-            System.out.println("Enter month number: ");
-            month = Integer.parseInt(reader.readLine());
-            filteredLectures = new HashSet<Lecture>(dbCooperator.getLectureDao()
-                    .findAllLecturesByTeacherIdAndMonth(personId, LocalDate.of(year, month, day)));
-            showFilteredLectures(filteredLectures);
-        } catch (NumberFormatException | IOException e) {
-            System.err.println(WRONG_INPUT);
-        }
-    }
-
-    private void showFilteredLectures(Set<Lecture> filteredLectures) {
-        for (Lecture lecture : filteredLectures) {
-            System.out.println(lecture.toString());
-            System.out.println("***********************");
-        }
-    }
-
     private void showStudentTimeTableForDay(BufferedReader reader) {
         try {
             System.out.println("Enter student id: ");
@@ -79,10 +57,7 @@ public class TimetableMenu extends TextUniversityMenu {
             month = Integer.parseInt(reader.readLine());
             System.out.println("Enter day: ");
             day = Integer.parseInt(reader.readLine());
-            Student student = dbCooperator.getStudentDao().find(personId);
-            filteredLectures = new HashSet<Lecture>(dbCooperator.getLectureDao()
-                    .findAllLecturesByGroupIdAndDay(student.getGroup().getId(), LocalDate.of(year, month, day)));
-            showFilteredLectures(filteredLectures);
+            showFilteredLectures(timetableService.getStudentTimeTableForDay(personId, LocalDate.of(year, month, day)));
         } catch (NumberFormatException | IOException e) {
             System.err.println(WRONG_INPUT);
         }
@@ -92,12 +67,12 @@ public class TimetableMenu extends TextUniversityMenu {
         try {
             System.out.println("Enter student id: ");
             personId = Integer.parseInt(reader.readLine());
+            System.out.println("Enter year:");
+            year = Integer.parseInt(reader.readLine());
             System.out.println("Enter month number: ");
             month = Integer.parseInt(reader.readLine());
-            Student student = dbCooperator.getStudentDao().find(personId);
-            filteredLectures = new HashSet<Lecture>(dbCooperator.getLectureDao()
-                    .findAllLecturesByGroupIdAndMonth(student.getGroup().getId(), LocalDate.of(year, month, day)));
-            showFilteredLectures(filteredLectures);
+            showFilteredLectures(
+                    timetableService.getStudentTimetableForMonth(personId, LocalDate.of(year, month, day)));
         } catch (NumberFormatException | IOException e) {
             System.err.println(WRONG_INPUT);
         }
@@ -113,11 +88,31 @@ public class TimetableMenu extends TextUniversityMenu {
             month = Integer.parseInt(reader.readLine());
             System.out.println("Enter day: ");
             day = Integer.parseInt(reader.readLine());
-            filteredLectures = new HashSet<Lecture>(dbCooperator.getLectureDao()
-                    .findAllLecturesByTeacherIdAndDay(personId, LocalDate.of(year, month, day)));
-            showFilteredLectures(filteredLectures);
+            showFilteredLectures(timetableService.getTeacherTimetableForDay(personId, LocalDate.of(year, month, day)));
         } catch (NumberFormatException | IOException e) {
             System.err.println(WRONG_INPUT);
+        }
+    }
+
+    private void showTeacherTimetableForMonth(BufferedReader reader) {
+        try {
+            System.out.println("Enter teacher id: ");
+            personId = Integer.parseInt(reader.readLine());
+            System.out.println("Enter year:");
+            year = Integer.parseInt(reader.readLine());
+            System.out.println("Enter month number: ");
+            month = Integer.parseInt(reader.readLine());
+            showFilteredLectures(
+                    timetableService.getTeacherTimetableForMonth(personId, LocalDate.of(year, month, day)));
+        } catch (NumberFormatException | IOException e) {
+            System.err.println(WRONG_INPUT);
+        }
+    }
+
+    private void showFilteredLectures(Set<Lecture> filteredLectures) {
+        for (Lecture lecture : filteredLectures) {
+            System.out.println(lecture.toString());
+            System.out.println("***********************");
         }
     }
 }

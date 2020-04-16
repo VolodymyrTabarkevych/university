@@ -7,21 +7,18 @@ import java.io.InputStreamReader;
 import javax.sql.DataSource;
 
 import ua.com.foxminded.university.DbConnection;
-import ua.com.foxminded.university.DbCooperator;
 
 public class ProgramMenu extends TextUniversityMenu {
     private DbConnection dbConnection;
     private DataSource dataSource;
-    private DbCooperator dbCooperator;
     private UniversityMenu universityMenu;
     private TimetableMenu timetableMenu;
 
     public ProgramMenu() {
         this.dbConnection = new DbConnection();
         this.dataSource = dbConnection.init();
-        this.dbCooperator = new DbCooperator(dataSource);
-        this.universityMenu = new UniversityMenu(dbCooperator);
-        this.timetableMenu = new TimetableMenu(dbCooperator);
+        this.universityMenu = new UniversityMenu(this.dataSource);
+        this.timetableMenu = new TimetableMenu(this.dataSource);
     }
 
     public void start() {
