@@ -7,7 +7,7 @@ import java.time.LocalTime;
 
 import javax.sql.DataSource;
 
-import ua.com.foxminded.universit.service.LectureService;
+import ua.com.foxminded.university.service.LectureService;
 
 class LectureMenu extends TextUniversityMenu {
     private LectureService lectureService;

@@ -1,4 +1,4 @@
-package ua.com.foxminded.universit.service;
+package ua.com.foxminded.university.service;
 
 import java.time.LocalDate;
 import java.util.HashSet;

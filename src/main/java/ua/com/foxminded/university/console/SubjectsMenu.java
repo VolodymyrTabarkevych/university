@@ -5,8 +5,8 @@ import java.io.IOException;
 
 import javax.sql.DataSource;
 
-import ua.com.foxminded.universit.service.SubjectService;
 import ua.com.foxminded.university.domain.Subject;
+import ua.com.foxminded.university.service.SubjectService;
 
 class SubjectsMenu extends TextUniversityMenu {
     private SubjectService subjectService;

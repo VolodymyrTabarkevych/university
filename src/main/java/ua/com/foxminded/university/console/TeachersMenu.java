@@ -5,8 +5,8 @@ import java.io.IOException;
 
 import javax.sql.DataSource;
 
-import ua.com.foxminded.universit.service.TeacherService;
 import ua.com.foxminded.university.domain.Teacher;
+import ua.com.foxminded.university.service.TeacherService;
 
 public class TeachersMenu extends TextUniversityMenu {
     private TeacherService teacherService;

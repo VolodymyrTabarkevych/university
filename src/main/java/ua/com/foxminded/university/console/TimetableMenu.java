@@ -7,8 +7,8 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
-import ua.com.foxminded.universit.service.TimetableService;
 import ua.com.foxminded.university.domain.Lecture;
+import ua.com.foxminded.university.service.TimetableService;
 
 public class TimetableMenu extends TextUniversityMenu {
     private TimetableService timetableService;

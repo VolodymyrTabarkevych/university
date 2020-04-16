@@ -5,8 +5,8 @@ import java.io.IOException;
 
 import javax.sql.DataSource;
 
-import ua.com.foxminded.universit.service.RoomService;
 import ua.com.foxminded.university.domain.Room;
+import ua.com.foxminded.university.service.RoomService;
 
 public class RoomsMenu extends TextUniversityMenu {
     private RoomService roomService;

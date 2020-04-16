@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import javax.sql.DataSource;
 
-import ua.com.foxminded.universit.service.GroupService;
 import ua.com.foxminded.university.domain.Group;
 import ua.com.foxminded.university.domain.Student;
+import ua.com.foxminded.university.service.GroupService;
 
 public class GroupsMenu extends TextUniversityMenu {
     private GroupService groupService;

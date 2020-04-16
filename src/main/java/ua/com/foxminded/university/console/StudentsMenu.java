@@ -7,8 +7,8 @@ import javax.sql.DataSource;
 
 import org.springframework.dao.DataIntegrityViolationException;
 
-import ua.com.foxminded.universit.service.StudentService;
 import ua.com.foxminded.university.domain.Student;
+import ua.com.foxminded.university.service.StudentService;
 
 class StudentsMenu extends TextUniversityMenu {
     private StudentService studentService;
