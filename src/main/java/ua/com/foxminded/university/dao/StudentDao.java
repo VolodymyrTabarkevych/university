@@ -5,12 +5,15 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import ua.com.foxminded.university.domain.Group;
 import ua.com.foxminded.university.domain.Student;
 
+@Repository
 public class StudentDao implements CrudDao<Student> {
     private JdbcTemplate template;
     private final String SQL_FIND_ALL = "SELECT students.id, first_name, last_name, groups.id as group_id, groups.name as group_name FROM students INNER JOIN groups ON group_id = groups.id";
@@ -20,6 +23,7 @@ public class StudentDao implements CrudDao<Student> {
     private final String SQL_DELETE_STUDENT = "DELETE FROM students WHERE id = ?";
     private final String SQL_FIND_STUDENTS_BY_GROUP_ID = "SELECT students.id, first_name, last_name, groups.id as group_id, groups.name as group_name FROM students INNER JOIN groups ON group_id = groups.id WHERE group_id = ?";
 
+    @Autowired
     public StudentDao(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
     }

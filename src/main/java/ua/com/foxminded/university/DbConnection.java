@@ -1,31 +1,23 @@
 package ua.com.foxminded.university;
 
-import java.io.IOException;
-import java.util.Properties;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.stereotype.Component;
 
-import lombok.Getter;
-
-@Getter
+@Component
+@PropertySource("classpath:database.properties")
 public class DbConnection {
-    private Properties props;
+    @Autowired
+    private Environment enviroment;
 
-    public DbConnection() {
-        props = new Properties();
-        try {
-            props.load(DbConnection.class.getResourceAsStream("/database.properties"));
-        } catch (IOException | NullPointerException e) {
-            System.err.println("Cannot load properies file! " + e.getMessage());
-        }
-    }
-
-    public DriverManagerDataSource init() {
+    public DriverManagerDataSource driverManagerDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUsername(props.getProperty("user"));
-        dataSource.setPassword(props.getProperty("password"));
-        dataSource.setUrl(props.getProperty("url"));
-        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUrl(enviroment.getProperty("url"));
+        dataSource.setUsername(enviroment.getProperty("user"));
+        dataSource.setPassword(enviroment.getProperty("password"));
+        dataSource.setDriverClassName(enviroment.getProperty("driver"));
         return dataSource;
     }
 }

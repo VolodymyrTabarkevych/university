@@ -6,12 +6,15 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import ua.com.foxminded.university.domain.Group;
 import ua.com.foxminded.university.domain.Student;
 
+@Repository
 public class GroupDao implements CrudDao<Group> {
     private JdbcTemplate template;
     private StudentDao studentDaoJdbcTemplateImpl;
@@ -21,6 +24,7 @@ public class GroupDao implements CrudDao<Group> {
     private final String SQL_UPDATE_GROUP = "UPDATE groups SET number = ?, WHERE id = ?";
     private final String SQL_DELETE_GROUP = "DELETE FROM groups WHERE id = ?";
 
+    @Autowired
     public GroupDao(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
         this.studentDaoJdbcTemplateImpl = new StudentDao(dataSource);

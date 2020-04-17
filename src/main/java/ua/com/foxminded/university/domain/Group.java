@@ -4,8 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class Group {
     private int id = 0;
     private String name = "This group has no name!";

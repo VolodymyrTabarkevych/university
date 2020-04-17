@@ -2,8 +2,10 @@ package ua.com.foxminded.university.console;
 
 import java.io.BufferedReader;
 
-import ua.com.foxminded.university.DbCooperator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UniversityMenu extends TextUniversityMenu {
     private StudentsMenu studentsMenu;
     private SubjectsMenu subjectsMenu;
@@ -11,12 +13,14 @@ public class UniversityMenu extends TextUniversityMenu {
     private GroupsMenu groupsMenu;
     private TeachersMenu teachersMenu;
 
-    public UniversityMenu(DbCooperator dbCooperator) {
-        this.studentsMenu = new StudentsMenu(dbCooperator);
-        this.subjectsMenu = new SubjectsMenu(dbCooperator);
-        this.roomsMenu = new RoomsMenu(dbCooperator);
-        this.groupsMenu = new GroupsMenu(dbCooperator);
-        this.teachersMenu = new TeachersMenu(dbCooperator);
+    @Autowired
+    public UniversityMenu(StudentsMenu studentsMenu, SubjectsMenu subjectsMenu, RoomsMenu roomsMenu,
+            GroupsMenu groupsMenu, TeachersMenu teachersMenu) {
+        this.studentsMenu = studentsMenu;
+        this.subjectsMenu = subjectsMenu;
+        this.roomsMenu = roomsMenu;
+        this.groupsMenu = groupsMenu;
+        this.teachersMenu = teachersMenu;
     }
 
     public void start(String selectedOption, BufferedReader reader) {
