@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import ua.com.foxminded.university.DbConnection;
+import ua.com.foxminded.university.SpringConfig;
 
 public class ProgramMenu extends TextUniversityMenu {
 
@@ -15,7 +15,7 @@ public class ProgramMenu extends TextUniversityMenu {
     private AnnotationConfigApplicationContext context;
 
     public ProgramMenu() {
-        context = new AnnotationConfigApplicationContext(DbConnection.class);
+        context = new AnnotationConfigApplicationContext(SpringConfig.class);
         this.universityMenu = context.getBean("universityMenu", UniversityMenu.class);
         this.timetableMenu = context.getBean("timetableMenu", TimetableMenu.class);
     }

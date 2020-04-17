@@ -1,26 +1,23 @@
 package ua.com.foxminded.university;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.stereotype.Component;
 
-import lombok.Getter;
-
-@Getter
-@Configuration
-@ComponentScan("ua.com.foxminded.university")
+@Component
 @PropertySource("classpath:database.properties")
 public class DbConnection {
-    
-    @Bean("dataSource")
-    public DriverManagerDataSource dataSource() {
+    @Autowired
+    private Environment enviroment;
+
+    public DriverManagerDataSource driverManagerDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/university");
-        dataSource.setUsername("manager");
-        dataSource.setPassword("1111");
-        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUrl(enviroment.getProperty("url"));
+        dataSource.setUsername(enviroment.getProperty("user"));
+        dataSource.setPassword(enviroment.getProperty("password"));
+        dataSource.setDriverClassName(enviroment.getProperty("driver"));
         return dataSource;
     }
 }
