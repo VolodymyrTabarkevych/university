@@ -1,14 +1,7 @@
-### Task 11 - DAO layer
-Create Spring JDBC based DAO for your application.
-Create sctipts: 
-1. make.sh    # Builds the project (clears dist/ dir and repopulates it with JAR and etc.) except the db image
-2. make-db.sh # Builds Docker image of database and pushes it to Docker registry (hub.docker.com if not specified otherwise)
-3. dist/:
-    1. university.sh
-    2. university-SNAPHOST-1.0.jar
-    3. university-db.sh # Runs docker image, must be executed before the `university.sh`
-    4. README.md # Readme file with how-to-run for the end-user / admin who will install/deploy univeristy app on the production server
-4. README.md  # Readme for a developer, about opening the project in the IDE, what tools/versions required to build it, etc.
+###Task 12 - Service Layer
+Create a service layer and implement business logic (add/remove entities to other entities and save them to DB, etc). A mentor can provide additional business rules.
+
+You should use Spring IoC.
 
 ### Required technologies:
 1. Java 1.8 or newer version.

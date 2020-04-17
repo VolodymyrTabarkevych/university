@@ -14,10 +14,10 @@ import ua.com.foxminded.university.service.TimetableService;
 public class TimetableMenu extends TextUniversityMenu {
     private TimetableService timetableService;
     private LectureMenu lectureMenu;
-    private int day = 0;
-    private int year = 0;
+    private int day = 1;
+    private int year = 1995;
     private int personId = 0;
-    private int month = 0;
+    private int month = 1;
 
     @Autowired
     public TimetableMenu(TimetableService timetableService, LectureMenu lectureMenu) {
