@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Set;
 
-import javax.sql.DataSource;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ua.com.foxminded.university.domain.Lecture;
 import ua.com.foxminded.university.service.TimetableService;
 
+@Component
 public class TimetableMenu extends TextUniversityMenu {
     private TimetableService timetableService;
     private LectureMenu lectureMenu;
@@ -18,9 +19,10 @@ public class TimetableMenu extends TextUniversityMenu {
     private int personId = 0;
     private int month = 0;
 
-    public TimetableMenu(DataSource dataSource) {
-        this.timetableService = new TimetableService(dataSource);
-        lectureMenu = new LectureMenu(dataSource);
+    @Autowired
+    public TimetableMenu(TimetableService timetableService, LectureMenu lectureMenu) {
+        this.timetableService = timetableService;
+        this.lectureMenu = lectureMenu;
     }
 
     public void start(String selectedOption, BufferedReader reader) {

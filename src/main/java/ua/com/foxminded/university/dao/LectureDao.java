@@ -6,14 +6,17 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import ua.com.foxminded.university.domain.Lecture;
 import ua.com.foxminded.university.domain.Room;
 import ua.com.foxminded.university.domain.Subject;
 import ua.com.foxminded.university.domain.Teacher;
 
+@Repository
 public class LectureDao implements CrudDao<Lecture> {
     private JdbcTemplate template;
     private GroupDao groupDaoJdbcTemplateImpl;
@@ -27,21 +30,21 @@ public class LectureDao implements CrudDao<Lecture> {
     private final String SQL_UPDATE_LECTURE = "UPDATE lectures SET teacher_id = ?, group_id = ?, subject_id = ?, room_id = ?, date = ?, start_time = ?, end_time = ? WHERE lecture_id = ?";
     private final String SQL_DELETE_LECTURE = "DELETE FROM lectures WHERE lecture_id = ?";
 
+    @Autowired
     public LectureDao(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
         groupDaoJdbcTemplateImpl = new GroupDao(dataSource);
     }
 
     private RowMapper<Lecture> lectureRowMapper = (ResultSet resultSet, int i) -> {
-        Lecture lecture = new Lecture.Builder().setLectureId(resultSet.getInt("lecture_id"))
-                .setTeacher(new Teacher(resultSet.getInt("teacher_id"), resultSet.getString("first_name"),
+        Lecture lecture = Lecture.builder().lectureId(resultSet.getInt("lecture_id"))
+                .teacher(new Teacher(resultSet.getInt("teacher_id"), resultSet.getString("first_name"),
                         resultSet.getString("last_name")))
-                .setGroup(groupDaoJdbcTemplateImpl.find(resultSet.getInt("group_id")))
-                .setSubject(new Subject(resultSet.getInt("subject_id"), resultSet.getString("subject_name")))
-                .setRoom(new Room(resultSet.getInt("room_id"), resultSet.getInt("room_number")))
-                .setDate(resultSet.getDate("date").toLocalDate())
-                .setStartTime(resultSet.getTime("start_time").toLocalTime())
-                .setEndTime(resultSet.getTime("end_time").toLocalTime()).build();
+                .group(groupDaoJdbcTemplateImpl.find(resultSet.getInt("group_id")))
+                .subject(new Subject(resultSet.getInt("subject_id"), resultSet.getString("subject_name")))
+                .room(new Room(resultSet.getInt("room_id"), resultSet.getInt("room_number")))
+                .date(resultSet.getDate("date").toLocalDate()).startTime(resultSet.getTime("start_time").toLocalTime())
+                .endTime(resultSet.getTime("end_time").toLocalTime()).build();
         return lecture;
     };
 

@@ -2,16 +2,19 @@ package ua.com.foxminded.university.service;
 
 import java.util.List;
 
-import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ua.com.foxminded.university.dao.SubjectDao;
 import ua.com.foxminded.university.domain.Subject;
 
+@Service
 public class SubjectService {
     private SubjectDao subjectDao;
 
-    public SubjectService(DataSource dataSource) {
-        this.subjectDao = new SubjectDao(dataSource);
+    @Autowired
+    public SubjectService(SubjectDao subjectDao) {
+        this.subjectDao = subjectDao;
     }
 
     public int addSubject(Subject subject) {

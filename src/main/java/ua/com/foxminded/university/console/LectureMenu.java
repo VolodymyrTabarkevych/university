@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import ua.com.foxminded.university.service.LectureService;
 
+@Component
 class LectureMenu extends TextUniversityMenu {
     private LectureService lectureService;
     private int rowsAffected = 0;
@@ -24,8 +26,9 @@ class LectureMenu extends TextUniversityMenu {
     private int month = 0;
     private String selectedOption = "";
 
-    public LectureMenu(DataSource dataSource) {
-        this.lectureService = new LectureService(dataSource);
+    @Autowired
+    public LectureMenu(LectureService lectureService) {
+        this.lectureService = lectureService;
     }
 
     void start(BufferedReader reader) {

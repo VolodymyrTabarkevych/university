@@ -5,11 +5,14 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import ua.com.foxminded.university.domain.Room;
 
+@Repository
 public class RoomDao implements CrudDao<Room> {
     private JdbcTemplate template;
     private final String SQL_FIND_ALL = "SELECT * FROM rooms";
@@ -18,6 +21,7 @@ public class RoomDao implements CrudDao<Room> {
     private final String SQL_UPDATE_ROOM = "UPDATE rooms SET number = ?, WHERE id = ?";
     private final String SQL_DELETE_ROOM = "DELETE FROM rooms WHERE id = ?";
 
+    @Autowired
     public RoomDao(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
     }

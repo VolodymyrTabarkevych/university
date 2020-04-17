@@ -3,18 +3,21 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import ua.com.foxminded.university.domain.Teacher;
 import ua.com.foxminded.university.service.TeacherService;
 
+@Component
 public class TeachersMenu extends TextUniversityMenu {
     private TeacherService teacherService;
     private int rowsAffected = 0;
     private String selectedOption = "";
 
-    public TeachersMenu(DataSource dataSource) {
-        this.teacherService = new TeacherService(dataSource);
+    @Autowired
+    public TeachersMenu(TeacherService teacherService) {
+        this.teacherService = teacherService;
     }
 
     public void start(BufferedReader reader) {

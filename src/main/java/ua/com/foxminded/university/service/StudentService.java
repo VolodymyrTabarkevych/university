@@ -2,20 +2,23 @@ package ua.com.foxminded.university.service;
 
 import java.util.List;
 
-import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ua.com.foxminded.university.dao.GroupDao;
 import ua.com.foxminded.university.dao.StudentDao;
 import ua.com.foxminded.university.domain.Group;
 import ua.com.foxminded.university.domain.Student;
 
+@Service
 public class StudentService {
     private StudentDao studentDao;
     private GroupDao groupDao;
 
-    public StudentService(DataSource dataSource) {
-        this.studentDao = new StudentDao(dataSource);
-        this.groupDao = new GroupDao(dataSource);
+    @Autowired
+    public StudentService(StudentDao studentDao, GroupDao groupDao) {
+        this.studentDao = studentDao;
+        this.groupDao = groupDao;
     }
 
     public int addStudent(Student student, int groupId) {

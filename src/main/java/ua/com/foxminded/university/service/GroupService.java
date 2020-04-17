@@ -3,20 +3,22 @@ package ua.com.foxminded.university.service;
 import java.util.List;
 import java.util.Set;
 
-import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import ua.com.foxminded.university.dao.CrudDao;
 import ua.com.foxminded.university.dao.GroupDao;
-import ua.com.foxminded.university.dao.StudentDao;
 import ua.com.foxminded.university.domain.Group;
 import ua.com.foxminded.university.domain.Student;
 
+@Service
 public class GroupService {
     private GroupDao groupDao;
-    private StudentDao studentDao;
+    private CrudDao<Student> studentDao;
 
-    public GroupService(DataSource dataSource) {
-        this.groupDao = new GroupDao(dataSource);
-        this.studentDao = new StudentDao(dataSource);
+    @Autowired
+    public GroupService(GroupDao groupDao) {
+        this.groupDao = groupDao;
     }
 
     public int addGroup(Group group) {

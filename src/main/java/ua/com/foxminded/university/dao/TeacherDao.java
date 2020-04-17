@@ -6,12 +6,15 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import ua.com.foxminded.university.domain.Subject;
 import ua.com.foxminded.university.domain.Teacher;
 
+@Repository
 public class TeacherDao implements CrudDao<Teacher> {
     private JdbcTemplate template;
     private final String SQL_SAVE_TEACHER = "INSERT INTO teachers(first_name, last_name) VALUES (?,?)";
@@ -22,6 +25,7 @@ public class TeacherDao implements CrudDao<Teacher> {
     private final String SQL_FIND_TEACHER = "SELECT * FROM teachers WHERE teacher_id = ?";
     private final String SQL_FIND_ALL_SUBJECTS = "SELECT subject_id, name FROM teacherssubjects INNER JOIN subjects ON subject_id = subjects.id WHERE teacher_id = ?";
 
+    @Autowired
     public TeacherDao(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
     }

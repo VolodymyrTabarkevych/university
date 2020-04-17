@@ -4,21 +4,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import javax.sql.DataSource;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import ua.com.foxminded.university.DbConnection;
 
 public class ProgramMenu extends TextUniversityMenu {
-    private DbConnection dbConnection;
-    private DataSource dataSource;
+
     private UniversityMenu universityMenu;
     private TimetableMenu timetableMenu;
+    private AnnotationConfigApplicationContext context;
 
     public ProgramMenu() {
-        this.dbConnection = new DbConnection();
-        this.dataSource = dbConnection.init();
-        this.universityMenu = new UniversityMenu(this.dataSource);
-        this.timetableMenu = new TimetableMenu(this.dataSource);
+        context = new AnnotationConfigApplicationContext(DbConnection.class);
+        this.universityMenu = context.getBean("universityMenu", UniversityMenu.class);
+        this.timetableMenu = context.getBean("timetableMenu", TimetableMenu.class);
     }
 
     public void start() {

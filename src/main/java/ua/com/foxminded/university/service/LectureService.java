@@ -4,7 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ua.com.foxminded.university.dao.GroupDao;
 import ua.com.foxminded.university.dao.LectureDao;
@@ -16,6 +17,7 @@ import ua.com.foxminded.university.domain.Lecture;
 import ua.com.foxminded.university.domain.Subject;
 import ua.com.foxminded.university.domain.Teacher;
 
+@Service
 public class LectureService {
     private LectureDao lectureDao;
     private RoomDao roomDao;
@@ -23,12 +25,14 @@ public class LectureService {
     private TeacherDao teacherDao;
     private SubjectDao subjectDao;
 
-    public LectureService(DataSource dataSource) {
-        this.lectureDao = new LectureDao(dataSource);
-        this.roomDao = new RoomDao(dataSource);
-        this.groupDao = new GroupDao(dataSource);
-        this.teacherDao = new TeacherDao(dataSource);
-        this.subjectDao = new SubjectDao(dataSource);
+    @Autowired
+    public LectureService(LectureDao lectureDao, RoomDao roomDao, GroupDao groupDao, TeacherDao teacherDao,
+            SubjectDao subjectDao) {
+        this.lectureDao = lectureDao;
+        this.roomDao = roomDao;
+        this.groupDao = groupDao;
+        this.teacherDao = teacherDao;
+        this.subjectDao = subjectDao;
     }
 
     public int changeRoom(int lectureId, int roomId) {
@@ -73,9 +77,9 @@ public class LectureService {
 
     public int addLecture(int teacherId, int groupId, int subjectId, int roomId, LocalDate date, LocalTime startTime,
             LocalTime endTime) {
-        Lecture lecture = new Lecture.Builder().setTeacher(teacherDao.find(teacherId)).setGroup(groupDao.find(groupId))
-                .setSubject(subjectDao.find(subjectId)).setRoom(roomDao.find(roomId)).setDate(date)
-                .setStartTime(startTime).setEndTime(endTime).build();
+        Lecture lecture = Lecture.builder().teacher(teacherDao.find(teacherId)).group(groupDao.find(groupId))
+                .subject(subjectDao.find(subjectId)).room(roomDao.find(roomId)).date(date).startTime(startTime)
+                .endTime(endTime).build();
         return lectureDao.save(lecture);
     }
 

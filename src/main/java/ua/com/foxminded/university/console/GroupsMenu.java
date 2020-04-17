@@ -3,19 +3,22 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import ua.com.foxminded.university.domain.Group;
 import ua.com.foxminded.university.domain.Student;
 import ua.com.foxminded.university.service.GroupService;
 
+@Component
 public class GroupsMenu extends TextUniversityMenu {
     private GroupService groupService;
     private String selectedOption = "";
     private int rowsAffected = 0;
 
-    public GroupsMenu(DataSource dataSource) {
-        this.groupService = new GroupService(dataSource);
+    @Autowired
+    public GroupsMenu(GroupService groupService) {
+        this.groupService = groupService;
     }
 
     public void start(BufferedReader reader) {

@@ -4,14 +4,19 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import ua.com.foxminded.university.dao.TeacherDao;
 import ua.com.foxminded.university.domain.Teacher;
 
+@Service
 public class TeacherService {
     private TeacherDao teacherDao;
 
-    public TeacherService(DataSource dataSource) {
-        this.teacherDao = new TeacherDao(dataSource);
+    @Autowired
+    public TeacherService(TeacherDao teacherDao) {
+        this.teacherDao = teacherDao;
     }
 
     public int addTeacher(Teacher teacher) {

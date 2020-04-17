@@ -3,20 +3,22 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import javax.sql.DataSource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Component;
 
 import ua.com.foxminded.university.domain.Student;
 import ua.com.foxminded.university.service.StudentService;
 
+@Component
 class StudentsMenu extends TextUniversityMenu {
     private StudentService studentService;
     private int rowsAffected = 0;
     private String selectedOption = "";
 
-    public StudentsMenu(DataSource dataSource) {
-        this.studentService = new StudentService(dataSource);
+    @Autowired
+    public StudentsMenu(StudentService studentService) {
+        this.studentService = studentService;
     }
 
     public void start(BufferedReader reader) {

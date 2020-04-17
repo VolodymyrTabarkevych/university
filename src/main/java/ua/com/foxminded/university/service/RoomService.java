@@ -2,16 +2,19 @@ package ua.com.foxminded.university.service;
 
 import java.util.List;
 
-import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ua.com.foxminded.university.dao.RoomDao;
 import ua.com.foxminded.university.domain.Room;
 
+@Service
 public class RoomService {
     private RoomDao roomDao;
 
-    public RoomService(DataSource dataSource) {
-        this.roomDao = new RoomDao(dataSource);
+    @Autowired
+    public RoomService(RoomDao roomDao) {
+        this.roomDao = roomDao;
     }
 
     public int addRoom(Room room) {

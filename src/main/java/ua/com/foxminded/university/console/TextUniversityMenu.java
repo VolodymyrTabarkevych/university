@@ -1,6 +1,6 @@
 package ua.com.foxminded.university.console;
 
-public class TextUniversityMenu {
+class TextUniversityMenu {
     static final String DIVIDING_LINE = "------------------------------";
     static final String WRONG_INPUT = DIVIDING_LINE + System.lineSeparator() + "Wrong input!" + System.lineSeparator()
             + DIVIDING_LINE;
