@@ -35,56 +35,56 @@ public class LectureService {
         this.subjectDao = subjectDao;
     }
 
-    public int changeRoom(int lectureId, int roomId) {
+    public void changeRoom(int lectureId, int roomId) {
         Lecture lecture = lectureDao.find(lectureId);
         lecture.setRoom(roomDao.find(roomId));
-        return lectureDao.update(lecture);
+        lectureDao.update(lecture);
     }
 
-    public int changeDate(int lectureId, LocalDate localDate) {
+    public void changeDate(int lectureId, LocalDate localDate) {
         Lecture lecture = lectureDao.find(lectureId);
         lecture.setDate(localDate);
-        return lectureDao.update(lecture);
+        lectureDao.update(lecture);
     }
 
-    public int changeTime(int lectureId, LocalTime startTime, LocalTime endTime) {
+    public void changeTime(int lectureId, LocalTime startTime, LocalTime endTime) {
         Lecture lecture = lectureDao.find(lectureId);
         lecture.setStartTime(startTime);
         lecture.setEndTime(endTime);
-        return lectureDao.update(lecture);
+        lectureDao.update(lecture);
     }
 
-    public int changeGroup(int lectureId, int groupId) {
+    public void changeGroup(int lectureId, int groupId) {
         Lecture lecture = lectureDao.find(lectureId);
         Group group = groupDao.find(groupId);
         lecture.setGroup(group);
-        return lectureDao.update(lecture);
+        lectureDao.update(lecture);
     }
 
-    public int changeTeacher(int lectureId, int teacherId) {
+    public void changeTeacher(int lectureId, int teacherId) {
         Lecture lecture = lectureDao.find(lectureId);
         Teacher teacher = teacherDao.find(teacherId);
         lecture.setTeacher(teacher);
-        return lectureDao.update(lecture);
+        lectureDao.update(lecture);
     }
 
-    public int changeSubject(int lectureId, int subjectId) {
+    public void changeSubject(int lectureId, int subjectId) {
         Lecture lecture = lectureDao.find(lectureId);
         Subject subject = subjectDao.find(subjectId);
         lecture.setSubject(subject);
-        return lectureDao.update(lecture);
+        lectureDao.update(lecture);
     }
 
-    public int addLecture(int teacherId, int groupId, int subjectId, int roomId, LocalDate date, LocalTime startTime,
+    public void addLecture(int teacherId, int groupId, int subjectId, int roomId, LocalDate date, LocalTime startTime,
             LocalTime endTime) {
         Lecture lecture = Lecture.builder().teacher(teacherDao.find(teacherId)).group(groupDao.find(groupId))
                 .subject(subjectDao.find(subjectId)).room(roomDao.find(roomId)).date(date).startTime(startTime)
                 .endTime(endTime).build();
-        return lectureDao.save(lecture);
+        lectureDao.save(lecture);
     }
 
-    public int removeLecture(Integer lectureId) {
-        return lectureDao.delete(lectureId);
+    public void removeLecture(Integer lectureId) {
+        lectureDao.delete(lectureId);
     }
 
     public List<Lecture> findAll() {

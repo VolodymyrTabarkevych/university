@@ -21,22 +21,23 @@ public class StudentService {
         this.groupDao = groupDao;
     }
 
-    public int addStudent(Student student, int groupId) {
+    public void addStudent(Student student, int groupId) {
         Group group = groupDao.find(groupId);
         student.setGroup(group);
-        return studentDao.save(student);
+        studentDao.save(student);
     }
 
-    public int removeStudent(int studentId) {
-        return studentDao.delete(studentId);
+    public void removeStudent(int studentId) {
+        studentDao.delete(studentId);
     }
 
-    public int changeStudentGroup(int studentId, int groupId) {
+    public void changeStudentGroup(int studentId, int groupId) {
         Student student = studentDao.find(studentId);
         Group group = groupDao.find(groupId);
         student.setGroup(group);
         group.addStudent(student);
-        return studentDao.update(student) + groupDao.update(group);
+        studentDao.update(student);
+        groupDao.update(group);
     }
 
     public List<Student> viewAllStudents() {

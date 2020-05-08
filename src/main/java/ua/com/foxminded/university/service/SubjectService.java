@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import ua.com.foxminded.university.dao.SubjectDao;
 import ua.com.foxminded.university.domain.Subject;
+import ua.com.foxminded.university.exceptions.EntityNameExistsException;
 
 @Service
 public class SubjectService {
@@ -17,12 +18,17 @@ public class SubjectService {
         this.subjectDao = subjectDao;
     }
 
-    public int addSubject(Subject subject) {
-        return subjectDao.save(subject);
+    public void addSubject(Subject subject) throws EntityNameExistsException {
+        for (Subject subjectFromDatabse : subjectDao.findAll()) {
+            if (subjectFromDatabse.getName().equals(subject.getName())) {
+                throw new EntityNameExistsException("Subject with such name is already exists!");
+            }
+        }
+        subjectDao.save(subject);
     }
 
-    public int removeSubject(int subjectId) {
-        return subjectDao.delete(subjectId);
+    public void removeSubject(int subjectId) {
+        subjectDao.delete(subjectId);
     }
 
     public List<Subject> viewAllSubjects() {

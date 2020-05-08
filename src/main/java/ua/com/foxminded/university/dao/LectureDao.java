@@ -73,22 +73,22 @@ public class LectureDao implements CrudDao<Lecture> {
     }
 
     @Override
-    public int save(Lecture lecture) {
-        return template.update(SQL_SAVE_LECTURE, lecture.getTeacher().getId(), lecture.getGroup().getId(),
+    public void save(Lecture lecture) {
+        template.update(SQL_SAVE_LECTURE, lecture.getTeacher().getId(), lecture.getGroup().getId(),
                 lecture.getSubject().getId(), lecture.getRoom().getId(), lecture.getDate(), lecture.getStartTime(),
                 lecture.getEndTime());
     }
 
     @Override
-    public int update(Lecture lecture) {
-        return template.update(SQL_UPDATE_LECTURE, lecture.getTeacher().getId(), lecture.getGroup().getId(),
+    public void update(Lecture lecture) {
+        template.update(SQL_UPDATE_LECTURE, lecture.getTeacher().getId(), lecture.getGroup().getId(),
                 lecture.getSubject().getId(), lecture.getRoom().getId(), lecture.getDate(), lecture.getStartTime(),
                 lecture.getEndTime(), lecture.getLectureId());
     }
 
     @Override
-    public int delete(Integer id) {
-        return template.update(SQL_DELETE_LECTURE, id);
+    public void delete(Integer id) {
+        template.update(SQL_DELETE_LECTURE, id);
     }
 
     @Override
