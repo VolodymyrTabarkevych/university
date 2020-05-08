@@ -2,8 +2,7 @@ package ua.com.foxminded.university.console;
 
 class TextUniversityMenu {
     static final String DIVIDING_LINE = "------------------------------";
-    static final String WRONG_INPUT = DIVIDING_LINE + System.lineSeparator() + "Wrong input!" + System.lineSeparator()
-            + DIVIDING_LINE;
+    static final String WRONG_INPUT = "Wrong input! ";
     static final String CONTINUE_ADDING = "Do you want to continue adding(any button/enter for exit)?";
     static final String CONTINUE_REMOVING = "Do you want to continue removing(any button/enter for exit)?";
     static final String CONTINUE_CHANGING = "Do you want to continue changing(any button/enter for exit)?";
@@ -39,7 +38,9 @@ class TextUniversityMenu {
         System.out.println(DIVIDING_LINE);
         System.out.println("a. Add teacher");
         System.out.println("b. Remove teacher");
-        System.out.println("c. View all teachers");
+        System.out.println("c. Add subject to teacher");
+        System.out.println("d. View all teacher subject");
+        System.out.println("e. View all teachers");
         System.out.println(BACK_BUTTON);
         System.out.println(DIVIDING_LINE);
     }

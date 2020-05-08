@@ -42,20 +42,19 @@ public class StudentDao implements CrudDao<Student> {
     }
 
     @Override
-    public int save(Student student) {
-        return template.update(SQL_SAVE_STUDENT, student.getFirstName(), student.getLastName(),
-                student.getGroup().getId());
+    public void save(Student student) {
+        template.update(SQL_SAVE_STUDENT, student.getFirstName(), student.getLastName(), student.getGroup().getId());
     }
 
     @Override
-    public int update(Student student) {
-        return template.update(SQL_UPDATE_STUDENT, student.getFirstName(), student.getLastName(),
-                student.getGroup().getId(), student.getId());
+    public void update(Student student) {
+        template.update(SQL_UPDATE_STUDENT, student.getFirstName(), student.getLastName(), student.getGroup().getId(),
+                student.getId());
     }
 
     @Override
-    public int delete(Integer id) {
-        return template.update(SQL_DELETE_STUDENT, id);
+    public void delete(Integer id) {
+        template.update(SQL_DELETE_STUDENT, id);
     }
 
     @Override

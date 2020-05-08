@@ -5,11 +5,11 @@ import java.util.List;
 public interface CrudDao<T> {
     T find(Integer id);
 
-    int save(T model);
+    void save(T model);
 
-    int update(T model);
+    void update(T model);
 
-    int delete(Integer id);
+    void delete(Integer id);
 
     List<T> findAll();
 }

@@ -10,6 +10,7 @@ import ua.com.foxminded.university.dao.CrudDao;
 import ua.com.foxminded.university.dao.GroupDao;
 import ua.com.foxminded.university.domain.Group;
 import ua.com.foxminded.university.domain.Student;
+import ua.com.foxminded.university.exceptions.EntityNameExistsException;
 
 @Service
 public class GroupService {
@@ -21,20 +22,26 @@ public class GroupService {
         this.groupDao = groupDao;
     }
 
-    public int addGroup(Group group) {
-        return groupDao.save(group);
+    public void addGroup(Group group) throws EntityNameExistsException {
+        for (Group groupFromDatabase : groupDao.findAll()) {
+            if (groupFromDatabase.getName().equals(group.getName())) {
+                throw new EntityNameExistsException("Group with such name is already exists!");
+            }
+        }
+        groupDao.save(group);
     }
 
-    public int removeGroup(Integer id) {
-        return groupDao.delete(id);
+    public void removeGroup(Integer id) {
+        groupDao.delete(id);
     }
 
-    public int addStudentToGroup(int groupId, int studentId) {
+    public void addStudentToGroup(int groupId, int studentId) {
         Student student = studentDao.find(studentId);
         Group group = groupDao.find(groupId);
         group.addStudent(student);
         student.setGroup(group);
-        return studentDao.update(student) + groupDao.update(group);
+        studentDao.update(student);
+        groupDao.update(group);
     }
 
     public Set<Student> viewAllStudentsInGroup(int groupId) {

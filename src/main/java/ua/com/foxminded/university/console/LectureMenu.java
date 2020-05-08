@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +14,8 @@ import ua.com.foxminded.university.service.LectureService;
 
 @Component
 class LectureMenu extends TextUniversityMenu {
+    private static final Logger logger = LoggerFactory.getLogger(LectureMenu.class);
     private LectureService lectureService;
-    private int rowsAffected = 0;
     private int lectureId = 0;
     private int subjectId = 0;
     private int groupId = 0;
@@ -66,7 +68,8 @@ class LectureMenu extends TextUniversityMenu {
                     System.err.println(WRONG_INPUT);
             }
         } catch (IOException | NumberFormatException e) {
-            System.err.println(WRONG_INPUT);
+            logger.error(e.getMessage());
+            System.err.println(WRONG_INPUT + e.getMessage());
         }
     }
 
@@ -76,12 +79,7 @@ class LectureMenu extends TextUniversityMenu {
             lectureId = Integer.parseInt(reader.readLine());
             System.out.println("Enter room id: ");
             roomId = Integer.parseInt(reader.readLine());
-            rowsAffected = lectureService.changeRoom(lectureId, roomId);
-            if (rowsAffected > 0) {
-                System.out.println(DATA_HAS_BEEN_UPDATED);
-            } else {
-                System.err.println(DATA_HASNT_BEEN_UPDATED);
-            }
+            lectureService.changeRoom(lectureId, roomId);
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -97,12 +95,7 @@ class LectureMenu extends TextUniversityMenu {
             month = Integer.parseInt(reader.readLine());
             System.out.println("Enter day of month");
             day = Integer.parseInt(reader.readLine());
-            rowsAffected = lectureService.changeDate(lectureId, LocalDate.of(year, month, day));
-            if (rowsAffected > 0) {
-                System.out.println(DATA_HAS_BEEN_UPDATED);
-            } else {
-                System.err.println(DATA_HASNT_BEEN_UPDATED);
-            }
+            lectureService.changeDate(lectureId, LocalDate.of(year, month, day));
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -117,13 +110,8 @@ class LectureMenu extends TextUniversityMenu {
             startHour = Integer.parseInt(reader.readLine());
             System.out.println("Enter start minute: ");
             startMinute = Integer.parseInt(reader.readLine());
-            rowsAffected = lectureService.changeTime(lectureId, LocalTime.of(startHour, startMinute),
+            lectureService.changeTime(lectureId, LocalTime.of(startHour, startMinute),
                     LocalTime.of(startHour, startMinute).plusHours(1).plusMinutes(20));
-            if (rowsAffected > 0) {
-                System.out.println(DATA_HAS_BEEN_UPDATED);
-            } else {
-                System.err.println(DATA_HASNT_BEEN_UPDATED);
-            }
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -135,12 +123,7 @@ class LectureMenu extends TextUniversityMenu {
             lectureId = Integer.parseInt(reader.readLine());
             System.out.println("Enter group id: ");
             groupId = Integer.parseInt(reader.readLine());
-            rowsAffected = lectureService.changeGroup(lectureId, groupId);
-            if (rowsAffected > 0) {
-                System.out.println(DATA_HAS_BEEN_UPDATED);
-            } else {
-                System.err.println(DATA_HASNT_BEEN_UPDATED);
-            }
+            lectureService.changeGroup(lectureId, groupId);
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -152,12 +135,7 @@ class LectureMenu extends TextUniversityMenu {
             lectureId = Integer.parseInt(reader.readLine());
             System.out.println("Enter teacher id: ");
             personId = Integer.parseInt(reader.readLine());
-            rowsAffected = lectureService.changeTeacher(lectureId, personId);
-            if (rowsAffected > 0) {
-                System.out.println(DATA_HAS_BEEN_UPDATED);
-            } else {
-                System.err.println(DATA_HASNT_BEEN_UPDATED);
-            }
+            lectureService.changeTeacher(lectureId, personId);
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -169,12 +147,7 @@ class LectureMenu extends TextUniversityMenu {
             lectureId = Integer.parseInt(reader.readLine());
             System.out.println("Enter subject name: ");
             subjectId = Integer.parseInt(reader.readLine());
-            rowsAffected = lectureService.changeSubject(lectureId, subjectId);
-            if (rowsAffected > 0) {
-                System.out.println(DATA_HAS_BEEN_UPDATED);
-            } else {
-                System.err.println(DATA_HASNT_BEEN_UPDATED);
-            }
+            lectureService.changeSubject(lectureId, subjectId);
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -184,12 +157,7 @@ class LectureMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter lecture id: ");
             lectureId = Integer.parseInt(reader.readLine());
-            rowsAffected = lectureService.removeLecture(lectureId);
-            if (rowsAffected > 0) {
-                System.out.println(DATA_HAS_BEEN_DELETED);
-            } else {
-                System.err.println(DATA_HASNT_BEEN_DELETED);
-            }
+            lectureService.removeLecture(lectureId);
             System.out.println(CONTINUE_REMOVING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -215,14 +183,9 @@ class LectureMenu extends TextUniversityMenu {
             startHour = Integer.parseInt(reader.readLine());
             System.out.println("Enter start minute");
             startMinute = Integer.parseInt(reader.readLine());
-            rowsAffected = lectureService.addLecture(personId, groupId, subjectId, roomId,
-                    LocalDate.of(year, month, day), LocalTime.of(startHour, startMinute),
+            lectureService.addLecture(personId, groupId, subjectId, roomId, LocalDate.of(year, month, day),
+                    LocalTime.of(startHour, startMinute),
                     LocalTime.of(startHour, startMinute).plusHours(1).plusMinutes(20));
-            if (rowsAffected > 0) {
-                System.out.println(DATA_HAS_BEEN_ADDED);
-            } else {
-                System.err.println(DATA_HASNT_BEEN_ADDED);
-            }
             System.out.println(CONTINUE_ADDING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));

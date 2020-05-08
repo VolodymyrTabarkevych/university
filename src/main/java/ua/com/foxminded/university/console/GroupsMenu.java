@@ -6,15 +6,19 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ua.com.foxminded.university.domain.Group;
 import ua.com.foxminded.university.domain.Student;
+import ua.com.foxminded.university.exceptions.EntityNameExistsException;
 import ua.com.foxminded.university.service.GroupService;
 
 @Component
 public class GroupsMenu extends TextUniversityMenu {
+    private static final Logger logger = LoggerFactory.getLogger(GroupsMenu.class);
     private GroupService groupService;
     private String selectedOption = "";
-    private int rowsAffected = 0;
 
     @Autowired
     public GroupsMenu(GroupService groupService) {
@@ -46,8 +50,9 @@ public class GroupsMenu extends TextUniversityMenu {
                 default:
                     System.err.println(WRONG_INPUT);
             }
-        } catch (IOException e) {
-            System.err.println(WRONG_INPUT);
+        } catch (IOException | NullPointerException | IndexOutOfBoundsException | EntityNameExistsException e) {
+            logger.error(e.getMessage());
+            System.err.println(WRONG_INPUT + e.getMessage());
         }
     }
 
@@ -55,12 +60,7 @@ public class GroupsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter group name: ");
             String groupName = reader.readLine();
-            rowsAffected = groupService.addGroup(new Group(groupName));
-            if (rowsAffected > 0) {
-                System.out.println(DATA_HAS_BEEN_ADDED);
-            } else {
-                System.err.println(DATA_HASNT_BEEN_ADDED);
-            }
+            groupService.addGroup(new Group(groupName));
             System.out.println(CONTINUE_ADDING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -70,29 +70,19 @@ public class GroupsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter group id: ");
             int groupId = Integer.parseInt(reader.readLine());
-            rowsAffected = groupService.removeGroup(groupId);
-            if (rowsAffected > 0) {
-                System.out.println(DATA_HAS_BEEN_DELETED);
-            } else {
-                System.err.println(DATA_HASNT_BEEN_DELETED);
-            }
+            groupService.removeGroup(groupId);
             System.out.println(CONTINUE_REMOVING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
     }
 
-    private void addStudentToGroup(BufferedReader reader) throws IOException {
+    private void addStudentToGroup(BufferedReader reader) throws IOException, NullPointerException {
         do {
             System.out.println("Enter student id: ");
             int studentId = Integer.parseInt(reader.readLine());
             System.out.println("Enter group id: ");
             int groupId = Integer.parseInt(reader.readLine());
-            rowsAffected = groupService.addStudentToGroup(groupId, studentId);
-            if (rowsAffected > 0) {
-                System.out.println(DATA_HAS_BEEN_UPDATED);
-            } else {
-                System.err.println(DATA_HASNT_BEEN_UPDATED);
-            }
+            groupService.addStudentToGroup(groupId, studentId);
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -104,12 +94,11 @@ public class GroupsMenu extends TextUniversityMenu {
         }
     }
 
-    private void viewAllStudentsInGroup(BufferedReader reader) throws IOException {
+    private void viewAllStudentsInGroup(BufferedReader reader) throws IOException, IndexOutOfBoundsException {
         System.out.println("Enter group id: ");
         int groupId = Integer.parseInt(reader.readLine());
         for (Student student : groupService.viewAllStudentsInGroup(groupId)) {
             System.out.println(student.toString());
         }
-        System.out.println(CONTINUE_CHANGING);
     }
 }

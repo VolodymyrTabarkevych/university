@@ -3,6 +3,7 @@ package ua.com.foxminded.university.dao;
 import java.sql.ResultSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -22,7 +23,7 @@ public class TeacherDao implements CrudDao<Teacher> {
     private final String SQL_UPDATE_TEACHER = "UPDATE teachers SET first_name = ? , last_name = ? WHERE id = ?";
     private final String SQL_DELETE_TEACHER = "DELETE FROM teachers WHERE id = ?";
     private final String SQL_FIND_TEACHERS = "SELECT * FROM teachers";
-    private final String SQL_FIND_TEACHER = "SELECT * FROM teachers WHERE teacher_id = ?";
+    private final String SQL_FIND_TEACHER = "SELECT * FROM teachers WHERE id = ?";
     private final String SQL_FIND_ALL_SUBJECTS = "SELECT subject_id, name FROM teacherssubjects INNER JOIN subjects ON subject_id = subjects.id WHERE teacher_id = ?";
 
     @Autowired
@@ -48,24 +49,33 @@ public class TeacherDao implements CrudDao<Teacher> {
     }
 
     @Override
-    public int save(Teacher teacher) {
-        int rowsAffected = template.update(SQL_SAVE_TEACHER, teacher.getFirstName(), teacher.getLastName());
+    public void save(Teacher teacher) {
+        template.update(SQL_SAVE_TEACHER, teacher.getFirstName(), teacher.getLastName());
         if (!teacher.getSubjects().isEmpty()) {
             for (Subject subject : teacher.getSubjects()) {
-                rowsAffected += template.update(SQL_SAVE_TEACHERS_SUBJECTS, teacher.getId(), subject.getId());
+                template.update(SQL_SAVE_TEACHERS_SUBJECTS, teacher.getId(), subject.getId());
             }
         }
-        return rowsAffected;
     }
 
     @Override
-    public int update(Teacher teacher) {
-        return template.update(SQL_UPDATE_TEACHER, teacher.getFirstName(), teacher.getLastName(), teacher.getId());
+    public void update(Teacher teacher) {
+        template.update(SQL_UPDATE_TEACHER, teacher.getFirstName(), teacher.getLastName(), teacher.getId());
+        List<Subject> subjectsFromDatabase = template.query(SQL_FIND_ALL_SUBJECTS, subjectRowMapper, teacher.getId());
+        Set<String> subjectsNames = new HashSet<>();
+        for (Subject subject : subjectsFromDatabase) {
+            subjectsNames.add(subject.getName());
+        }
+        for (Subject subject : teacher.getSubjects()) {
+            if (!subjectsNames.contains(subject.getName())) {
+                template.update(SQL_SAVE_TEACHERS_SUBJECTS, teacher.getId(), subject.getId());
+            }
+        }
     }
 
     @Override
-    public int delete(Integer id) {
-        return template.update(SQL_DELETE_TEACHER, id);
+    public void delete(Integer id) {
+        template.update(SQL_DELETE_TEACHER, id);
     }
 
     @Override

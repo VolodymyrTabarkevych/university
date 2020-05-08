@@ -38,18 +38,18 @@ public class RoomDao implements CrudDao<Room> {
     }
 
     @Override
-    public int save(Room room) {
-        return template.update(SQL_SAVE_ROOM, room.getNumber());
+    public void save(Room room) {
+        template.update(SQL_SAVE_ROOM, room.getNumber());
     }
 
     @Override
-    public int update(Room room) {
-        return template.update(SQL_UPDATE_ROOM, room.getNumber(), room.getId());
+    public void update(Room room) {
+        template.update(SQL_UPDATE_ROOM, room.getNumber(), room.getId());
     }
 
     @Override
-    public int delete(Integer id) {
-        return template.update(SQL_DELETE_ROOM, id);
+    public void delete(Integer id) {
+        template.update(SQL_DELETE_ROOM, id);
     }
 
     @Override

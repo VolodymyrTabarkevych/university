@@ -6,7 +6,8 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter@Setter
+@Getter
+@Setter
 public class Teacher extends Person {
     private Set<Subject> subjects = new HashSet<>();
 
@@ -23,7 +24,9 @@ public class Teacher extends Person {
     }
 
     public void addSubject(Subject subject) {
-        subjects.add(subject);
+        if (!subjects.contains(subject)) {
+            subjects.add(subject);
+        }
     }
 
     public void removeSubject(Subject subject) {

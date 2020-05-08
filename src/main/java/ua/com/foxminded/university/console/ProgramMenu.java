@@ -4,12 +4,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import ua.com.foxminded.university.SpringConfig;
 
 public class ProgramMenu extends TextUniversityMenu {
-
+    private static final Logger logger = LoggerFactory.getLogger(ProgramMenu.class);
     private UniversityMenu universityMenu;
     private TimetableMenu timetableMenu;
     private AnnotationConfigApplicationContext context;
@@ -23,7 +25,6 @@ public class ProgramMenu extends TextUniversityMenu {
     public void start() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String selectedOption = "";
-
         do {
             showOptions();
             try {
@@ -44,8 +45,9 @@ public class ProgramMenu extends TextUniversityMenu {
                     default:
                         System.err.println(WRONG_INPUT);
                 }
-            } catch (NumberFormatException | IOException e) {
-                System.err.println(WRONG_INPUT);
+            } catch (IOException e) {
+                logger.error(e.getMessage());
+                System.err.println(WRONG_INPUT + e.getMessage());
             }
         } while (!selectedOption.equals(""));
     }

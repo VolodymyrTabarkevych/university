@@ -3,16 +3,19 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ua.com.foxminded.university.domain.Room;
+import ua.com.foxminded.university.exceptions.EntityNameExistsException;
 import ua.com.foxminded.university.service.RoomService;
 
 @Component
 public class RoomsMenu extends TextUniversityMenu {
+    private static final Logger logger = LoggerFactory.getLogger(RoomsMenu.class);
     private RoomService roomService;
-    private int rowsAffected = 0;
     private String selectedOption = "";
 
     @Autowired
@@ -39,21 +42,17 @@ public class RoomsMenu extends TextUniversityMenu {
                 default:
                     System.err.println(WRONG_INPUT);
             }
-        } catch (IOException e) {
-            System.err.println(WRONG_INPUT);
+        } catch (IOException | NumberFormatException | EntityNameExistsException e) {
+            logger.error(e.getMessage());
+            System.err.println(WRONG_INPUT + e.getMessage());
         }
     }
 
-    private void addRoom(BufferedReader reader) throws NumberFormatException, IOException {
+    private void addRoom(BufferedReader reader) throws NumberFormatException, IOException, EntityNameExistsException {
         do {
             System.out.println("Enter room number: ");
             int roomNumber = Integer.parseInt(reader.readLine());
-            rowsAffected = roomService.addRoom(new Room(roomNumber));
-            if (rowsAffected > 0) {
-                System.out.println(DATA_HAS_BEEN_ADDED);
-            } else {
-                System.err.println(DATA_HASNT_BEEN_ADDED);
-            }
+            roomService.addRoom(new Room(roomNumber));
             System.out.println(CONTINUE_ADDING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -63,12 +62,7 @@ public class RoomsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter room id: ");
             int roomId = Integer.parseInt(reader.readLine());
-            rowsAffected = roomService.removeRoom(roomId);
-            if (rowsAffected > 0) {
-                System.out.println(DATA_HAS_BEEN_DELETED);
-            } else {
-                System.err.println(DATA_HASNT_BEEN_DELETED);
-            }
+            roomService.removeRoom(roomId);
             System.out.println(CONTINUE_REMOVING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));

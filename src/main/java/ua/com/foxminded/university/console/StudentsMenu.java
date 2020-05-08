@@ -3,6 +3,8 @@ package ua.com.foxminded.university.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
@@ -12,8 +14,8 @@ import ua.com.foxminded.university.service.StudentService;
 
 @Component
 class StudentsMenu extends TextUniversityMenu {
+    private static final Logger logger = LoggerFactory.getLogger(StudentsMenu.class);
     private StudentService studentService;
-    private int rowsAffected = 0;
     private String selectedOption = "";
 
     @Autowired
@@ -43,12 +45,14 @@ class StudentsMenu extends TextUniversityMenu {
                 default:
                     System.err.println(WRONG_INPUT);
             }
-        } catch (IOException e) {
-            System.err.println(WRONG_INPUT);
+        } catch (IOException | NumberFormatException | DataIntegrityViolationException e) {
+            logger.error(e.getMessage());
+            System.err.println(WRONG_INPUT + e.getMessage());
         }
     }
 
-    private void addStudent(BufferedReader reader) throws IOException {
+    private void addStudent(BufferedReader reader)
+            throws IOException, DataIntegrityViolationException, NumberFormatException {
         do {
             System.out.println("Enter first name: ");
             String firstName = reader.readLine();
@@ -56,16 +60,7 @@ class StudentsMenu extends TextUniversityMenu {
             String lastName = reader.readLine();
             System.out.println("Enter group id: ");
             int groupId = Integer.parseInt(reader.readLine());
-            try {
-                rowsAffected = studentService.addStudent(new Student(firstName, lastName), groupId);
-                if (rowsAffected > 0) {
-                    System.out.println(DATA_HAS_BEEN_ADDED);
-                } else {
-                    System.err.println(DATA_HASNT_BEEN_ADDED);
-                }
-            } catch (DataIntegrityViolationException e) {
-                System.err.println("No group with such id!");
-            }
+            studentService.addStudent(new Student(firstName, lastName), groupId);
             System.out.println(CONTINUE_ADDING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -75,12 +70,7 @@ class StudentsMenu extends TextUniversityMenu {
         do {
             System.out.println("Enter student id: ");
             int studentId = Integer.parseInt(reader.readLine());
-            rowsAffected = studentService.removeStudent(studentId);
-            if (rowsAffected > 0) {
-                System.out.println(DATA_HAS_BEEN_DELETED);
-            } else {
-                System.err.println(DATA_HASNT_BEEN_DELETED);
-            }
+            studentService.removeStudent(studentId);
             System.out.println(CONTINUE_REMOVING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));
@@ -92,12 +82,7 @@ class StudentsMenu extends TextUniversityMenu {
             int studentId = Integer.parseInt(reader.readLine());
             System.out.println("Enter group id: ");
             int groupId = Integer.parseInt(reader.readLine());
-            rowsAffected = studentService.changeStudentGroup(studentId, groupId);
-            if (rowsAffected > 0) {
-                System.out.println(DATA_HAS_BEEN_UPDATED);
-            } else {
-                System.err.println(DATA_HASNT_BEEN_UPDATED);
-            }
+            studentService.changeStudentGroup(studentId, groupId);
             System.out.println(CONTINUE_CHANGING);
             selectedOption = reader.readLine();
         } while (!selectedOption.equals(""));

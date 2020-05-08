@@ -38,18 +38,18 @@ public class SubjectDao implements CrudDao<Subject> {
     }
 
     @Override
-    public int save(Subject subject) {
-        return template.update(SQL_SAVE_SUBJECT, subject.getName());
+    public void save(Subject subject) {
+        template.update(SQL_SAVE_SUBJECT, subject.getName());
     }
 
     @Override
-    public int update(Subject subject) {
-        return template.update(SQL_UPDATE_SUBJECT, subject.getName(), subject.getId());
+    public void update(Subject subject) {
+        template.update(SQL_UPDATE_SUBJECT, subject.getName(), subject.getId());
     }
 
     @Override
-    public int delete(Integer id) {
-        return template.update(SQL_DELETE_SUBJECT, id);
+    public void delete(Integer id) {
+        template.update(SQL_DELETE_SUBJECT, id);
 
     }
 

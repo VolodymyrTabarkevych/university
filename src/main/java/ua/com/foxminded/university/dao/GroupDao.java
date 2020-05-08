@@ -20,8 +20,8 @@ public class GroupDao implements CrudDao<Group> {
     private StudentDao studentDaoJdbcTemplateImpl;
     private final String SQL_FIND_ALL = "SELECT * FROM groups";
     private final String SQL_FIND_BY_ID = "SELECT * FROM groups WHERE id = ?";
-    private final String SQL_SAVE_GROUP = "INSERT INTO groups (number) VALUES (?)";
-    private final String SQL_UPDATE_GROUP = "UPDATE groups SET number = ?, WHERE id = ?";
+    private final String SQL_SAVE_GROUP = "INSERT INTO groups (name) VALUES (?)";
+    private final String SQL_UPDATE_GROUP = "UPDATE groups SET name = ?, WHERE id = ?";
     private final String SQL_DELETE_GROUP = "DELETE FROM groups WHERE id = ?";
 
     @Autowired
@@ -43,18 +43,18 @@ public class GroupDao implements CrudDao<Group> {
     }
 
     @Override
-    public int save(Group group) {
-        return template.update(SQL_SAVE_GROUP, group.getName());
+    public void save(Group group) {
+        template.update(SQL_SAVE_GROUP, group.getName());
     }
 
     @Override
-    public int update(Group group) {
-        return template.update(SQL_UPDATE_GROUP, group.getName(), group.getId());
+    public void update(Group group) {
+        template.update(SQL_UPDATE_GROUP, group.getName(), group.getId());
     }
 
     @Override
-    public int delete(Integer id) {
-        return template.update(SQL_DELETE_GROUP, id);
+    public void delete(Integer id) {
+        template.update(SQL_DELETE_GROUP, id);
     }
 
     @Override

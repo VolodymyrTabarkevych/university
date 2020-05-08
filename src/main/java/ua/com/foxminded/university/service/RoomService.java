@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import ua.com.foxminded.university.dao.RoomDao;
 import ua.com.foxminded.university.domain.Room;
+import ua.com.foxminded.university.exceptions.EntityNameExistsException;
 
 @Service
 public class RoomService {
@@ -17,12 +18,17 @@ public class RoomService {
         this.roomDao = roomDao;
     }
 
-    public int addRoom(Room room) {
-        return roomDao.save(room);
+    public void addRoom(Room room) throws EntityNameExistsException {
+        for (Room roomFromDatabase : roomDao.findAll()) {
+            if (roomFromDatabase.getNumber() == room.getNumber()) {
+                throw new EntityNameExistsException("Room with such number is already exists!");
+            }
+        }
+        roomDao.save(room);
     }
 
-    public int removeRoom(Integer id) {
-        return roomDao.delete(id);
+    public void removeRoom(Integer id) {
+        roomDao.delete(id);
     }
 
     public List<Room> viewAllRooms() {
