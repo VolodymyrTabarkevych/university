@@ -1,5 +1,6 @@
-### Task 12 - Service Layer
-Create a service layer and implement business logic (add/remove entities to other entities and save them to DB, etc). A mentor can provide additional business rules.
+Task 18 - Spring Boot
+
+Convert application to Spring Boot. 
 
 You should use Spring IoC.
 
