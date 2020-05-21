@@ -7,7 +7,7 @@ You should use Spring IoC.
 https://lms.foxminded.com.ua/mod/assign/view.php?id=39
 
 ### Required technologies:
-1. Java 1.8 or newer version.
+1. Java 1.8 or newer version, Docker.
 2. Windows, Mac, or Linux.
 
 ### How to run the project:

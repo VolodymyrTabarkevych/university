@@ -1,3 +1,3 @@
 #!/bin/env bash
-mvn clean compile assembly:single;
+mvn clean package;
 rm -R target
