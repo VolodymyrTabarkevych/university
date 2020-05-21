@@ -10,7 +10,7 @@ This program creates timetable for teachers and students.
 3. In dist folder run univerisity-db.sh. This script will run docker image with database.
 4. In dist folder run univerisity.sh. This script will run the program.
 
-### Examples of running the project
+### Examples of different operations
 Add new student:
 
 ![Add new student](docs/example-images/add_new_student_to_group.png)
