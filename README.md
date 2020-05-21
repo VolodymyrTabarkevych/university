@@ -1,10 +1,4 @@
-Task 18 - Spring Boot
-
-Convert application to Spring Boot. 
-
-You should use Spring IoC.
-
-https://lms.foxminded.com.ua/mod/assign/view.php?id=39
+This program creates timetable for teachers and students.
 
 ### Required technologies:
 1. Java 1.8 or newer version, Docker.
